@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import AdministrasiIndex from "./pages/layanan/administrasi";
 import InformasiIndex from "./pages/layanan/informasi/informasi";
+import Tentang from "./pages/Tentang.jsx"; 
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
       <Route path="/layanan/informasi" element={<InformasiIndex />} />
+      <Route path="/tentang" element={<Tentang />} />
     </Routes>
   );
 }
