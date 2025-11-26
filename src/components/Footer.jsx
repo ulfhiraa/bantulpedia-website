@@ -1,6 +1,6 @@
 // src/components/Footer.jsx
 import React from "react";
-import logo from "../assets/logo.png";          // logo Bantulpedia
+import logo from "../assets/LogoBantulpedia.png";          // logo Bantulpedia
 import icWeb from "../assets/globe.png";
 import icFb from "../assets/facebook.png";
 import icTiktok from "../assets/tiktok.png";
@@ -27,17 +27,17 @@ export default function Footer() {
             {/* NOTE: items-start agar judul kiri mulai dari atas (sejajar dengan heading kanan) */}
             <div className="flex items-start gap-3 mt-4">
               {/* logo box */}
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center p-2 shrink-0">
+              <div className="w-38 h-16 rounded-lg flex items-center justify-center p-2 shrink-0">
                 <img src={logo} alt="Bantulpedia" className="w-full h-full object-contain" />
               </div>
 
-              <div className="mt-3">
+              {/* <div className="mt-3">
                 <div className="text-lg font-bold text-emerald-600 leading-none">BantulPedia</div>
-              </div>
+              </div> */}
             </div>
 
             {/* Description & social */}
-            <div className="pl-15">
+            <div className="pl-12">
               <p className="text-slate-200 max-w-lg leading-relaxed">
                 Satu portal untuk akses semua informasi. Simple dan cepat.
               </p>
@@ -78,7 +78,7 @@ export default function Footer() {
 
           {/* RIGHT COLUMN: Contact (juga flex-col supaya heading muncul di paling atas) */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            <h3 className="font-bold text-white mb-5 mt-6">Kontak</h3>
+            <h3 className="font-bold text-white mb-5 mt-10">Kontak</h3>
 
             <div className="space-y-6 text-slate-200">
               <div className="flex items-start gap-4">

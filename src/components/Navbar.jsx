@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/LogoBantulpedia.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -17,15 +17,15 @@ export default function Navbar() {
   }, [isHome]);
 
   const menuText = isHome
-    ? scrolled ? "text-slate-700" : "text-white"
+    ? scrolled ? "text-slate-700" : "text-black"
     : "text-slate-700";
 
   const btnOutline = isHome
-    ? scrolled ? "border-emerald-500 text-emerald-600" : "border-white text-white"
+    ? scrolled ? "border-emerald-500 text-emerald-600" : "border-emerald-500 text-emerald-600"
     : "border-emerald-500 text-emerald-600";
 
   const btnPrimary = isHome
-    ? scrolled ? "bg-emerald-600 text-white" : "bg-emerald-400 text-white"
+    ? scrolled ? "bg-emerald-600 text-white" : "bg-emerald-600 text-white"
     : "bg-emerald-600 text-white";
 
   // fungsi untuk cek halaman aktif
@@ -37,10 +37,10 @@ export default function Navbar() {
   return (
     <nav
       className={`
-        fixed top-0 left-0 w-full z-[60] transition-all duration-300 backdrop-blur-md
+        fixed top-0 left-0 w-full z-[60] transition-all duration-300 bg-white/90 shadow-md
         ${
           isHome
-            ? scrolled ? "bg-white/90 shadow-md" : "bg-transparent"
+            ? scrolled ? "bg-white/90 shadow-md" : "bg-white/90 shadow-md"
             : "bg-white/40 shadow-lg"
         }
       `}
@@ -49,10 +49,7 @@ export default function Navbar() {
         
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
-          <img src={logo} alt="Logo" className="w-10 h-10" />
-          <span className="font-bold hidden sm:inline text-emerald-600">
-            Bantulpedia
-          </span>
+          <img src={logo} alt="Logo" className="w-35 h-8" />
         </Link>
 
         {/* MENU */}

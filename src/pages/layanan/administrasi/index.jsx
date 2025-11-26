@@ -51,11 +51,11 @@ export default function AdministrasiIndex() {
         <div className="absolute inset-0 bg-black/10" />
 
         {/* floating badge */}
-        <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 z-30">
+        {/* <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 z-30">
           <div className="bg-white/95 px-8 py-2 rounded-full shadow-md border border-slate-200 text-slate-800 font-semibold text-sm">
             Administrasi Pemerintahan
           </div>
-        </div>
+        </div> */}
       </header>
 
       {/* MAIN */}

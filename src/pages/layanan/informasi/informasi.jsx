@@ -15,6 +15,19 @@ import { getBerita } from "../../../api/layanan/informasi/berita.js";
 import { getGaleriFoto } from "../../../api/layanan/informasi/galerifoto.js";
 import { getGaleriVideo } from "../../../api/layanan/informasi/galerivideo.js";
 
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+
+// ikon marker wifi (biar gak error path)
+const wifiIcon = new L.Icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
 export default function InformasiIndex() {
   const [selectedMenu, setSelectedMenu] = useState("");
   const [items, setItems] = useState([]);
@@ -39,7 +52,7 @@ export default function InformasiIndex() {
   const descriptions = {
     "": "Pilih salah satu kategori di kiri untuk melihat konten.",
     Pengumuman: "Dari Bantul untuk Bantul: Pengumuman Terbaru",
-    Berita: "Belum ada endpoint Berita — akan tampil pesan jika diklik.",
+    Berita: "Siaran pers dan berita resmi Pemerintah Kabupaten Bantul.",
     CCTV: "Monitoring CCTV wilayah utama.",
     "Titik Wifi": "Daftar titik wifi publik di Kabupaten Bantul — lokasi & status.",
     "Galeri Foto": "Kumpulan foto kegiatan resmi.",
@@ -51,7 +64,6 @@ export default function InformasiIndex() {
   const btnBase =
     "w-full min-h-[48px] rounded-lg px-4 py-2 flex items-center justify-between text-sm transition border";
 
-  // helpers
   const safeString = (v) => {
     try {
       if (v === null || v === undefined) return "";
@@ -94,18 +106,19 @@ export default function InformasiIndex() {
     if (d.items && Array.isArray(d.items)) return d.items;
     if (d.features && Array.isArray(d.features)) return d.features;
     if (d.type === "FeatureCollection" && Array.isArray(d.features)) {
-      return d.features.map((f) => (f && f.properties ? { ...f.properties, _geometry: f.geometry } : f));
+      return d.features.map((f) =>
+        f && f.properties ? { ...f.properties, _geometry: f.geometry } : f
+      );
     }
     if (d.type === "Feature" && d.properties) return [{ ...d.properties, _geometry: d.geometry }];
     if (typeof d === "object") return [d];
     return [];
   };
 
-  // Ganti fungsi canonicalize / normalizeItem kamu dengan ini
+  // normalisasi item
   const canonicalize = (raw) => {
     const it = raw || {};
 
-    // Title: prioritas judul / nama / label / lokasi singkat
     const title =
       (it.title && String(it.title).trim() && String(it.title).trim() !== "Untitled"
         ? String(it.title).trim()
@@ -117,49 +130,83 @@ export default function InformasiIndex() {
       (it.nama_lokasi && String(it.nama_lokasi).trim()) ||
       "Untitled";
 
-    // Date
-    const date = safeString(it.date || it.tanggal || it.tanggal_mulai || it.tanggal_selesai || it.created_at || "");
+    const date = safeString(
+      it.date ||
+        it.tanggal ||
+        it.tanggal_mulai ||
+        it.tanggal_selesai ||
+        it.created_at ||
+        it.tgl ||
+        ""
+    );
 
-    // Location (simpan LOKASI terpisah, jangan dijadikan summary)
-    const lokasi = safeString(it.lokasi || it.lokasi_detail || it.lokasi_full || it.desa || "");
+    const lokasi = safeString(
+      it.lokasi || it.lokasi_detail || it.lokasi_full || it.desa || it.alamat || ""
+    );
 
-    // Summary: hanya dari sumber ringkasan / deskripsi / keterangan, TIDAK dari lokasi
     const summary = safeString(
       it.summary ||
-      it.ringkasan ||
-      it.keterangan ||
-      it.deskripsi ||
-      it.content ||
-      it.desc ||
-      ""
+        it.ringkasan ||
+        it.keterangan ||
+        it.deskripsi ||
+        it.content ||
+        it.desc ||
+        ""
     );
 
-    // Image / thumbnail
     let image = safeString(
       it.image ||
-      it.image_url ||
-      it.foto ||
-      it.foto_url ||
-      it.file_foto ||      // ← tambahan umum
-      it.file ||           // ← tambahan umum
-      it.path_file ||      // ← tambahan umum
-      it.thumbnail ||
-      it.thumb ||
-      it.gambar ||
-      it.url ||
-      it.link ||
-      it.media ||
-      it.path ||
-      ""
+        it.poster ||
+        it.image_url ||
+        it.foto ||
+        it.foto_url ||
+        it.file_foto ||
+        it.file ||
+        it.path_file ||
+        it.thumbnail ||
+        it.thumb ||
+        it.gambar ||
+        it.url ||
+        it.link ||
+        it.media ||
+        it.path ||
+        ""
     );
 
-    // youtube thumbnail helper (untuk CCTV)
     const youtubeUrl = it.youtube_url || it.video_url || it.youtube || it.rawYoutube || "";
     const yt = extractYoutubeId(youtubeUrl);
     if (yt) {
       image = `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
     }
-    return { ...it, title, date, summary, lokasi, image, youtube: youtubeUrl, raw: it };
+
+    // koordinat untuk wifi (kalau ada)
+    const lat =
+      it.lat ||
+      it.latitude ||
+      it.y ||
+      it.koordinat_lat ||
+      it.lat_wifi ||
+      (it.geom && it.geom.lat);
+    const lng =
+      it.lng ||
+      it.longitude ||
+      it.x ||
+      it.koordinat_lng ||
+      it.lng_wifi ||
+      (it.geom && it.geom.lng);
+
+    return {
+      ...it,
+      title,
+      date,
+      summary,
+      lokasi,
+      image,
+      youtube: youtubeUrl,
+      lat,
+      lng,
+      raw: it,
+    };
   };
 
   // fetcher
@@ -221,11 +268,9 @@ export default function InformasiIndex() {
     };
   }, [selectedMenu]);
 
-  // modal handlers
   const openModal = (item) => {
     setModalItem(item);
     setModalOpen(true);
-    // lock scroll
     document.body.style.overflow = "hidden";
   };
   const closeModal = () => {
@@ -234,7 +279,7 @@ export default function InformasiIndex() {
     document.body.style.overflow = "";
   };
 
-  // render content
+  // =================== RENDER LIST KONTEN =====================
   const renderContent = () => {
     if (!selectedMenu) {
       return (
@@ -267,83 +312,487 @@ export default function InformasiIndex() {
       );
     }
 
+    // CCTV GRID
+    if (selectedMenu === "CCTV") {
+      return (
+        <div className="max-h-[70vh] overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {items.map((it, i) => (
+              <button
+                key={i}
+                onClick={() => openModal(it)}
+                className="
+                  group 
+                  rounded-xl 
+                  overflow-hidden 
+                  shadow-sm 
+                  hover:shadow-xl 
+                  hover:-translate-y-1 
+                  transition-all 
+                  duration-300
+                "
+              >
+                <div className="relative aspect-[16/9] w-full">
+                  {/* gambar */}
+                  <img
+                    src={it.image}
+                    alt={it.title}
+                    className="w-full h-full object-cover"
+                  />
+
+                  {/* teks tanpa background */}
+                  <div className="absolute left-3 right-3 bottom-3">
+                    <p
+                      className="
+                        text-sm               /* UBAH FONT SIZE DI SINI: text-xs / text-sm / text-base */
+                        font-semibold         /* UBAH KETEBALAN: font-medium / font-semibold / font-bold */
+                        text-slate-50 
+                        drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)]
+                        opacity-90 
+                        group-hover:opacity-100
+                      "
+                    >
+                      {it.title}
+                    </p>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // EVENT BANTUL: grid poster
+    if (selectedMenu === "Event Bantul") {
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-h-[70vh] overflow-y-auto pr-2">
+          {items.map((it, i) => (
+            <button
+              key={i}
+              onClick={() => openModal(it)}
+              className="group rounded-2xl overflow-hidden border shadow-sm bg-white hover:shadow-md transition text-left"
+            >
+              <div className="w-full aspect-[3/4] overflow-hidden">
+                {it.image && (
+                  <img
+                    src={it.image}
+                    alt={it.title}
+                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform"
+                  />
+                )}
+              </div>
+              <div className="p-3">
+                <h4 className="font-semibold text-slate-800 text-sm line-clamp-2">
+                  {it.title}
+                </h4>
+              </div>
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    // BERITA: headline + grid siaran pers
+    if (selectedMenu === "Berita") {
+      const [headline, second, third, ...others] = items;
+
+      return (
+        <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
+          {/* ====== HERO ATAS ====== */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Kiri: headline besar */}
+            {headline && (
+              <button
+                onClick={() => openModal(headline)}
+                className="group relative rounded-2xl overflow-hidden border shadow-md md:col-span-2"
+              >
+                {headline.image && (
+                  <img
+                    src={headline.image}
+                    alt={headline.title}
+                    className="w-full h-60 md:h-64 object-cover group-hover:scale-105 transition-transform"
+                  />
+                )}
+
+                {/* overlay gelap + teks putih */}
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/85 via-black/50 to-transparent">
+                  <h2 className="text-base md:text-xl font-semibold text-white drop-shadow-md mb-2 line-clamp-2">
+                    {headline.title}
+                  </h2>
+
+                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-100">
+                    {headline.date && <span>{headline.date}</span>}
+                    <span>Humas Bantul</span>
+                    {/* kalau punya view count, bisa ditaruh di sini */}
+                  </div>
+                </div>
+              </button>
+            )}
+
+            {/* Kanan: 2 berita lain, vertikal */}
+            <div className="flex flex-col gap-4 md:col-span-1">
+              {[second, third].map(
+                (it, idx) =>
+                  it && (
+                    <button
+                      key={idx}
+                      onClick={() => openModal(it)}
+                      className="group relative rounded-2xl overflow-hidden border shadow-sm flex-1 min-h-[110px]"
+                    >
+                      {it.image && (
+                        <img
+                          src={it.image}
+                          alt={it.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                      )}
+                      <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                        <h3 className="text-xs font-semibold text-white line-clamp-2 mb-1">
+                          {it.title}
+                        </h3>
+                        {it.date && (
+                          <p className="text-[10px] text-slate-100">
+                            {it.date}
+                          </p>
+                        )}
+                      </div>
+                    </button>
+                  )
+              )}
+            </div>
+          </div>
+
+          {/* ====== SIARAN PERS LAINNYA ====== */}
+          {others.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-semibold text-sm">Siaran Pers</h4>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {others.map((it, i) => (
+                  <button
+                    key={i}
+                    onClick={() => openModal(it)}
+                    className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition"
+                  >
+                    {it.image && (
+                      <div className="w-full h-24 md:h-28 overflow-hidden">
+                        <img
+                          src={it.image}
+                          alt={it.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                    )}
+
+                    {/* box bawah transparan keputihan */}
+                    <div className="p-3 bg-white/70 backdrop-blur-sm">
+                      <h5 className="font-semibold text-xs text-slate-800 line-clamp-2">
+                        {it.title}
+                      </h5>
+                      {it.date && (
+                        <p className="text-[10px] text-slate-500 mt-1">
+                          {it.date}
+                        </p>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // TITIK WIFI
+if (selectedMenu === "Titik Wifi") {
+  const wifiWithCoords = items.filter((it) => it.lat && it.lng);
+
+  // pusat peta (rata-rata koordinat, fallback ke Bantul)
+  let centerLat = -7.9;
+  let centerLng = 110.33;
+
+  if (wifiWithCoords.length) {
+    centerLat =
+      wifiWithCoords.reduce((sum, it) => sum + Number(it.lat), 0) /
+      wifiWithCoords.length;
+    centerLng =
+      wifiWithCoords.reduce((sum, it) => sum + Number(it.lng), 0) /
+      wifiWithCoords.length;
+  }
+
+  return (
+    <div className="max-h-[70vh] overflow-y-auto pr-2 space-y-5">
+      {/* PETA BESAR SEMUA TITIK WIFI */}
+      <div className="rounded-2xl border shadow-sm overflow-hidden bg-white">
+        <div className="p-4 border-b">
+          <h4 className="font-semibold text-sm text-slate-800">
+            Peta Sebaran Titik Wifi Publik
+          </h4>
+          <p className="text-xs text-slate-500 mt-1">
+            Klik marker untuk melihat nama lokasi wifi.
+          </p>
+        </div>
+        <div className="h-64 w-full">
+          <MapContainer
+            center={[centerLat, centerLng]}
+            zoom={12}
+            scrollWheelZoom={false}
+            className="w-full h-full"
+          >
+            <TileLayer
+              attribution='&copy; OpenStreetMap'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {wifiWithCoords.map((it, i) => (
+              <Marker
+                key={i}
+                position={[Number(it.lat), Number(it.lng)]}
+                icon={wifiIcon}
+              >
+                <Popup>
+                  <div className="text-xs">
+                    <strong>{it.title}</strong>
+                    {it.lokasi && <div>{it.lokasi}</div>}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
+      </div>
+
+      {/* KARTU PER TITIK WIFI – UKURAN SEDANG */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {items.map((it, i) => {
+          const hasCoord = it.lat && it.lng;
+          const src = hasCoord
+            ? `https://www.google.com/maps?q=${it.lat},${it.lng}&hl=id&z=17&output=embed`
+            : "";
+
+          return (
+            <button
+              key={i}
+              onClick={() => openModal(it)}
+              className="bg-white rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all overflow-hidden text-left"
+            >
+              <div className="w-full h-32">
+                {src ? (
+                  <iframe
+                    src={src}
+                    title={it.title}
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[11px] text-slate-500">
+                    Lokasi tidak tersedia
+                  </div>
+                )}
+              </div>
+              <div className="p-2">
+                <p className="text-xs font-semibold text-slate-800 line-clamp-2">
+                  {it.title}
+                </p>
+                {it.lokasi && (
+                  <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
+                    {it.lokasi}
+                  </p>
+                )}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+    // GALERI FOTO: grid jejer + tanggal di bawah
+    if (selectedMenu === "Galeri Foto") {
+      return (
+        <div className="max-h-[70vh] overflow-y-auto pr-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            {items.map((it,i)=>(
+              <button
+                key={i}
+                onClick={()=>openModal(it)}
+                className="group"
+              >
+                <div className="aspect-[4/3] rounded-xl overflow-hidden border shadow-sm">
+                  <img src={it.image} className="w-full h-full object-cover group-hover:scale-105 transition" />
+                </div>
+                <p className="text-[11px] mt-1 text-slate-600 text-center">{it.date}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // DEFAULT: list
     return (
       <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
-        {items.map((it, i) => (
-          // make the whole card clickable
-          <button
-            key={i}
-            onClick={() => openModal(it)}
-            className="w-full text-left border rounded-lg p-4 bg-white shadow-sm flex gap-4 hover:shadow-md transition"
-          >
-            {it.image ? (
-              <img src={it.image} alt={it.title} className="w-32 h-20 object-cover rounded-md flex-shrink-0 hidden sm:block" />
-            ) : null}
-            <div className="flex-1">
-              <h4 className="font-semibold text-slate-800 text-sm mb-1">{it.title}</h4>
-              {it.lokasi && <p className="text-xs text-slate-500 mb-2">{it.lokasi}</p>}
-              {it.summary && <p className="text-xs text-slate-600 line-clamp-3">{it.summary}</p>}
-            </div>
-          </button>
-        ))}
+        {items.map((it, i) => {
+          const showImage = selectedMenu !== "Pengumuman" && it.image;
+
+          return (
+            <button
+              key={i}
+              onClick={() => openModal(it)}
+              className="w-full text-left border rounded-lg p-4 bg-white shadow-sm flex gap-4 hover:shadow-md transition"
+            >
+              {showImage && (
+                <img
+                  src={it.image}
+                  alt={it.title}
+                  className="w-32 h-20 object-cover rounded-md flex-shrink-0 hidden sm:block"
+                />
+              )}
+              <div className="flex-1">
+                <h4 className="font-semibold text-slate-800 text-sm mb-1">
+                  {it.title}
+                </h4>
+                {(it.date || it.tanggal) && (
+                  <p className="text-[11px] text-slate-400 mb-1">
+                    {it.date || it.tanggal}
+                  </p>
+                )}
+                {it.lokasi && (
+                  <p className="text-xs text-slate-500 mb-1">{it.lokasi}</p>
+                )}
+                {it.summary && (
+                  <p className="text-xs text-slate-600 line-clamp-3">
+                    {it.summary}
+                  </p>
+                )}
+              </div>
+            </button>
+          );
+        })}
       </div>
     );
   };
 
- // Modal JSX (replace existing Modal implementation)
-    const Modal = ({ open, item, onClose }) => {
-    // keyboard handler (Esc)
+  // ===================== MODAL ==========================
+  const Modal = ({ open, item, onClose }) => {
+    const [isFullscreen, setIsFullscreen] = React.useState(false);
+
+    const handleClose = () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+      setIsFullscreen(false);
+      onClose();
+    };
+
     useEffect(() => {
       if (!open) return;
+
       const onKey = (e) => {
         if (e.key === "Escape") {
-          if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-          onClose();
+          handleClose();
         }
       };
+
+      const onFsChange = () => {
+        setIsFullscreen(!!document.fullscreenElement);
+      };
+
       window.addEventListener("keydown", onKey);
-      return () => window.removeEventListener("keydown", onKey);
-    }, [open, onClose]);
+      document.addEventListener("fullscreenchange", onFsChange);
+
+      return () => {
+        window.removeEventListener("keydown", onKey);
+        document.removeEventListener("fullscreenchange", onFsChange);
+      };
+    }, [open]);
 
     if (!open || !item) return null;
 
     const yt = extractYoutubeId(item.youtube || item.raw?.youtube_url || item.youtube_url);
-    const embedUrl = yt ? `https://www.youtube.com/embed/${yt}?autoplay=1&mute=1&rel=0&playsinline=1` : null;
+    const embedUrl = yt
+      ? `https://www.youtube.com/embed/${yt}?autoplay=1&mute=1&rel=0&playsinline=1`
+      : null;
+
+    const isPengumuman = selectedMenu === "Pengumuman";
+    const isBerita = selectedMenu === "Berita";
+    const isWifi = selectedMenu === "Titik Wifi";
+    const isGaleriFoto = selectedMenu === "Galeri Foto";
+
+    // maps untuk wifi
+    let mapSrc = "";
+    if (isWifi && item) {
+      const lat =
+        item.lat ||
+        item.latitude ||
+        item.y ||
+        item.koordinat_lat ||
+        item.lat_wifi;
+      const lng =
+        item.lng ||
+        item.longitude ||
+        item.x ||
+        item.koordinat_lng ||
+        item.lng_wifi;
+      if (lat && lng) {
+        mapSrc = `https://www.google.com/maps?q=${lat},${lng}&hl=id&z=17&output=embed`;
+      } else if (item.maps_url || item.link_maps) {
+        mapSrc = item.maps_url || item.link_maps;
+      }
+    }
+
+    const showMedia =
+      !isPengumuman &&
+      (isWifi ? !!mapSrc : !!embedUrl || !!item.image);
 
     const toggleFullscreen = () => {
       const el = document.getElementById("informasi-modal-wrapper");
       if (!el) return;
+
       if (document.fullscreenElement) {
-        document.exitFullscreen().catch(()=>{});
+        document.exitFullscreen().catch(() => {});
       } else {
-        if (el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+        if (el.requestFullscreen) {
+          el.requestFullscreen().catch(() => {});
+        }
       }
     };
 
     return (
       <div
-        className="fixed inset-0 z-50 flex items-start justify-center"
-        style={{ paddingTop: 84 /* sesuaikan jarak dari navbar */ }}
+        className={`fixed inset-0 z-50 flex justify-center ${
+          isFullscreen ? "items-stretch" : "items-start"
+        }`}
+        style={isFullscreen ? undefined : { paddingTop: 84 }}
       >
-        {/* overlay: klik untuk tutup */}
-        <div
-          className="absolute inset-0 bg-black/50"
-          onClick={() => { if (document.fullscreenElement) document.exitFullscreen().catch(()=>{}); onClose(); }}
-        />
+        <div className="absolute inset-0 bg-black/50" onClick={handleClose} />
 
-        {/* wrapper (responsive) */}
         <div
           id="informasi-modal-wrapper"
-          className="relative z-60 w-full mx-4 sm:mx-6 md:mx-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl"
-          style={{ maxHeight: "calc(100vh - 8rem)" }}
+          className={`relative z-60 ${
+            isFullscreen
+              ? "w-full h-full mx-0"
+              : "w-full mx-4 sm:mx-6 md:mx-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl"
+          }`}
+          style={{
+            maxHeight: isFullscreen ? "100vh" : "calc(100vh - 8rem)",
+          }}
         >
-          <div className="bg-white rounded-lg shadow-xl overflow-hidden flex flex-col" style={{ maxHeight: "100%" }}>
-            {/* header */}
-            <div className="relative px-4 py-3 border-b">
-              <h3 className="font-semibold text-lg truncate">{item.title}</h3>
-
-              {/* close + fullscreen: posisi absolute sehingga selalu terlihat */}
-              <div style={{ position: "absolute", right: 12, top: 8 }} className="flex items-center gap-2">
+          <div
+            className="bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
+            style={{ height: "100%" }}
+          >
+            {/* HEADER */}
+            <div className="relative px-4 py-3 border-b flex items-center">
+              <h3 className="font-semibold text-lg truncate pr-20">
+                {item.title}
+              </h3>
+              <div className="absolute right-3 top-2 flex items-center gap-2">
                 <button
                   onClick={toggleFullscreen}
                   title="Fullscreen"
@@ -352,9 +801,8 @@ export default function InformasiIndex() {
                 >
                   ⤢
                 </button>
-
                 <button
-                  onClick={() => { if (document.fullscreenElement) document.exitFullscreen().catch(()=>{}); onClose(); }}
+                  onClick={handleClose}
                   aria-label="Tutup"
                   className="text-xl font-bold px-2"
                   style={{ lineHeight: 1 }}
@@ -364,34 +812,95 @@ export default function InformasiIndex() {
               </div>
             </div>
 
-            {/* body: scrollable, batasi tinggi agar footer selalu muncul */}
-            <div className="p-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 14rem)" }}>
-              {embedUrl ? (
-                <div id="informasi-modal-player" className="w-full bg-black rounded overflow-hidden" style={{ maxHeight: "60vh" }}>
-                  <div className="w-full h-full aspect-video">
-                    <iframe
-                      title={item.title}
-                      src={embedUrl}
-                      allow="autoplay; encrypted-media; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
-                  </div>
-                </div>
-              ) : item.image ? (
-                <img src={item.image} alt={item.title} className="w-full max-h-[60vh] object-contain rounded" />
-              ) : null}
+            {/* BODY */}
+            <div
+              className="p-4 overflow-y-auto"
+              style={{
+                maxHeight: isFullscreen
+                  ? "calc(100vh - 10rem)"
+                  : "calc(100vh - 14rem)",
+              }}
+            >
+              {/* MEDIA SECTION */}
+              {showMedia && (
+                <>
+                  {isWifi && mapSrc && (
+                    <div className="w-full rounded-xl overflow-hidden border mb-4">
+                      <div className="aspect-video w-full">
+                        <iframe
+                          src={mapSrc}
+                          title={item.title}
+                          className="w-full h-full border-0"
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                        />
+                      </div>
+                    </div>
+                  )}
 
-              <div className="mt-3">
-                {item.lokasi && <p className="text-sm text-slate-600 mb-2">{item.lokasi}</p>}
-                {item.summary && <p className="text-sm text-slate-700">{item.summary}</p>}
-              </div>
+                  {!isWifi && embedUrl && (
+                    <div
+                      id="informasi-modal-player"
+                      className="w-full bg-black rounded overflow-hidden mb-4"
+                    >
+                      <div className="w-full h-full aspect-video">
+                        <iframe
+                          title={item.title}
+                          src={embedUrl}
+                          allow="autoplay; encrypted-media; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full border-0"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {!isWifi && !embedUrl && item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className={`w-full object-contain rounded mb-4 ${
+                        isBerita || isGaleriFoto ? "max-h-[60vh]" : "max-h-[60vh]"
+                      }`}
+                    />
+                  )}
+                </>
+              )}
+
+              {/* TEXT SECTION */}
+              {isBerita ? (
+                <div className="space-y-3">
+                  <div className="text-xs text-slate-500 flex flex-wrap gap-3">
+                    {item.date && <span>{item.date}</span>}
+                    {item.lokasi && <span>{item.lokasi}</span>}
+                  </div>
+                  {item.summary && (
+                    <p className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">
+                      {item.summary}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="mt-2 space-y-1">
+                  {item.lokasi && (
+                    <p className="text-sm text-slate-600">{item.lokasi}</p>
+                  )}
+                  {item.date && (
+                    <p className="text-xs text-slate-400">{item.date}</p>
+                  )}
+                  {item.summary && (
+                    <p className="text-sm text-slate-700 mt-2 whitespace-pre-line">
+                      {item.summary}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* footer: tombol Tutup */}
+            {/* FOOTER */}
             <div className="flex justify-end gap-2 px-4 py-3 border-t">
               <button
-                onClick={() => { if (document.fullscreenElement) document.exitFullscreen().catch(()=>{}); onClose(); }}
+                onClick={handleClose}
                 className="px-4 py-2 rounded border"
               >
                 Tutup
@@ -403,22 +912,27 @@ export default function InformasiIndex() {
     );
   };
 
+  // ====================== PAGE WRAPPER ======================
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
       <header className="relative w-full h-40 md:h-56 lg:h-64">
-        <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: `url(${heroBg})` }} />
+        <div
+          className="absolute inset-0 bg-center bg-cover"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
         <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2">
-          <div className="bg-white px-10 py-2 rounded-xl shadow-md border font-semibold text-sm">Informasi Publik</div>
-        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-16 -mt-8 grid grid-cols-1 md:grid-cols-5 gap-8">
         <aside className="md:col-span-1 bg-white rounded-xl border shadow-sm p-5 h-fit">
-          <h3 className="font-bold text-slate-900 mb-3 text-sm">{selectedMenu || "Pengumuman"}</h3>
-          <p className="text-xs text-slate-500 mb-4">{descriptions[selectedMenu]}</p>
+          <h3 className="font-bold text-slate-900 mb-3 text-sm">
+            {selectedMenu || "Pengumuman"}
+          </h3>
+          <p className="text-xs text-slate-500 mb-4">
+            {descriptions[selectedMenu]}
+          </p>
 
           <div className="space-y-3 max-h-[56vh] overflow-y-auto pr-1">
             {menuItems.map((item) => (
@@ -440,7 +954,9 @@ export default function InformasiIndex() {
 
         <section className="md:col-span-4">
           <div className="bg-white border rounded-xl shadow-sm p-5 md:p-7">
-            <h3 className="font-semibold text-slate-800 mb-4">{selectedMenu || "Semua Informasi"}</h3>
+            <h3 className="font-semibold text-slate-800 mb-4">
+              {selectedMenu || "Semua Informasi"}
+            </h3>
             {renderContent()}
           </div>
         </section>
@@ -448,7 +964,6 @@ export default function InformasiIndex() {
 
       <Footer />
 
-      {/* Modal */}
       <Modal open={modalOpen} item={modalItem} onClose={closeModal} />
     </div>
   );
