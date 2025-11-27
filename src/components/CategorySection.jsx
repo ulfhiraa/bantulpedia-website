@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom"; // <--- tambahkan ini
 
 export default function CategorySection() {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(null);
 
-  // DATA KATEGORI
+  // DATA KATEGORI + LINK
   const CATEGORIES = [
     {
       id: "info",
       title: "Informasi Publik",
       itemsCount: 8,
-      image: "/src/assets/icon-category.png",
+      image: "../src/assets/Informasi.jpg",
+      link: "/layanan/informasi",
       services: [
         { name: "Pengumuman", icon: "📢" },
         { name: "Berita", icon: "📰" },
@@ -24,7 +26,8 @@ export default function CategorySection() {
       id: "layanan",
       title: "Layanan Publik",
       itemsCount: 45,
-      image: "/src/assets/icon-category.png",
+      image: "../src/assets/Pemerintahan.jpg",
+      link: "/layanan/publik",
       services: [
         { name: "Kesehatan", icon: "🩺" },
         { name: "Pendidikan", icon: "🎓" },
@@ -37,7 +40,8 @@ export default function CategorySection() {
       id: "admin",
       title: "Administrasi Pemerintahan",
       itemsCount: 3,
-      image: "/src/assets/icon-category.png",
+      image: "../src/assets/Administrasi.jpg",
+      link: "/layanan/administrasi",
       services: [
         { name: "SURBAN", icon: "🗂️" },
         { name: "Presensi Bantul", icon: "👤" },
@@ -76,9 +80,12 @@ export default function CategorySection() {
             </p>
           </div>
 
-          <a className="px-4 py-2 bg-slate-100 rounded-full text-sm cursor-pointer">
+          <Link
+            to="/layanan/publik"
+            className="px-4 py-2 bg-slate-100 rounded-full text-sm cursor-pointer hover:bg-slate-200 transition"
+          >
             Semua Layanan →
-          </a>
+          </Link>
         </div>
 
         {/* GRID CARD */}
@@ -89,45 +96,51 @@ export default function CategorySection() {
           `}
         >
           {CATEGORIES.map((item) => (
-                <div
-                key={item.id}
-                onMouseEnter={() => setHovered(item)}
-                onMouseLeave={() => setHovered(null)}
+            
+            <Link 
+              key={item.id}
+              to={item.link}
+              className="block shadow-sm rounded-xl overflow-hidden"
+            >
+              <div
                 className="group bg-gray-50 hover:bg-emerald-50 transition-colors duration-300 
-                    rounded-xl shadow-sm p-6 cursor-pointer flex flex-col h-full"         >
+                  rounded-xl p-6 cursor-pointer flex flex-col h-full"
+              >
                 {/* IMAGE */}
                 <div className="bg-white p-4 rounded-lg flex items-center justify-center h-40">
-                    <img src={item.image} className="w-24 h-24 object-contain" />
+                  <img src={item.image} className="w-64 h-24 object-contain" />
                 </div>
 
                 {/* TITLE + COUNT */}
                 <div className="mt-4 h-[52px] flex items-start justify-between">
-                    <h3 className="font-semibold text-slate-800 group-hover:text-emerald-700 leading-tight">
+                  <h3 className="font-semibold text-slate-800 group-hover:text-emerald-700 leading-tight">
                     {item.title}
-                    </h3>
+                  </h3>
 
-                    <span className="text-xs bg-slate-200 px-2 py-1 rounded-full whitespace-nowrap">
+                  <span className="text-xs bg-slate-200 px-2 py-1 rounded-full whitespace-nowrap">
                     {item.itemsCount} layanan
-                    </span>
+                  </span>
                 </div>
 
                 {/* LIST */}
                 <ul className="mt-2 space-y-2 text-sm">
-                    {item.services.map((s, i) => (
+                  {item.services.map((s, i) => (
                     <li key={i} className="flex items-center gap-2">
-                        <span>{s.icon}</span>
-                        <span>{s.name}</span>
+                      <span>{s.icon}</span>
+                      <span>{s.name}</span>
                     </li>
-                    ))}
+                  ))}
                 </ul>
 
                 {/* SEE ALL */}
                 <div className="mt-auto pt-4 text-right">
-                    <span className="text-emerald-600 text-sm cursor-pointer">
+                  <span className="text-emerald-600 text-sm cursor-pointer group-hover:underline">
                     Lihat Semua →
-                    </span>
+                  </span>
                 </div>
-            </div>
+              </div>
+            </Link>
+
           ))}
         </div>
       </div>

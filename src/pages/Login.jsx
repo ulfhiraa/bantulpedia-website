@@ -48,7 +48,7 @@ export default function Login() {
       {/* BACKGROUND */}
       <div className="relative flex-1">
         <div
-          className="absolute inset-0 bg-cover bg-center scale-105"
+          className="absolute inset-0 bg-cover bg-center scale-110"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-none" />

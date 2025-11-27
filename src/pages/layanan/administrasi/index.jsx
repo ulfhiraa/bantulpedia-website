@@ -43,56 +43,104 @@ export default function AdministrasiIndex() {
       </div>
 
       {/* HERO */}
-      <header className="relative w-full h-44 md:h-56 lg:h-64 overflow-visible">
+      <header className="relative w-full h-56 md:h-72 lg:h-96 overflow-hidden">
+        {/* Background Image */}
         <div
-          className="absolute inset-0 bg-center bg-cover"
-          style={{ backgroundImage: `url(${heroBg})` }}
+          className="absolute inset-0 bg-cover bg-center transform-gpu"
+          style={{
+            backgroundImage: `url(${heroBg})`,
+            filter: "contrast(0.95)",
+          }}
+          aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-black/10" />
 
-        {/* floating badge */}
-        {/* <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 z-30">
-          <div className="bg-white/95 px-8 py-2 rounded-full shadow-md border border-slate-200 text-slate-800 font-semibold text-sm">
-            Administrasi Pemerintahan
+        {/* Dark + green tint overlay untuk sinkron dengan footer */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0,30,20,0.45) 0%, rgba(0,20,15,0.55) 60%, rgba(0,10,8,0.65) 100%)",
+            backdropFilter: "saturate(120%)",
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Optional hero text (centered) */}
+        <div className="relative z-20 flex items-center justify-center h-full px-4">
+          <div className="text-center text-white">
+            <h1 className="text-lg md:text-2xl lg:text-3xl font-semibold drop-shadow-md">
+              Administrasi Pemerintahan
+            </h1>
+            <p className="mt-2 text-sm md:text-base text-emerald-100/80 max-w-2xl">
+              Akses cepat ke aplikasi administrasi & layanan internal pemerintah
+              daerah Bantul.
+            </p>
           </div>
-        </div> */}
+        </div>
       </header>
 
-      {/* MAIN */}
-      <main className="relative z-20 w-full px-4 md:px-6 py-12 -mt-8">
-        <div className="w-full bg-white rounded-xl p-4 md:p-8 shadow-sm border border-slate-100">
-          <div className="flex flex-col items-center gap-6 w-full">
-            {items.map((item) => (
-              <a
-                key={item.id}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  w-[90vw] md:w-[70vw] lg:w-[60vw] max-w-[1100px]
-                  rounded-lg border
-                  bg-slate-100 border-slate-200
-                  transition-all duration-200
-                  hover:bg-emerald-50 hover:border-emerald-300 hover:shadow-md
-                "
-              >
-                <div className="flex flex-col items-center text-center py-6 md:py-8 px-6 md:px-12">
-                  <div className="w-20 h-20 rounded-md flex items-center justify-center mb-3 bg-white">
-                    <img
-                      src={item.icon}
-                      alt={item.title}
-                      className="w-14 h-14 object-contain"
-                    />
+      {/* MAIN - card container floating di atas hero */}
+      <main className="relative z-30 w-full px-4 md:px-6 -mt-16 md:-mt-20 mb-12">
+        <div className="max-w-6xl mx-auto">
+          {/* Floating panel */}
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
+            <div className="text-center mb-6">
+              <h2 className="text-slate-900 text-lg md:text-xl font-semibold">
+                Layanan Administrasi
+              </h2>
+              <p className="text-sm text-slate-500 mt-2">
+                Pilih aplikasi yang ingin diakses. Semua link akan membuka tab
+                baru.
+              </p>
+            </div>
+
+            {/* Grid kartu */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
+              {items.map((item) => (
+                <a
+                  key={item.id}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full max-w-xs group"
+                  aria-label={`Buka ${item.title}`}
+                >
+                  <div
+                    className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col items-center text-center transition-transform duration-200 transform-gpu
+                      hover:-translate-y-3 hover:shadow-lg focus-within:-translate-y-3 focus-within:shadow-lg"
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div
+                      className="w-20 h-20 md:w-24 md:h-24 rounded-xl flex items-center justify-center mb-4"
+                      style={{
+                        boxShadow: "inset 0 -6px 18px rgba(0,0,0,0.06)",
+                      }}
+                    >
+                      <img
+                        src={item.icon}
+                        alt={`${item.title} icon`}
+                        className="w-12 h-12 md:w-14 md:h-14 object-contain"
+                      />
+                    </div>
+
+                    <h3 className="text-sm md:text-base font-semibold text-slate-900">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-xs md:text-sm text-slate-500">
+                      {item.desc}
+                    </p>
+
+                    <span
+                      className="mt-4 inline-flex items-center gap-2 text-emerald-600 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+                      aria-hidden="true"
+                    >
+                      Buka aplikasi →
+                    </span>
                   </div>
-
-                  <h3 className="text-sm font-semibold tracking-wide text-slate-800">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-xs text-slate-500 mt-1">{item.desc}</p>
-                </div>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </main>
