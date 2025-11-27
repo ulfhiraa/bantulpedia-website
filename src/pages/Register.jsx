@@ -50,7 +50,7 @@ export default function Register() {
 
       {/* BACKGROUND */}
       <div
-        className="absolute inset-0 bg-center bg-cover scale-105 z-0"
+        className="absolute inset-0 bg-center bg-cover scale-110 z-0"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
       <div className="absolute inset-0 bg-black/40 backdrop-blur-none z-0" />

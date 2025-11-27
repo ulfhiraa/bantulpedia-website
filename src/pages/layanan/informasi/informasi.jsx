@@ -283,7 +283,7 @@ export default function InformasiIndex() {
   const renderContent = () => {
     if (!selectedMenu) {
       return (
-        <div className="border rounded-lg p-8 min-h-[18rem] text-center text-slate-500">
+        <div id="pengumuman" className="border rounded-lg p-10 min-h-[10rem] text-center text-slate-500">
           <h3 className="text-lg font-semibold mb-2">Pilih Kategori Informasi</h3>
           <p className="text-sm">Pilih menu di sebelah kiri untuk mulai melihat konten.</p>
         </div>
@@ -315,7 +315,7 @@ export default function InformasiIndex() {
     // CCTV GRID
     if (selectedMenu === "CCTV") {
       return (
-        <div className="max-h-[70vh] overflow-y-auto pr-2">
+        <div id="cctv" className="max-h-[57vh] overflow-y-auto pr-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {items.map((it, i) => (
               <button
@@ -366,7 +366,7 @@ export default function InformasiIndex() {
     // EVENT BANTUL: grid poster
     if (selectedMenu === "Event Bantul") {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-h-[70vh] overflow-y-auto pr-2">
+        <div id="event" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-h-[60vh] overflow-y-auto pr-2">
           {items.map((it, i) => (
             <button
               key={i}
@@ -392,13 +392,123 @@ export default function InformasiIndex() {
         </div>
       );
     }
+    
+    // GALERI VIDEO
+    if (selectedMenu === "Galeri Video") {
+      return (
+        <div id="galerivideo" className="max-h-[57vh] overflow-y-auto pr-2">
+          {items.length === 0 ? (
+            <div className="border rounded-lg p-4 text-slate-500">
+              Tidak ada video untuk kategori <strong>{selectedMenu}</strong>.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {items.map((it, i) => {
+                const yt = extractYoutubeId(it.youtube || it.raw?.youtube_url || it.video_url || it.link);
+                const thumb = yt ? `https://img.youtube.com/vi/${yt}/hqdefault.jpg` : it.image || it.thumbnail || "";
+
+                return (
+                  <button
+                    key={i}
+                    onClick={() => openModal(it)}
+                    className="group text-left rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition"
+                  >
+                    <div className="w-full aspect-video overflow-hidden bg-slate-100">
+                      {thumb ? (
+                        <img
+                          src={thumb}
+                          alt={it.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">
+                          Video tidak tersedia
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-3">
+                      <h4 className="font-semibold text-xs text-slate-800 line-clamp-2">
+                        {it.title}
+                      </h4>
+                      {it.date && <p className="text-[11px] text-slate-500 mt-1">{it.date}</p>}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ILM 
+    if (selectedMenu === "ILM") {
+      return (
+        <div id="ilm" className="max-h-[57vh] overflow-y-auto pr-2">
+          {items.length === 0 ? (
+            <div className="border rounded-lg p-4 text-slate-500">
+              Tidak ada data untuk <strong>{selectedMenu}</strong>.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {items.map((it, i) => (
+                <button
+                  key={i}
+                  onClick={() => openModal(it)}
+                  className="w-full text-left flex items-start gap-4 p-4 rounded-lg border border-slate-300 hover:shadow-md transition"
+                >
+                  {/* thumbnail kiri */}
+                  <div className="w-36 h-20 flex-shrink-0 overflow-hidden rounded-md bg-slate-100">
+                    {it.image ? (
+                      <img
+                        src={it.image}
+                        alt={it.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs text-slate-400">
+                        No image
+                      </div>
+                    )}
+                  </div>
+
+                  {/* konten kanan */}
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-slate-800 leading-snug mb-1">
+                      {it.title}
+                    </h4>
+
+                    <div className="flex items-center gap-3 text-[12px] text-slate-400 mb-2">
+                      {it.date && <span>{it.date}</span>}
+                      <span>•</span>
+                      <span>Iklan Layanan Masyarakat</span>
+                    </div>
+
+                    {it.summary ? (
+                      <p className="text-sm text-slate-600 line-clamp-2">
+                        {it.summary}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-slate-600 opacity-60">
+                        {it.lokasi || "—"}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
 
     // BERITA: headline + grid siaran pers
     if (selectedMenu === "Berita") {
       const [headline, second, third, ...others] = items;
 
       return (
-        <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
+        <div id="berita" className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
           {/* ====== HERO ATAS ====== */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Kiri: headline besar */}
@@ -508,114 +618,114 @@ export default function InformasiIndex() {
     }
 
     // TITIK WIFI
-if (selectedMenu === "Titik Wifi") {
-  const wifiWithCoords = items.filter((it) => it.lat && it.lng);
+    if (selectedMenu === "Titik Wifi") {
+      const wifiWithCoords = items.filter((it) => it.lat && it.lng);
 
-  // pusat peta (rata-rata koordinat, fallback ke Bantul)
-  let centerLat = -7.9;
-  let centerLng = 110.33;
+      // pusat peta (rata-rata koordinat, fallback ke Bantul)
+      let centerLat = -7.9;
+      let centerLng = 110.33;
 
-  if (wifiWithCoords.length) {
-    centerLat =
-      wifiWithCoords.reduce((sum, it) => sum + Number(it.lat), 0) /
-      wifiWithCoords.length;
-    centerLng =
-      wifiWithCoords.reduce((sum, it) => sum + Number(it.lng), 0) /
-      wifiWithCoords.length;
-  }
+      if (wifiWithCoords.length) {
+        centerLat =
+          wifiWithCoords.reduce((sum, it) => sum + Number(it.lat), 0) /
+          wifiWithCoords.length;
+        centerLng =
+          wifiWithCoords.reduce((sum, it) => sum + Number(it.lng), 0) /
+          wifiWithCoords.length;
+      }
 
-  return (
-    <div className="max-h-[70vh] overflow-y-auto pr-2 space-y-5">
-      {/* PETA BESAR SEMUA TITIK WIFI */}
-      <div className="rounded-2xl border shadow-sm overflow-hidden bg-white">
-        <div className="p-4 border-b">
-          <h4 className="font-semibold text-sm text-slate-800">
-            Peta Sebaran Titik Wifi Publik
-          </h4>
-          <p className="text-xs text-slate-500 mt-1">
-            Klik marker untuk melihat nama lokasi wifi.
-          </p>
-        </div>
-        <div className="h-64 w-full">
-          <MapContainer
-            center={[centerLat, centerLng]}
-            zoom={12}
-            scrollWheelZoom={false}
-            className="w-full h-full"
-          >
-            <TileLayer
-              attribution='&copy; OpenStreetMap'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {wifiWithCoords.map((it, i) => (
-              <Marker
-                key={i}
-                position={[Number(it.lat), Number(it.lng)]}
-                icon={wifiIcon}
+      return (
+        <div id="wifi" className="max-h-[62.5vh] overflow-y-auto pr-2 space-y-5">
+          {/* PETA BESAR SEMUA TITIK WIFI */}
+          <div className="rounded-2xl border shadow-sm overflow-hidden bg-white">
+            <div className="p-4 border-b">
+              <h4 className="font-semibold text-sm text-slate-800">
+                Peta Sebaran Titik Wifi Publik
+              </h4>
+              <p className="text-xs text-slate-500 mt-1">
+                Klik marker untuk melihat nama lokasi wifi.
+              </p>
+            </div>
+            <div className="h-64 w-full">
+              <MapContainer
+                center={[centerLat, centerLng]}
+                zoom={12}
+                scrollWheelZoom={false}
+                className="w-full h-full"
               >
-                <Popup>
-                  <div className="text-xs">
-                    <strong>{it.title}</strong>
-                    {it.lokasi && <div>{it.lokasi}</div>}
+                <TileLayer
+                  attribution='&copy; OpenStreetMap'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {wifiWithCoords.map((it, i) => (
+                  <Marker
+                    key={i}
+                    position={[Number(it.lat), Number(it.lng)]}
+                    icon={wifiIcon}
+                  >
+                    <Popup>
+                      <div className="text-xs">
+                        <strong>{it.title}</strong>
+                        {it.lokasi && <div>{it.lokasi}</div>}
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
+            </div>
+          </div>
+
+          {/* KARTU PER TITIK WIFI – UKURAN SEDANG */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {items.map((it, i) => {
+              const hasCoord = it.lat && it.lng;
+              const src = hasCoord
+                ? `https://www.google.com/maps?q=${it.lat},${it.lng}&hl=id&z=17&output=embed`
+                : "";
+
+              return (
+                <button
+                  key={i}
+                  onClick={() => openModal(it)}
+                  className="bg-white rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all overflow-hidden text-left"
+                >
+                  <div className="w-full h-32">
+                    {src ? (
+                      <iframe
+                        src={src}
+                        title={it.title}
+                        className="w-full h-full border-0"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[11px] text-slate-500">
+                        Lokasi tidak tersedia
+                      </div>
+                    )}
                   </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+                  <div className="p-2">
+                    <p className="text-xs font-semibold text-slate-800 line-clamp-2">
+                      {it.title}
+                    </p>
+                    {it.lokasi && (
+                      <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
+                        {it.lokasi}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
-
-      {/* KARTU PER TITIK WIFI – UKURAN SEDANG */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {items.map((it, i) => {
-          const hasCoord = it.lat && it.lng;
-          const src = hasCoord
-            ? `https://www.google.com/maps?q=${it.lat},${it.lng}&hl=id&z=17&output=embed`
-            : "";
-
-          return (
-            <button
-              key={i}
-              onClick={() => openModal(it)}
-              className="bg-white rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all overflow-hidden text-left"
-            >
-              <div className="w-full h-32">
-                {src ? (
-                  <iframe
-                    src={src}
-                    title={it.title}
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[11px] text-slate-500">
-                    Lokasi tidak tersedia
-                  </div>
-                )}
-              </div>
-              <div className="p-2">
-                <p className="text-xs font-semibold text-slate-800 line-clamp-2">
-                  {it.title}
-                </p>
-                {it.lokasi && (
-                  <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
-                    {it.lokasi}
-                  </p>
-                )}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+      );
+    }
 
     // GALERI FOTO: grid jejer + tanggal di bawah
     if (selectedMenu === "Galeri Foto") {
       return (
-        <div className="max-h-[70vh] overflow-y-auto pr-2">
+        <div id="galerifoto" className="max-h-[57vh] overflow-y-auto pr-2">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
             {items.map((it,i)=>(
               <button
@@ -636,7 +746,7 @@ if (selectedMenu === "Titik Wifi") {
 
     // DEFAULT: list
     return (
-      <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+      <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
         {items.map((it, i) => {
           const showImage = selectedMenu !== "Pengumuman" && it.image;
 
@@ -911,6 +1021,82 @@ if (selectedMenu === "Titik Wifi") {
       </div>
     );
   };
+
+  // AUTO OPEN MENU BERDASARKAN HASH URL (IMMEDIATE JUMP — NO ANIMATION)
+  useEffect(() => {
+    const rawHash = window.location.hash?.replace("#", "").toLowerCase();
+    if (!rawHash) return;
+
+    const mapHash = {
+      pengumuman: "Pengumuman",
+      berita: "Berita",
+      cctv: "CCTV",
+      wifi: "Titik Wifi",
+      galerifoto: "Galeri Foto",
+      galerivideo: "Galeri Video",
+      ilm: "ILM",
+      event: "Event Bantul",
+    };
+
+    const menu = mapHash[rawHash];
+    if (!menu) return;
+
+    // 1) pilih menunya dulu
+    setSelectedMenu(menu);
+
+    // helper: cari ancestor yang bisa discroll (overflow: auto/scroll)
+    const findScrollParent = (el) => {
+      if (!el) return null;
+      let node = el.parentElement;
+      while (node) {
+        const style = getComputedStyle(node);
+        const overflowY = style.overflowY;
+        if (overflowY === "auto" || overflowY === "scroll") return node;
+        node = node.parentElement;
+      }
+      return document.documentElement;
+    };
+
+    // 2) retry loop sampai element muncul (maks 60 frame ~ 1s)
+    let attempts = 0;
+    const maxAttempts = 60;
+
+    const tryScroll = () => {
+      attempts++;
+      const target = document.getElementById(rawHash);
+
+      if (target) {
+        const scrollParent = findScrollParent(target);
+
+        if (scrollParent === document.documentElement || scrollParent === document.body) {
+          // jump window instantly (no smooth)
+          // compute absolute top: current scroll + element top relative to viewport - header offset (if any)
+          const headerOffset = 0; // ubah kalau navbar fixed punya tinggi (mis. 80)
+          const top = window.pageYOffset + target.getBoundingClientRect().top - headerOffset;
+          window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: "auto" });
+        } else {
+          // jump the scrollable parent instantly (no smooth)
+          const parentRect = scrollParent.getBoundingClientRect();
+          const targetRect = target.getBoundingClientRect();
+          const offsetTop = targetRect.top - parentRect.top + scrollParent.scrollTop;
+          const padding = 12; // sedikit jarak agar tidak mentok
+          scrollParent.scrollTop = Math.max(0, Math.round(offsetTop - padding));
+        }
+
+        return;
+      }
+
+      if (attempts < maxAttempts) {
+        // coba lagi di next frame
+        requestAnimationFrame(tryScroll);
+      } else {
+        // fallback: langsung top
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+    };
+
+    requestAnimationFrame(tryScroll);
+  }, []);
 
   // ====================== PAGE WRAPPER ======================
   return (
