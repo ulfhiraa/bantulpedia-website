@@ -8,6 +8,7 @@ import InformasiIndex from "./pages/layanan/informasi/informasi";
 import PublikIndex from "./pages/layanan/publik";
 import DukcapilSmart from "./pages/layanan/publik/kependudukan/DukcapilSmart";
 import "leaflet/dist/leaflet.css";
+import Tentang from "./pages/Tentang";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
       <Route path="/layanan/informasi" element={<InformasiIndex />} />
       <Route path="/layanan/publik" element={<PublikIndex />} />
+      <Route path="/tentang" element={<Tentang />} />
       <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
     </Routes>
   );
