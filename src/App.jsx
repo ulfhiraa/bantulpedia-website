@@ -13,6 +13,7 @@ import CariDokter from "./pages/layanan/publik/kesehatan/CariDokter.jsx";
 import AgendaPerangkatDaerah from "./pages/layanan/publik/pemerintahan/AgendaPerangkatDaerah.jsx";
 import BukuTamu from "./pages/layanan/publik/pemerintahan/BukuTamu.jsx";
 import ReservasiKunjungan from "./pages/layanan/publik/pemerintahan/ReservasiKunjungan.jsx";
+import Ipkd from "./pages/layanan/publik/pemerintahan/Ipkd";
 import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
 
@@ -33,6 +34,7 @@ export default function App() {
       <Route path="/layanan/publik/pemerintahan/agenda-perangkat-daerah" element={<AgendaPerangkatDaerah />} />
       <Route path="/layanan/publik/pemerintahan/buku-tamu" element={<BukuTamu />} />
       <Route path="/layanan/publik/pemerintahan/reservasi-kunjungan" element={<ReservasiKunjungan />} />
+      <Route path="/layanan/publik/pemerintahan/ipkd" element={<Ipkd />} />
     </Routes>
   );
 }
