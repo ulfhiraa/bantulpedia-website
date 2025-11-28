@@ -223,7 +223,7 @@ const SERVICES = [
         id: "reservasi-ruangan",
         title: "Reservasi Ruangan",
         desc: "Sistem reservasi ruang rapat (butuh login).",
-        url: "#",
+        route: "/layanan/publik/pemerintahan/reservasi-kunjungan",
         icon: "/src/assets/reservasi1.png",
       },
     ],
