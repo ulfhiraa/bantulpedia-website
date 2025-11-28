@@ -4,7 +4,7 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import heroBg from "../../../assets/pandansimo1.jpg";
 import { ChevronDown } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // default small icon fallback (jika tidak ada icon spesifik)
 const DEFAULT_ICON = "/src/assets/LogoBantulpedia.png";
@@ -65,7 +65,7 @@ const BAHAN_POKOK = [
   "Kentang",
 ];
 
-// layanan & sub-layanan (isi berdasarkan data yang kamu kirim)
+// layanan & sub-layanan (lengkap seperti inputmu)
 const SERVICES = [
   // KEPENDUDUKAN
   {
@@ -77,9 +77,8 @@ const SERVICES = [
         id: "dukcapil-smart",
         title: "Dukcapil Smart",
         desc: "Layanan digital dokumen kependudukan.",
-        // gunakan route untuk internal page React
         route: "/layanan/publik/kependudukan/dukcapil-smart",
-        icon: "/src/assets/dukcapil.png"
+        icon: "/src/assets/dukcapil.png",
       },
     ],
   },
@@ -99,17 +98,17 @@ const SERVICES = [
       },
       {
         id: "evoss",
-        title: "E-Pemilos EVOSS — Electronic Voting System for Students.",
-        desc: "Platform e-voting yang digunakan untuk pemilihan OSIS dan pemilos di sekolah-sekolah Kabupaten Bantul.",
+        title: "E-Pemilos EVOSS ",
+        desc: "Platform e-voting untuk pemilos sekolah di Kabupaten Bantul.",
         url: "https://evoss.bantulkab.go.id/",
         icon: "/src/assets/evoss.png",
       },
       {
         id: "pisa",
         title: "PISA (Pusat Informasi Sahabat Anak)",
-        desc: `Layanan literasi ramah anak yang menyediakan informasi dan kegiatan edukatif bagi pelajar.`,
+        desc: `Layanan literasi ramah anak.`,
         url: "https://pisa.bantulkab.go.id/",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/pisa.png",
       },
     ],
   },
@@ -124,22 +123,22 @@ const SERVICES = [
         id: "dashboard-stunting",
         title: "Dashboard Stunting",
         desc: "Grafik & data stunting per kapanewon (profil & tren).",
-        url: "#", // isi jika ada URL dashboard
-        icon: DEFAULT_ICON,
+        url: "#",
+        icon: "/src/assets/stunting.png",
       },
       {
         id: "pendaftaran-rsud",
         title: "Pendaftaran Pasien RSUD",
         desc: "Pendaftaran online pasien (akses login jika diperlukan).",
-        url: "#",
-        icon: DEFAULT_ICON,
+        route: "/layanan/publik/kesehatan/pendaftaran-RSUD",
+        icon: "/src/assets/pasienrsud.png",
       },
       {
         id: "info-bed-rsud",
         title: "Info Bed RSUD",
         desc: "Informasi ketersediaan tempat tidur rumah sakit.",
         url: "https://rsudps.bantulkab.go.id/hal/info-bed",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/bedrs.png",
       },
     ],
   },
@@ -337,7 +336,6 @@ const SERVICES = [
         id: "info-bahan-pokok",
         title: "Info Bahan Pokok",
         desc: "Pantauan harga & status bahan pokok (klik untuk detail pasar & harga).",
-        // internal route: detail per bahan akan dibuat secara dinamis
         url: "/layanan/publik/perdagangan/info-bahan-pokok",
         icon: DEFAULT_ICON,
         children: BAHAN_POKOK.map((b) => ({
@@ -465,19 +463,15 @@ export default function PublikIndex() {
   // helper navigate: internal route vs external url
   const handleClick = (item) => {
     if (!item) return;
-    // internal route (react-router)
     if (item.route) {
       navigate(item.route);
       return;
     }
-    // jika ada url eksternal: buka di tab baru (jika kosong jangan buka)
     if (item.url && item.url.trim() !== "" && item.url !== "#") {
       window.open(item.url, "_blank", "noopener,noreferrer");
       return;
     }
-    // fallback: jika tidak ada route/url, mungkin route generik
     if (item.url && item.url.startsWith("/")) {
-      // internal path but stored in url
       navigate(item.url);
     }
   };
@@ -502,6 +496,8 @@ export default function PublikIndex() {
     }
   }, []);
 
+  const isAnyOpen = openId !== null;
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
@@ -516,7 +512,8 @@ export default function PublikIndex() {
 
       {/* MAIN */}
       <main className="max-w-6xl mx-auto w-full px-4 md:px-6 py-12">
-        <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+        {/* remove visible border (no black line) -> use border-transparent */}
+        <div className={`bg-white rounded-xl shadow-sm ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
           <div className="px-6 py-6 border-b">
             <h2 className="text-lg md:text-xl font-semibold text-slate-900">Layanan Publik</h2>
             <p className="text-sm text-slate-500 mt-1">
@@ -551,13 +548,19 @@ export default function PublikIndex() {
 
                   {/* panel */}
                   {isOpen && (
-                    <div className="px-6 pb-6">
+                    <div className="px-6 pb-6 overflow-visible">
                       <div className="pt-4">
                         {/* jika ada sub-layanan: tampilkan grid card */}
                         {s.sub && s.sub.length > 0 ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {s.sub.map((sub) => {
-                              // jika sub punya route -> jadikan clickable via handleClick (internal)
+                              // base classes without border (garis hitam dihilangkan)
+                              const baseCardClasses =
+                                "group flex items-center gap-4 p-4 rounded-lg bg-white transition-transform duration-300";
+                              const floatClasses =
+                                "transform -translate-y-3 shadow-lg relative z-10 hover:-translate-y-4 hover:shadow-2xl";
+
+                              // clickable internal route
                               if (sub.route) {
                                 return (
                                   <div
@@ -568,7 +571,7 @@ export default function PublikIndex() {
                                     onKeyDown={(e) => {
                                       if (e.key === "Enter") handleClick(sub);
                                     }}
-                                    className="group cursor-pointer flex items-center gap-4 p-3 border rounded-lg hover:shadow-sm transition bg-white"
+                                    className={`${baseCardClasses} ${floatClasses} cursor-pointer`}
                                   >
                                     <div className="w-12 h-12 flex items-center justify-center rounded-md overflow-hidden">
                                       <img
@@ -586,16 +589,15 @@ export default function PublikIndex() {
                                 );
                               }
 
-                              // jika sub punya url eksternal -> anchor buka tab baru
+                              // external link
                               return (
                                 <a
                                   key={sub.id}
                                   href={sub.url && sub.url.trim() !== "" ? sub.url : "#"}
                                   target={sub.url && sub.url.trim() !== "" ? "_blank" : "_self"}
                                   rel="noreferrer"
-                                  className="group flex items-center gap-4 p-3 border rounded-lg hover:shadow-sm transition bg-white"
+                                  className={`${baseCardClasses} ${floatClasses}`}
                                   onClick={(e) => {
-                                    // jika url kosong, hindari jump to top
                                     if (!sub.url || sub.url.trim() === "" || sub.url === "#") {
                                       e.preventDefault();
                                     }

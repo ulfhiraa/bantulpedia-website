@@ -7,6 +7,9 @@ import AdministrasiIndex from "./pages/layanan/administrasi";
 import InformasiIndex from "./pages/layanan/informasi/informasi";
 import PublikIndex from "./pages/layanan/publik";
 import DukcapilSmart from "./pages/layanan/publik/kependudukan/DukcapilSmart";
+import PendaftaranRSUD from "./pages/layanan/publik/kesehatan/PendaftaranRSUD.jsx";
+import StatusPasien from "./pages/layanan/publik/kesehatan/StatusPasien.jsx";
+import CariDokter from "./pages/layanan/publik/kesehatan/CariDokter.jsx";
 import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
 
@@ -21,6 +24,9 @@ export default function App() {
       <Route path="/layanan/publik" element={<PublikIndex />} />
       <Route path="/tentang" element={<Tentang />} />
       <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
+      <Route path="/layanan/publik/kesehatan/pendaftaran-rsud" element={<PendaftaranRSUD />} />
+      <Route path="/layanan/publik/kesehatan/status-pasien" element={<StatusPasien />} />
+      <Route path="/layanan/publik/kesehatan/cari-dokter" element={<CariDokter />} />
     </Routes>
   );
 }
