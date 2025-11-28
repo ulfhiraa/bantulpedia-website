@@ -10,6 +10,7 @@ import DukcapilSmart from "./pages/layanan/publik/kependudukan/DukcapilSmart";
 import PendaftaranRSUD from "./pages/layanan/publik/kesehatan/PendaftaranRSUD.jsx";
 import StatusPasien from "./pages/layanan/publik/kesehatan/StatusPasien.jsx";
 import CariDokter from "./pages/layanan/publik/kesehatan/CariDokter.jsx";
+import AgendaPerangkatDaerah from "./pages/layanan/publik/pemerintahan/AgendaPerangkatDaerah.jsx";
 import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
 
@@ -27,6 +28,7 @@ export default function App() {
       <Route path="/layanan/publik/kesehatan/pendaftaran-rsud" element={<PendaftaranRSUD />} />
       <Route path="/layanan/publik/kesehatan/status-pasien" element={<StatusPasien />} />
       <Route path="/layanan/publik/kesehatan/cari-dokter" element={<CariDokter />} />
+      <Route path="/layanan/publik/pemerintahan/agenda-perangkat-daerah" element={<AgendaPerangkatDaerah />} />
     </Routes>
   );
 }

@@ -1,10 +1,10 @@
 // src/pages/layanan/publik/kependudukan/DukcapilSmart.jsx
 import React, { useState } from "react";
+import { ArrowRight, ExternalLink, Copy, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
-import { ArrowRight, ExternalLink } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
 
 /**
  * DukcapilSmart page
@@ -44,6 +44,7 @@ function mockFetchStatus(kk) {
 }
 
 export default function DukcapilSmart() {
+  const navigate = useNavigate();
   const [kk, setKk] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -54,6 +55,14 @@ export default function DukcapilSmart() {
     if (!digits) return "Nomor Kartu Keluarga wajib diisi.";
     if (digits.length < 10) return "Nomor KK terlalu pendek (minimal 10 digit).";
     return "";
+  };
+
+  // input handler: hanya angka (strip non-digit langsung)
+  const onChangeKk = (e) => {
+    const raw = e.target.value || "";
+    const digits = raw.replace(/\D/g, "");
+    setKk(digits);
+    if (error) setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -94,6 +103,12 @@ export default function DukcapilSmart() {
     }
   };
 
+  // inline back next to title (sejajar)
+  const goBack = () => {
+    if (window.history.length > 1) navigate(-1);
+    else navigate("/layanan/publik");
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
@@ -107,33 +122,50 @@ export default function DukcapilSmart() {
       </header>
 
       {/* MAIN */}
-      <main className="max-w-5xl mx-auto w-full px-4 md:px-6 py-10 -mt-8">
+      <main className="mx-auto w-full px-4 md:px-6 py-10 -mt-8">
         <div className="bg-white rounded-2xl shadow ring-1 ring-slate-100 overflow-hidden">
           <div className="p-6 md:p-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
               {/* Left: info + form */}
               <div className="lg:col-span-2 space-y-4">
-                <div>
-                  <h2 className="text-lg md:text-xl font-semibold text-slate-900">Pengecekan Status Pengajuan</h2>
-                  <p className="text-sm text-slate-500 mt-2">
-                    Masukkan <strong>Nomor Kartu Keluarga (KK)</strong> untuk melihat status pengajuan terakhir di Dukcapil Smart.
-                  </p>
-                </div>
+                {/* inline back arrow + title */}
+                  <div className="relative w-full mb-4">
+                    {/* Panah kiri */}
+                    <button
+                      onClick={goBack}
+                      className="absolute top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-slate-100 transition"
+                      aria-label="Kembali"
+                      title="Kembali"
+                    >
+                      <ArrowLeft size={20} className="text-slate-700" />
+                    </button>
+
+                    {/* Judul tetap center */}
+                    <h2 className="text-lg md:text-md font-semibold text-slate-900 text-center">
+                      Pengecekan Status Pengajuan
+                    </h2>
+                  </div>
+
+                <p className="text-sm text-slate-500 mt-1 text-left mx-auto">
+                  Masukkan <strong>Nomor Kartu Keluarga (KK)</strong> untuk melihat status pengajuan terakhir di Dukcapil Smart.
+                </p>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                   <label className="text-sm text-slate-700">Nomor Kartu Keluarga</label>
                   <div className="flex gap-3">
                     <input
                       value={kk}
-                      onChange={(e) => setKk(e.target.value)}
+                      onChange={onChangeKk}
                       placeholder="Contoh: 317XXXXXXXXXXXX"
-                      className="flex-1 rounded-xl px-4 py-3 border ring-0 focus:outline-none focus:ring-2 focus:ring-emerald-300 bg-white"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      className="flex-1 rounded-xl px-4 py-3 border ring-0 focus:outline-none focus:ring-2 focus:ring-emerald-300 bg-white text-sm"
                       aria-label="Nomor Kartu Keluarga"
                     />
                     <button
                       type="submit"
                       disabled={loading}
-                      className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 font-medium flex items-center gap-2"
+                      className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 font-medium flex items-center gap-2 text-sm transition-transform active:scale-95"
                     >
                       {loading ? "Memeriksa..." : "Cari Status"}
                       <ArrowRight size={16} />
@@ -142,16 +174,16 @@ export default function DukcapilSmart() {
 
                   <div className="flex items-center justify-between text-sm text-slate-500">
                     <div>
-                      <button type="button" onClick={handleReset} className="underline text-slate-500">
+                      <button type="button" onClick={handleReset} className="underline text-slate-500 text-sm">
                         Reset
                       </button>
                     </div>
                     <div>
                       <a
-                        href="https://dukcapil.bantulkab.go.id/"
+                        href="https://dukcapilonline.bantulkab.go.id/"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-emerald-600 hover:underline"
+                        className="inline-flex items-center gap-2 text-emerald-600 hover:underline text-sm"
                       >
                         Buka Dukcapil Smart <ExternalLink size={14} />
                       </a>
@@ -191,7 +223,9 @@ export default function DukcapilSmart() {
                     {result && (
                       <div className="space-y-3">
                         {/* status badge */}
-                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${STATUS_META[result.status]?.color || STATUS_META.Unknown.color}`}>
+                        <div
+                          className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${STATUS_META[result.status]?.color || STATUS_META.Unknown.color}`}
+                        >
                           <span className={`inline-block w-2 h-2 rounded-full ${STATUS_META[result.status]?.dot || STATUS_META.Unknown.dot}`} />
                           {result.status}
                         </div>
@@ -247,7 +281,7 @@ export default function DukcapilSmart() {
 
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <a
-                      href="https://dukcapil.bantulkab.go.id/"
+                      href="https://dukcapilonline.bantulkab.go.id/"
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 text-emerald-600 font-medium hover:underline"

@@ -129,7 +129,7 @@ const SERVICES = [
       {
         id: "pendaftaran-rsud",
         title: "Pendaftaran Pasien RSUD",
-        desc: "Pendaftaran online pasien (akses login jika diperlukan).",
+        desc: "Pendaftaran pasien, status pasien, cari dokter, dan info kamar RSUD.",
         route: "/layanan/publik/kesehatan/pendaftaran-RSUD",
         icon: "/src/assets/pasienrsud.png",
       },
@@ -153,78 +153,78 @@ const SERVICES = [
         id: "agenda-perangkat-daerah",
         title: "Agenda Perangkat Daerah",
         desc: "Seluruh agenda PemDa Bantul (tanggal, jam, perangkat, lokasi).",
-        url: "#",
-        icon: DEFAULT_ICON,
+        route: "/layanan/publik/pemerintahan/agenda-perangkat-daerah",
+        icon: "/src/assets/agenda.png",
       },
       {
         id: "sinoman",
         title: "SINOMAN",
         desc: "Sistem Layanan & Pengetahuan Informatika.",
         url: "https://sinoman.bantulkab.go.id/",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/sinoman.png",
       },
       {
         id: "csr",
         title: "CSR",
         desc: "Corporate Social Responsibility; info & pengajuan CSR.",
         url: "https://csr.bantulkab.go.id/",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/csr.png",
       },
       {
         id: "sipd",
         title: "SIPD",
         desc: "Sistem Informasi Pemerintah Daerah (Kemendagri).",
         url: "https://sipd.kemendagri.go.id/landing",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/sipd.png",
       },
       {
         id: "sirup",
         title: "SIRUP",
         desc: "Sistem RUP - referensi pengadaan publik.",
         url: "https://sirup.lkpp.go.id/sirup/rekap/klpd/D68",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/sirup.png",
       },
       {
         id: "sapa-asn",
         title: "SAPA ASN",
         desc: "Aplikasi layanan ASN Kabupaten Bantul.",
         url: "https://asn.bantulkab.go.id/",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/sapaasn.png",
       },
       {
         id: "lpse",
         title: "LPSE (SPSE)",
         desc: "Pengadaan Barang/Jasa secara elektronik (SPSE).",
         url: "https://spse.inaproc.id/bantulkab",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/lpse.png",
       },
       {
         id: "buku-tamu",
         title: "Buku Tamu",
         desc: "Formulir tamu & pencatatan kunjungan resmi.",
         url: "#",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/bukutamu.png",
       },
       {
         id: "reservasi-kunjungan",
         title: "Reservasi Kunjungan",
         desc: "Reservasi kunjungan instansi / tamu penting.",
         url: "#",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/reservasi.png",
       },
       {
         id: "ipkd",
         title: "IPKD",
         desc: "Indeks Pengelolaan Keuangan Daerah (dokumen & kategori).",
         url: "#",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/ipkd.png",
       },
       {
         id: "reservasi-ruangan",
         title: "Reservasi Ruangan",
         desc: "Sistem reservasi ruang rapat (butuh login).",
         url: "#",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/reservasi1.png",
       },
     ],
   },
@@ -513,10 +513,10 @@ export default function PublikIndex() {
       {/* MAIN */}
       <main className="max-w-6xl mx-auto w-full px-4 md:px-6 py-12">
         {/* remove visible border (no black line) -> use border-transparent */}
-        <div className={`bg-white rounded-xl shadow-sm ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
+        <div className={`bg-white rounded-xl shadow-xl ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
           <div className="px-6 py-6 border-b">
-            <h2 className="text-lg md:text-xl font-semibold text-slate-900">Layanan Publik</h2>
-            <p className="text-sm text-slate-500 mt-1">
+            <h2 className="text-lg text-center md:text-md font-semibold text-slate-900">Layanan Publik</h2>
+            <p className="text-sm text-center text-slate-500 mt-1">
               Pilih kategori untuk melihat sub-layanan dan akses cepat.
             </p>
           </div>
