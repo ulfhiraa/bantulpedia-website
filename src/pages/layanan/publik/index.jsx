@@ -202,7 +202,7 @@ const SERVICES = [
         id: "buku-tamu",
         title: "Buku Tamu",
         desc: "Formulir tamu & pencatatan kunjungan resmi.",
-        url: "#",
+        route: "/layanan/publik/pemerintahan/buku-tamu",
         icon: "/src/assets/bukutamu.png",
       },
       {
