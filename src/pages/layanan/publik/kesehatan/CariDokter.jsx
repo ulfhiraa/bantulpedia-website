@@ -1,0 +1,81 @@
+// src/pages/layanan/publik/kesehatan/CariDokter.jsx
+import React, { useState } from "react";
+import Navbar from "../../../../components/Navbar";
+import Footer from "../../../../components/Footer";
+import heroBg from "../../../../assets/pandansimo1.jpg";
+
+export default function CariDokter() {
+  const [query, setQuery] = useState("");
+  const mock = [
+    { id: 1, name: "dr. Namjoon, Sp.A", poli: "Klinik Anak" },
+    { id: 2, name: "dr. Jimin, Sp.PD", poli: "Penyakit Dalam" },
+  ];
+  const results = query.trim() ? mock.filter(m => m.name.toLowerCase().includes(query.toLowerCase()) || m.poli.toLowerCase().includes(query.toLowerCase())) : [];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <Navbar />
+      <header className="relative w-full h-44 md:h-56 lg:h-64">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroBg})` }} />
+      </header>
+
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <div className="flex gap-15 justify-start items-center py-6">
+          <a href="/layanan/publik/kesehatan/pendaftaran-rsud" className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm">Pendaftaran Pasien</a>
+          <a href="/layanan/publik/kesehatan/status-pasien" className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm">Status Pasien</a>
+          <a href="https://rsudps.bantulkab.go.id/hal/info-bed" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm">Info Kamar / Bed RS</a>
+          <a href="/layanan/publik/kesehatan/cari-dokter" className="px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm">Cari Dokter</a>
+        </div>
+      </div>
+
+      <main className="max-w-6xl mx-auto w-full px-4 md:px-6 pb-16">
+        <div className="bg-white rounded-xl shadow-sm overflow-visible">
+          <div className="p-6">
+            <div className="bg-[#f2f4f7] rounded-md p-6 mx-auto">
+              <div className="text-center">
+                <p className="text-sm text-slate-800 font-bold">Cari dokter berdasarkan nama atau poli</p>
+              </div>
+
+                <div className="mt-6 flex gap-3">
+                <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Cari nama dokter / poli"
+                    className="flex-1 rounded-md border border-transparent bg-white px-4 py-2 shadow-sm
+                            text-sm placeholder:text-slate-400 placeholder:text-sm"
+                />
+                
+                <button
+                    onClick={() => {}}
+                    className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm font-medium shadow-sm
+                            transform transition-transform duration-120 ease-out active:scale-95"
+                >
+                    Cari
+                </button>
+                </div>
+
+              <div className="mt-6 space-y-3">
+                {results.length === 0 && query.trim() !== "" && <div className="text-sm text-slate-500">Tidak ditemukan.</div>}
+                {results.map(r => (
+                  <div key={r.id} className="p-4 bg-white rounded-md shadow-sm border border-transparent flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-semibold text-slate-800">{r.name}</div>
+                      <div className="text-xs text-slate-500">{r.poli}</div>
+                    </div>
+                    <div>
+                      <button className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm">Lihat</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
