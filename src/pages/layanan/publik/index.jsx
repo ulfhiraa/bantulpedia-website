@@ -423,14 +423,13 @@ const SERVICES = [
   {
     id: "hubungi-kami",
     title: "Hubungi Kami",
-    desc: "Kontak & pengaduan (guest/user).",
+    desc: "Kontak & pengaduan.",
     sub: [
       {
         id: "hubungi-guest",
-        title: "Guest (akses terbatas)",
+        title: "Hubungi Kami",
         desc: "Form pengaduan (wajib login untuk user penuh).",
-        route: "/layanan/publik/hubungi-kami",
-        icon: "/src/assets/HubKami.png"
+        url: "/layanan/publik/hubungi-kami/guest",
       },
       {
         id: "hubungi-user",
