@@ -423,19 +423,14 @@ const SERVICES = [
   {
     id: "hubungi-kami",
     title: "Hubungi Kami",
-    desc: "Kontak & pengaduan (guest/user).",
+    desc: "Kontak & pengaduan.",
     sub: [
       {
         id: "hubungi-guest",
-        title: "Guest (akses terbatas)",
+        title: "Hubungi Kami",
         desc: "Form pengaduan (wajib login untuk user penuh).",
-        url: "/layanan/publik/hubungi-kami/guest",
-      },
-      {
-        id: "hubungi-user",
-        title: "User (akun Bantulpedia)",
-        desc: "Form dengan auto-fill email & upload dokumen (KTP).",
-        url: "/layanan/publik/hubungi-kami/user",
+        route: "/layanan/publik/HubungiKami/hubungi-kami",
+        icon: DEFAULT_ICON,
       },
     ],
   },

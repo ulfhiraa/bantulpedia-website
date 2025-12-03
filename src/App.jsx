@@ -18,6 +18,7 @@ import CekTagihan from './pages/layanan/publik/pajakretri/CekTagihan';
 import SiPenthol from "./pages/layanan/publik/pajakretri/SiPenthol.jsx";
 import RealisasiRetribusi from "./pages/layanan/publik/pajakretri/RealisasiRetribusi.jsx";
 import InfoBahanPokok from "./pages/layanan/publik/perdagangan/infobahanpokok.jsx";
+import HubungiKami from "./pages/layanan/publik/HubungiKami/hubungikami.jsx";
 
 import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
@@ -44,6 +45,7 @@ export default function App() {
       <Route path="/layanan/publik/pajakretri/sipenthol" element={<SiPenthol />} />
       <Route path="/layanan/publik/pajakretri/realisasi-retribusi" element={<RealisasiRetribusi />} />
       <Route path="/layanan/publik/perdagangan/info-bahan-pokok" element={<InfoBahanPokok />} />
+      <Route path="/layanan/publik/HubungiKami/hubungi-kami" element={<HubungiKami />} />
     </Routes>
   );
 }
