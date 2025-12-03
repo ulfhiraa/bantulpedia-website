@@ -336,13 +336,13 @@ const SERVICES = [
         title: "Info Bahan Pokok",
         desc: "Pantauan harga & status bahan pokok (klik untuk detail pasar & harga).",
         route: "/layanan/publik/perdagangan/info-bahan-pokok",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/InfoBahanPokok.png",
         children: BAHAN_POKOK.map((b) => ({
           id: slugify(b),
           title: b,
           desc: "Klik untuk melihat pasar, harga lama/baru, dan status (naik/turun/stabil).",
           url: `/layanan/publik/perdagangan/info-bahan-pokok/${slugify(b)}`,
-          icon: DEFAULT_ICON,
+          icon: "/src/assets/InfoBahanPokok.png",
         })),
       },
       {
@@ -350,14 +350,14 @@ const SERVICES = [
         title: "Bantul Mapan",
         desc: "Sistem Bantul Mapan (informasi ekonomi lokal).",
         url: "https://bantulmapan.bantulkab.go.id/",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/BantulMapan.png",
       },
       {
         id: "marketplace",
         title: "Marketplace (BOS)",
         desc: "Marketplace lokal & layanan BOS.",
         url: "https://bos.bantulkab.go.id/id",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/Marketplace.png",
       },
     ],
   },
@@ -372,7 +372,7 @@ const SERVICES = [
         title: "Jelajah Bantul",
         desc: "Detail lokasi, gmaps, deskripsi singkat dan kategori wisata.",
         url: "/layanan/publik/pariwisata/jelajah-bantul",
-        icon: DEFAULT_ICON,
+        icon: "/src/assets/JelajahBantul.png",
         children: [
           { id: "destinasi-wisata", title: "Destinasi Wisata", desc: "Desa Wisata, Wisata Buatan, Wisata Alam" },
           { id: "akomodasi", title: "Akomodasi Wisata", desc: "Hotel, Home Stay" },
@@ -394,8 +394,8 @@ const SERVICES = [
     title: "Penanda Keistimewaan",
     desc: "Situs & penanda keistimewaan daerah.",
     sub: [
-      { id: "makam-kotagede", title: "Makam Kotagede", desc: "Informasi & lokasi", url: "https://makamkotagede.bantulkab.go.id/" },
-      { id: "makam-imogiri", title: "Makam Imogiri", desc: "Informasi & lokasi", url: "https://makamimogiri.bantulkab.go.id/" },
+      { id: "makam-kotagede", title: "Makam Kotagede", desc: "Informasi & lokasi", url: "https://makamkotagede.bantulkab.go.id/", icon: "/src/assets/Makam.png" },
+      { id: "makam-imogiri", title: "Makam Imogiri", desc: "Informasi & lokasi", url: "https://makamimogiri.bantulkab.go.id/", icon: "/src/assets/Makam.png" },
     ],
   },
 
@@ -403,21 +403,21 @@ const SERVICES = [
     id: "kebudayaan",
     title: "Kebudayaan",
     desc: "Situs kebudayaan & event.",
-    sub: [{ id: "kebudayaan-site", title: "Kebudayaan Bantul", desc: "Portal kebudayaan", url: "https://kebudayaanbantul.bantulkab.go.id/" }],
+    sub: [{ id: "kebudayaan-site", title: "Kebudayaan Bantul", desc: "Portal kebudayaan", url: "https://kebudayaanbantul.bantulkab.go.id/", icon: "/src/assets/Kebudayaan.png" }]
   },
 
   {
     id: "sedata-bantul",
     title: "Sedata Bantul",
     desc: "Data & statistik publik.",
-    sub: [{ id: "sedata", title: "Sedata", desc: "Portal data Bantul", url: "https://data.bantulkab.go.id/" }],
+    sub: [{ id: "sedata", title: "Sedata", desc: "Portal data Bantul", url: "https://data.bantulkab.go.id/", icon: "/src/assets/Sedata.png" }]    
   },
 
   {
     id: "gsb-bantul",
     title: "GSB Bantul",
     desc: "GSB Bantul (informasi & layanan).",
-    sub: [{ id: "gsb", title: "GSB Bantul", desc: "Portal GSB", url: "https://gsb.bantulkab.go.id/" }],
+    sub: [{ id: "gsb", title: "GSB Bantul", desc: "Portal GSB", url: "https://gsb.bantulkab.go.id/", icon: "/src/assets/GSB.png" }]
   },
 
   {
@@ -429,7 +429,8 @@ const SERVICES = [
         id: "hubungi-guest",
         title: "Guest (akses terbatas)",
         desc: "Form pengaduan (wajib login untuk user penuh).",
-        url: "/layanan/publik/hubungi-kami/guest",
+        route: "/layanan/publik/hubungi-kami",
+        icon: "/src/assets/HubKami.png"
       },
       {
         id: "hubungi-user",
@@ -444,7 +445,7 @@ const SERVICES = [
     id: "lapor-bantul",
     title: "Lapor Bantul",
     desc: "Layanan pelaporan publik.",
-    sub: [{ id: "lapor", title: "Lapor.go.id", desc: "Platform Lapor Nasional", url: "https://www.lapor.go.id/" }],
+    sub: [{ id: "lapor", title: "Lapor.go.id", desc: "Platform Lapor Nasional", url: "https://www.lapor.go.id/", icon: "/src/assets/LaporBantul1.png" }]
   },
 ];
 
