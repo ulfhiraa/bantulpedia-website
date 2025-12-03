@@ -150,10 +150,11 @@ export default function SipentolCheck() {
           <div className="bg-white rounded-md shadow-sm border border-slate-200 p-6">
             <form onSubmit={handleSearch}>
               {/* single row: left label (3) | middle input (5) | right dropdown (4) */}
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                {/* left label */}
-                <div className="md:col-span-3">
-                  <label className="block text-sm font-medium text-slate-700">{leftLabel()}</label>
+              {/* NOTE: changed items-start -> items-center so label aligns vertically */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                {/* left label: make this a flex container so label text centers vertically */}
+                <div className="md:col-span-3 flex items-center">
+                  <label className="block text-sm font-medium text-slate-700 mb-0">{leftLabel()}</label>
                 </div>
 
                 {/* middle input: date or text */}
@@ -250,7 +251,6 @@ export default function SipentolCheck() {
                 </button>
 
                 <div className="flex-1" />
-                {/* <div className="text-sm text-slate-500">Pilih kategori untuk tipe informasi</div> */}
               </div>
 
               {error && <div className="mt-4 text-sm text-red-600">{error}</div>}
