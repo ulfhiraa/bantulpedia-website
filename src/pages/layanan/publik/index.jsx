@@ -394,8 +394,8 @@ const SERVICES = [
     title: "Penanda Keistimewaan",
     desc: "Situs & penanda keistimewaan daerah.",
     sub: [
-      { id: "makam-kotagede", title: "Makam Kotagede", desc: "Informasi & lokasi", url: "https://makamkotagede.bantulkab.go.id/", icon: "/src/assets/Makam.png" },
-      { id: "makam-imogiri", title: "Makam Imogiri", desc: "Informasi & lokasi", url: "https://makamimogiri.bantulkab.go.id/", icon: "/src/assets/Makam.png" },
+      { id: "makam-kotagede", title: "Makam Kotagede", desc: "Informasi & lokasi", url: "https://makamkotagede.bantulkab.go.id/", icon: "/src/assets/Makam1.png" },
+      { id: "makam-imogiri", title: "Makam Imogiri", desc: "Informasi & lokasi", url: "https://makamimogiri.bantulkab.go.id/", icon: "/src/assets/Makam1.png" },
     ],
   },
 
