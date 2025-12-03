@@ -335,7 +335,7 @@ const SERVICES = [
         id: "info-bahan-pokok",
         title: "Info Bahan Pokok",
         desc: "Pantauan harga & status bahan pokok (klik untuk detail pasar & harga).",
-        url: "/layanan/publik/perdagangan/info-bahan-pokok",
+        route: "/layanan/publik/perdagangan/info-bahan-pokok",
         icon: DEFAULT_ICON,
         children: BAHAN_POKOK.map((b) => ({
           id: slugify(b),

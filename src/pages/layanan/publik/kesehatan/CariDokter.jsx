@@ -1,10 +1,13 @@
 // src/pages/layanan/publik/kesehatan/CariDokter.jsx
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
 export default function CariDokter() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const mock = [
     { id: 1, name: "dr. Namjoon, Sp.A", poli: "Klinik Anak" },
@@ -19,12 +22,51 @@ export default function CariDokter() {
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroBg})` }} />
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <div className="flex gap-15 justify-start items-center py-6">
-          <a href="/layanan/publik/kesehatan/pendaftaran-rsud" className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm">Pendaftaran Pasien</a>
-          <a href="/layanan/publik/kesehatan/status-pasien" className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm">Status Pasien</a>
-          <a href="https://rsudps.bantulkab.go.id/hal/info-bed" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm">Info Kamar / Bed RS</a>
-          <a href="/layanan/publik/kesehatan/cari-dokter" className="px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm">Cari Dokter</a>
+      <div className="w-full relative">
+        <button
+          type="button"
+          onClick={() => navigate("/layanan/publik")}
+          className="absolute left-4 md:left-6 lg:left-8 top-6 inline-flex items-center justify-center w-9 h-9 text-slate-700 bg-white border border-slate-200 rounded-md shadow-sm hover:bg-slate-50 z-20"
+          aria-label="Kembali ke Layanan Publik"
+          title="Kembali ke Layanan Publik"
+        >
+          <ChevronLeft size={16} />
+        </button>
+
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="flex justify-center py-6">
+            <div className="flex items-center space-x-8">
+              <a
+                href="/layanan/publik/kesehatan/pendaftaran-rsud"
+                className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm min-w-[160px] text-center"
+              >
+                Pendaftaran Pasien
+              </a>
+
+              <a
+                href="/layanan/publik/kesehatan/status-pasien"
+                className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm min-w-[160px] text-center"
+              >
+                Status Pasien
+              </a>
+
+              <a
+                href="https://rsudps.bantulkab.go.id/hal/info-bed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm min-w-[160px] text-center"
+              >
+                Info Kamar / Bed RS
+              </a>
+
+              <a
+                href="/layanan/publik/kesehatan/cari-dokter"
+                className="px-6 py-2.5 rounded-lg bg-emerald-100 text-sm shadow-md min-w-[160px] text-center"
+              >
+                Cari Dokter
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 

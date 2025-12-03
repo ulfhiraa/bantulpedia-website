@@ -3,9 +3,11 @@ import React, { useState, useRef } from "react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 
 export default function StatusPasien() {
+  const navigate = useNavigate();
   const rowStyle = "grid grid-cols-12 gap-4 items-center";
   const labelStyle = "col-span-12 md:col-span-3 text-sm text-slate-700";
   const inputWrap = "col-span-12 md:col-span-9";
@@ -59,38 +61,63 @@ export default function StatusPasien() {
         />
       </header>
 
-      {/* TABS */}
-      <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <div className="flex gap-15 items-center py-6">
-          <NavLink
-            to="/layanan/publik/kesehatan/pendaftaran-rsud"
-            className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm"
-          >
-            Pendaftaran Pasien
-          </NavLink>
+      {/* BACK BUTTON + TABS: button diposisikan absolut di paling kiri, tabs tetap di dalam container terpusat */}
+      <div className="w-full relative">
+        <button
+          type="button"
+          onClick={() => navigate("/layanan/publik")}
+          className="absolute left-4 md:left-6 lg:left-8 top-6 inline-flex items-center justify-center w-9 h-9 text-slate-700 bg-white border border-slate-200 rounded-md shadow-sm hover:bg-slate-50 z-20"
+          aria-label="Kembali ke Layanan Publik"
+          title="Kembali ke Layanan Publik"
+        >
+          <ChevronLeft size={16} />
+        </button>
 
-          <NavLink
-            to="/layanan/publik/kesehatan/status-pasien"
-            className="px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-          >
-            Status Pasien
-          </NavLink>
+        {/* TABS (pills centered, lebih jarak antar tombol) */}
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="flex justify-center items-center space-x-8 py-6">
+            <NavLink
+              to="/layanan/publik/kesehatan/pendaftaran-rsud"
+              className={({ isActive }) =>
+                isActive
+                  ? "px-6 py-2.5 rounded-lg bg-emerald-100 text-sm shadow-md text-slate-800 min-w-[160px] text-center"
+                  : "px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm text-slate-700 min-w-[160px] text-center"
+              }
+            >
+              Pendaftaran Pasien
+            </NavLink>
 
-          <a
-            href="https://rsudps.bantulkab.go.id/hal/info-bed"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm"
-          >
-            Info Kamar / Bed RS
-          </a>
+            <NavLink
+              to="/layanan/publik/kesehatan/status-pasien"
+              className={({ isActive }) =>
+                isActive
+                  ? "px-6 py-2.5 rounded-lg bg-emerald-100 text-sm shadow-md text-slate-800 min-w-[160px] text-center"
+                  : "px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm text-slate-700 min-w-[160px] text-center"
+              }
+            >
+              Status Pasien
+            </NavLink>
 
-          <NavLink
-            to="/layanan/publik/kesehatan/cari-dokter"
-            className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm"
-          >
-            Cari Dokter
-          </NavLink>
+            <a
+              href="https://rsudps.bantulkab.go.id/hal/info-bed"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm text-slate-700 min-w-[160px] text-center"
+            >
+              Info Kamar / Bed RS
+            </a>
+
+            <NavLink
+              to="/layanan/publik/kesehatan/cari-dokter"
+              className={({ isActive }) =>
+                isActive
+                  ? "px-6 py-2.5 rounded-lg bg-emerald-100 text-sm shadow-md text-slate-800 min-w-[160px] text-center"
+                  : "px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm text-slate-700 min-w-[160px] text-center"
+              }
+            >
+              Cari Dokter
+            </NavLink>
+          </div>
         </div>
       </div>
 

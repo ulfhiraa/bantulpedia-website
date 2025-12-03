@@ -1,5 +1,6 @@
 // src/pages/layanan/publik/kesehatan/PendaftaranRSUD.jsx
 import React, { useState, useRef } from "react";
+import { ChevronLeft } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
@@ -96,59 +97,90 @@ export default function PendaftaranRSUD() {
         />
       </header>
 
-      {/* tabs */}
-      <div className="max-w-6xl  mx-auto px-6">
-        <div className="flex gap-15 items-center py-6">
-          <NavLink
-            to="/layanan/publik/kesehatan/pendaftaran-rsud"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-                : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-            }
-          >
-            Pendaftaran Pasien
-          </NavLink>
+      {/* tabs (back button aligned left, tabs centered) */}
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex items-center py-6">
+          {/* left: back button */}
+          <div className="flex-none mr-20">
+            <button
+              type="button"
+              onClick={() => window.history.back()}
+              className="inline-flex items-center justify-center w-9 h-9 text-slate-700 bg-white border border-slate-200 rounded-md hover:bg-slate-50"
+              aria-label="Kembali"
+              title="Kembali"
+            >
+              <ChevronLeft size={16} />
+            </button>
+          </div>
 
-          <NavLink
-            to="/layanan/publik/kesehatan/status-pasien"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-                : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-            }
-          >
-            Status Pasien
-          </NavLink>
+          {/* center: tabs */}
+          <div className="flex-1 flex justify-center">
+            <div className="flex gap-15 items-center">
+              <NavLink
+                to="/layanan/publik/kesehatan/pendaftaran-rsud"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
+                    : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
+                }
+              >
+                Pendaftaran Pasien
+              </NavLink>
 
-          <a
-            href="https://rsudps.bantulkab.go.id/hal/info-bed"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-          >
-            Info Kamar / Bed RS
-          </a>
+              <NavLink
+                to="/layanan/publik/kesehatan/status-pasien"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
+                    : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
+                }
+              >
+                Status Pasien
+              </NavLink>
 
-          <NavLink
-            to="/layanan/publik/kesehatan/cari-dokter"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-                : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-            }
-          >
-            Cari Dokter
-          </NavLink>
+              <a
+                href="https://rsudps.bantulkab.go.id/hal/info-bed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
+              >
+                Info Kamar / Bed RS
+              </a>
+
+              <NavLink
+                to="/layanan/publik/kesehatan/cari-dokter"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
+                    : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
+                }
+              >
+                Cari Dokter
+              </NavLink>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* main rounded container */}
       <main className="max-w-6xl w-full mx-auto px-6 pb-20">
-        <div className="bg-white rounded-xl shadow-none border border-transparent mt-4 overflow-visible">
+        <div className="bg-white rounded-xl shadow-none border border-transparent mt-1 overflow-visible">
+          {/* back button inside card header so it aligns with card content */}
+          {/* <div className="px-6 pt-4">
+            <button
+              type="button"
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 text-sm text-slate-700 bg-white border border-slate-200 px-3 py-1.5 rounded-md hover:bg-slate-50"
+              aria-label="Kembali"
+            >
+              <ChevronLeft size={16} />
+              Kembali
+            </button>
+          </div> */}
+
           {/* heading */}
           {/* thin separator */}
           <div className="border-t border-slate-200" />
