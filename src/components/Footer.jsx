@@ -15,7 +15,7 @@ import icMail from "../assets/icon-mail.png";
 export default function Footer() {
   return (
     <footer className="bg-[#041D0F] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-6 py-10">
 
         {/* grid: pastikan semua kolom align ke atas */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -30,10 +30,6 @@ export default function Footer() {
               <div className="w-38 h-16 rounded-lg flex items-center justify-center p-2 shrink-0">
                 <img src={logo} alt="Bantulpedia" className="w-full h-full object-contain" />
               </div>
-
-              {/* <div className="mt-3">
-                <div className="text-lg font-bold text-emerald-600 leading-none">BantulPedia</div>
-              </div> */}
             </div>
 
             {/* Description & social */}
@@ -48,27 +44,27 @@ export default function Footer() {
                 </h4>
 
                 <div className="flex items-center gap-4">
-                  <a href="https://www.bantulkab.go.id/" aria-label="Website" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition">
+                  <a href="https://www.bantulkab.go.id/" aria-label="Website" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white/30 transition">
                     <img src={icWeb} alt="web" className="w-12 h-12 object-contain" />
                   </a>
 
-                  <a href="https://www.facebook.com/pemkabbantul/" aria-label="Facebook" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition">
+                  <a href="https://www.facebook.com/pemkabbantul/" aria-label="Facebook" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white/30 transition">
                     <img src={icFb} alt="facebook" className="w-12 h-12 object-contain" />
                   </a>
 
-                  <a href="https://www.tiktok.com/@pemkabbantul" aria-label="TikTok" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition">
+                  <a href="https://www.tiktok.com/@pemkabbantul" aria-label="TikTok" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white/30 transition">
                     <img src={icTiktok} alt="tiktok" className="w-10 h-12 object-contain" />
                   </a>
 
-                  <a href="https://x.com/pemkabbantul" aria-label="X" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition">
+                  <a href="https://x.com/pemkabbantul" aria-label="X" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white/30 transition">
                     <img src={icX} alt="x" className="w-10 h-12 object-contain" />
                   </a>
 
-                  <a href="https://www.instagram.com/pemkabbantul/" aria-label="Instagram" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition">
+                  <a href="https://www.instagram.com/pemkabbantul/" aria-label="Instagram" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white/30 transition">
                     <img src={icIg} alt="instagram" className="w-9 h-12 object-contain" />
                   </a>
 
-                  <a href="https://www.youtube.com/c/BantulTV" aria-label="YouTube" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition">
+                  <a href="https://www.youtube.com/c/BantulTV" aria-label="YouTube" className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white/30 transition">
                     <img src={icYt} alt="youtube" className="w-12 h-12 object-contain" />
                   </a>
                 </div>
@@ -82,7 +78,7 @@ export default function Footer() {
 
             <div className="space-y-6 text-slate-200">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-white/50 rounded-lg flex items-center justify-center shrink-0">
                   <img src={icPin} alt="alamat" className="w-12 h-12 object-contain" />
                 </div>
                 <p className="leading-tight">
@@ -92,14 +88,14 @@ export default function Footer() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-white/50 rounded-lg flex items-center justify-center shrink-0">
                   <img src={icPhone} alt="telepon" className="w-9 h-12 object-contain" />
                 </div>
                 <p>(0274) 367509</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-white/50 rounded-lg flex items-center justify-center shrink-0">
                   <img src={icMail} alt="email" className="w-12 h-12 object-contain" />
                 </div>
                 <p>diskominfo@bantulkab.go.id</p>
