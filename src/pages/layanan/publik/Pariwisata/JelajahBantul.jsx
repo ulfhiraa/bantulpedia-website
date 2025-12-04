@@ -67,10 +67,14 @@ export default function JelajahBantulPage() {
       <Navbar />
 
       {/* Hero */}
-      <div
-        className="w-full h-80 bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${heroBg})` }}
+              />
+              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+            </div>
+      
 
       {/* MAIN: sidebar + panel kanan */}
       <main className="w-full px-10 py-10 flex gap-8 flex-1 overflow-hidden">
