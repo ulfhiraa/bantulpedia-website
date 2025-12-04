@@ -371,7 +371,7 @@ const SERVICES = [
         id: "jelajah-bantul",
         title: "Jelajah Bantul",
         desc: "Detail lokasi, gmaps, deskripsi singkat dan kategori wisata.",
-        url: "/layanan/publik/pariwisata/jelajah-bantul",
+        route: "/layanan/publik/Pariwisata/jelajah-bantul",
         icon: "/src/assets/JelajahBantul.png",
         children: [
           { id: "destinasi-wisata", title: "Destinasi Wisata", desc: "Desa Wisata, Wisata Buatan, Wisata Alam" },
