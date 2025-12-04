@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import SemuaLayanan from "./pages/layanan/SemuaLayanan.jsx";
 import AdministrasiIndex from "./pages/layanan/administrasi";
 import InformasiIndex from "./pages/layanan/informasi/informasi";
 import PublikIndex from "./pages/layanan/publik";
@@ -28,8 +29,9 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/layanan/semua-layanan" element={<SemuaLayanan/>} />
       <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
-      <Route path="/layanan/informasi" element={<InformasiIndex />} />
+      <Route path="/layanan/informasi/*" element={<InformasiIndex />} />
       <Route path="/layanan/publik" element={<PublikIndex />} />
       <Route path="/tentang" element={<Tentang />} />
       <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
