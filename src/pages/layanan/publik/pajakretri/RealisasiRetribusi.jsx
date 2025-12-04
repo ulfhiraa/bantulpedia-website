@@ -293,10 +293,15 @@ export default function RealisasiRetribusi() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
-      <div
-        className="h-40 md:h-56 bg-cover bg-center rounded-b-lg"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+              {/* layer foto */}
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${heroBg})` }}
+              />
+              {/* layer hijau transparan */}
+              <div className="absolute inset-0 bg-emerald-900/60  mix-blend-multiply" />
+            </div>
 
       <main className="container mx-auto px-6 lg:px-12 py-10">
         {/* back button outside the card */}
