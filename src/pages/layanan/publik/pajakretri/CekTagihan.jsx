@@ -17,7 +17,7 @@ const OPTIONS = [
 ];
 
 export default function CekTagihan() {
-  const [selectedOption, setSelectedOption] = useState("Tagihan Limbah");
+  const [selectedOption, setSelectedOption] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [idPelanggan, setIdPelanggan] = useState("");
   const [error, setError] = useState("");
@@ -51,6 +51,11 @@ export default function CekTagihan() {
       return;
     }
 
+    if (!selectedOption) {
+      setError("Pilih jenis tagihan terlebih dahulu.");
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -68,23 +73,28 @@ export default function CekTagihan() {
     setIdPelanggan("");
     setError("");
     setResult(null);
+    setSelectedOption("");
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      {/* Banner */}
-      <div
-        className="h-40 md:h-56 bg-cover bg-center rounded-b-lg"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      {/* Banner dengan overlay hijau transparan */}
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+        {/* layer foto */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        {/* layer hijau transparan */}
+        <div className="absolute inset-0 bg-emerald-900/60  mix-blend-multiply" />
+      </div>
 
       {/* Main Content */}
       <main className="container mx-auto px-6 lg:px-24 py-8">
-        {/* Header with Back button on left and centered title */}
+        {/* Header */}
         <div className="mb-6 flex items-center justify-between">
-          {/* Left: back button */}
           <div className="flex items-center">
             <button
               onClick={() => window.history.back()}
@@ -95,7 +105,6 @@ export default function CekTagihan() {
             </button>
           </div>
 
-          {/* Center: title */}
           <div className="flex-1">
             <h3 className="text-2xl font-semibold text-emerald-700 text-center">
               Pengecekan Tagihan
@@ -105,7 +114,6 @@ export default function CekTagihan() {
             </p>
           </div>
 
-          {/* Right: empty space to keep title centered */}
           <div style={{ width: 40 }} />
         </div>
 
@@ -115,9 +123,7 @@ export default function CekTagihan() {
           style={{ backgroundColor: "#eef8f2" }}
         >
           <div className="px-8 py-10">
-            {/* FORM */}
             <form onSubmit={handleSearch}>
-              {/* ROW INPUT + DROPDOWN */}
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                 {/* INPUT KIRI */}
                 <div className="md:col-span-8">
@@ -145,11 +151,18 @@ export default function CekTagihan() {
                     className="inline-flex items-center justify-between bg-white border border-slate-300 px-6 py-3 rounded-full shadow-sm min-w-[260px] hover:shadow-md transition text-sm"
                     aria-expanded={dropdownOpen}
                   >
-                    <span className="text-slate-700">{selectedOption}</span>
+                    <span
+                      className={
+                        selectedOption
+                          ? "text-slate-700"
+                          : "text-slate-400 italic"
+                      }
+                    >
+                      {selectedOption || "Pilih tagihan"}
+                    </span>
                     <ChevronDown size={18} className="text-slate-500" />
                   </button>
 
-                  {/* LIST DROPDOWN */}
                   {dropdownOpen && (
                     <div className="absolute right-0 mt-2 bg-white w-60 rounded-xl shadow-lg border border-slate-200 z-20">
                       {OPTIONS.map((item, index) => (
@@ -174,7 +187,6 @@ export default function CekTagihan() {
                 </div>
               </div>
 
-              {/* GARIS TIPIS */}
               <div className="mt-8 border-t border-slate-300" />
 
               {/* BUTTON CARI + RESET */}

@@ -10,15 +10,17 @@ const CATEGORIES = ["Info Kuota", "Info Tagihan", "Cek Kendaraan"];
 export default function SipentolCheck() {
   const [date, setDate] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [category, setCategory] = useState(CATEGORIES[0]); // default Info Kuota
+
+  // 🔹 default kosong, bukan Info Kuota
+  const [category, setCategory] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState(null);
-  const [extraInput, setExtraInput] = useState(""); // kode tagihan atau plat
+  const [extraInput, setExtraInput] = useState("");
   const [error, setError] = useState("");
   const ddRef = useRef(null);
   const dateRef = useRef(null);
 
-  // hide native date icon to avoid double icon
   const injectedCSS = `
     input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
     input[type="date"] { -webkit-appearance: none; appearance: none; -moz-appearance: textfield; }
@@ -33,11 +35,9 @@ export default function SipentolCheck() {
     return () => window.removeEventListener("mousedown", onDoc);
   }, []);
 
-  // keep date when user switches category (so returning to Info Kuota keeps selection)
   useEffect(() => {
     setError("");
     setResultMessage(null);
-    // clear only extraInput when switching
     setExtraInput("");
   }, [category]);
 
@@ -45,14 +45,21 @@ export default function SipentolCheck() {
     const el = dateRef.current;
     if (!el) return;
     if (typeof el.showPicker === "function") {
-      try { el.showPicker(); return; } catch {}
+      try {
+        el.showPicker();
+        return;
+      } catch {}
     }
     el.focus();
-    try { el.click(); } catch {}
+    try {
+      el.click();
+    } catch {}
   };
 
-  // validation depending on category
   const validateForm = () => {
+    // 🔹 wajib pilih kategori dulu
+    if (!category) return "Pilih kategori layanan terlebih dahulu.";
+
     if (category === "Info Kuota") {
       if (!date) return "Silakan pilih tanggal untuk cek kuota.";
     } else if (category === "Info Tagihan") {
@@ -62,7 +69,8 @@ export default function SipentolCheck() {
     } else if (category === "Cek Kendaraan") {
       const v = (extraInput || "").trim();
       if (!v) return "Masukkan plat nomor kendaraan.";
-      if (!/^[A-Za-z]{1,4}\s?\d{1,4}([A-Za-z]{1,3})?$/.test(v)) return "Format plat nomor kemungkinan tidak valid.";
+      if (!/^[A-Za-z]{1,4}\s?\d{1,4}([A-Za-z]{1,3})?$/.test(v))
+        return "Format plat nomor kemungkinan tidak valid.";
     }
     return null;
   };
@@ -82,18 +90,27 @@ export default function SipentolCheck() {
     setTimeout(() => {
       setLoading(false);
       if (category === "Info Kuota") {
-        setResultMessage({ type: "success", text: `Kuota untuk tanggal ${date} tersedia. (contoh)` });
+        setResultMessage({
+          type: "success",
+          text: `Kuota untuk tanggal ${date} tersedia. (contoh)`,
+        });
       } else if (category === "Info Tagihan") {
-        setResultMessage({ type: "success", text: `Hasil Info Tagihan untuk kode "${extraInput.trim()}": Tagihan Rp 250.000 (contoh).` });
+        setResultMessage({
+          type: "success",
+          text: `Hasil Info Tagihan untuk kode "${extraInput.trim()}": Tagihan Rp 250.000 (contoh).`,
+        });
       } else {
-        setResultMessage({ type: "success", text: `Cek Kendaraan: Plat "${extraInput.trim().toUpperCase()}" terdaftar. (contoh)` });
+        setResultMessage({
+          type: "success",
+          text: `Cek Kendaraan: Plat "${extraInput.trim().toUpperCase()}" terdaftar. (contoh)`,
+        });
       }
     }, 800);
   };
 
   const handleReset = () => {
     setDate("");
-    setCategory(CATEGORIES[0]);
+    setCategory(""); // 🔹 reset ke "pilih kategori"
     setExtraInput("");
     setResultMessage(null);
     setError("");
@@ -103,21 +120,31 @@ export default function SipentolCheck() {
   const panelTitle = () => {
     if (category === "Info Tagihan") return "Pengecekan Tagihan";
     if (category === "Cek Kendaraan") return "Cek Kendaraan";
-    return "Pengecekan Kuota Pelayanan Sipentol";
+    if (category === "Info Kuota") return "Pengecekan Kuota Pelayanan Sipentol";
+    // default saat belum pilih
+    return "Layanan Sipentol";
   };
 
   const leftLabel = () => {
     if (category === "Info Kuota") return "Pilih Tanggal";
     if (category === "Info Tagihan") return "Masukkan Kode";
     if (category === "Cek Kendaraan") return "Masukkan Plat Nomor";
-    return "";
+    return "Masukkan data"; // default
   };
 
   const middlePlaceholder = () => {
     if (category === "Info Kuota") return "dd/mm/yyyy";
     if (category === "Info Tagihan") return "xxxxx/xxx/xx/xx/xxxx";
     if (category === "Cek Kendaraan") return "AB 1234 CD";
-    return "";
+    return ""; // default
+  };
+
+  const searchButtonLabel = () => {
+    if (!category) return "Cari";
+    if (category === "Info Kuota") return "Cari Kuota";
+    if (category === "Info Tagihan") return "Cek Tagihan";
+    if (category === "Cek Kendaraan") return "Cek Kendaraan";
+    return "Cari";
   };
 
   return (
@@ -125,14 +152,16 @@ export default function SipentolCheck() {
       <style>{injectedCSS}</style>
       <Navbar />
 
-      {/* banner */}
-      <div
-        className="h-40 md:h-56 bg-cover bg-center rounded-b-lg"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      {/* banner dengan overlay hijau */}
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+      </div>
 
       <main className="container mx-auto px-6 lg:px-24 py-10">
-        {/* back button outside the card */}
         <div className="mb-4">
           <button
             type="button"
@@ -143,21 +172,23 @@ export default function SipentolCheck() {
             Kembali
           </button>
         </div>
-        
+
         <div className="rounded-lg border border-slate-200 p-6">
-          <h2 className="text-center text-xl md:text-2xl font-semibold mb-4">{panelTitle()}</h2>
+          <h2 className="text-center text-xl md:text-2xl font-semibold mb-4">
+            {panelTitle()}
+          </h2>
 
           <div className="bg-white rounded-md shadow-sm border border-slate-200 p-6">
             <form onSubmit={handleSearch}>
-              {/* single row: left label (3) | middle input (5) | right dropdown (4) */}
-              {/* NOTE: changed items-start -> items-center so label aligns vertically */}
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                {/* left label: make this a flex container so label text centers vertically */}
+                {/* label kiri */}
                 <div className="md:col-span-3 flex items-center">
-                  <label className="block text-sm font-medium text-slate-700 mb-0">{leftLabel()}</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-0">
+                    {leftLabel()}
+                  </label>
                 </div>
 
-                {/* middle input: date or text */}
+                {/* input tengah */}
                 <div className="md:col-span-5">
                   {category === "Info Kuota" ? (
                     <div className="relative">
@@ -187,14 +218,14 @@ export default function SipentolCheck() {
                       placeholder={middlePlaceholder()}
                       className="w-full h-12 border border-slate-200 rounded-full px-4 text-sm focus:outline-none"
                       aria-label={leftLabel()}
+                      disabled={!category} // 🔹 disable sampai kategori dipilih
                     />
                   )}
                 </div>
 
-                {/* right dropdown */}
+                {/* dropdown kanan */}
                 <div className="md:col-span-4 flex items-center justify-end" ref={ddRef}>
                   <div className="w-full max-w-xs">
-                    <label className="block text-sm font-medium text-slate-700 mb-0 text-right"></label>
                     <div className="relative">
                       <button
                         type="button"
@@ -203,7 +234,15 @@ export default function SipentolCheck() {
                         aria-haspopup="listbox"
                         aria-expanded={dropdownOpen}
                       >
-                        <span className="text-sm text-slate-800">{category}</span>
+                        <span
+                          className={
+                            category
+                              ? "text-sm text-slate-800"
+                              : "text-sm text-slate-400 italic"
+                          }
+                        >
+                          {category || "Pilih kategori"}
+                        </span>
                         <ChevronDown size={18} className="text-slate-500" />
                       </button>
 
@@ -218,7 +257,11 @@ export default function SipentolCheck() {
                                 setDropdownOpen(false);
                                 setError("");
                               }}
-                              className={`w-full text-left px-4 py-2 text-sm ${c === category ? "bg-emerald-50 text-emerald-700 font-medium" : "text-slate-700 hover:bg-slate-50"}`}
+                              className={`w-full text-left px-4 py-2 text-sm ${
+                                c === category
+                                  ? "bg-emerald-50 text-emerald-700 font-medium"
+                                  : "text-slate-700 hover:bg-slate-50"
+                              }`}
                             >
                               {c}
                             </button>
@@ -238,7 +281,7 @@ export default function SipentolCheck() {
                   className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition"
                 >
                   <Search size={16} />
-                  {category === "Info Kuota" ? "Cari Kuota" : category === "Info Tagihan" ? "Cek Tagihan" : "Cek Kendaraan"}
+                  {searchButtonLabel()}
                 </button>
 
                 <button
@@ -249,15 +292,17 @@ export default function SipentolCheck() {
                   <RefreshCw size={16} />
                   Reset
                 </button>
-
-                <div className="flex-1" />
               </div>
 
-              {error && <div className="mt-4 text-sm text-red-600">{error}</div>}
+              {error && (
+                <div className="mt-4 text-sm text-red-600">{error}</div>
+              )}
 
               <div className="mt-6">
                 {loading && (
-                  <div className="p-4 border border-slate-200 rounded bg-white text-slate-600">Mencari...</div>
+                  <div className="p-4 border border-slate-200 rounded bg-white text-slate-600">
+                    Mencari...
+                  </div>
                 )}
 
                 {!loading && resultMessage && resultMessage.type === "success" && (
@@ -281,3 +326,4 @@ export default function SipentolCheck() {
     </div>
   );
 }
+ 
