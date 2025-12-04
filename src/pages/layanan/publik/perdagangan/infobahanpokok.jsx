@@ -104,10 +104,14 @@ export default function InfoBahanPokok() {
       <Navbar />
 
       {/* hero/banner */}
-      <div
-        className="h-44 md:h-56 bg-cover bg-center rounded-b-lg"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      <div className="h-40 md:h-65 relative rounded-b-lg overflow-hidden">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${heroBg})` }}
+              />
+              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+            </div>
+      
 
       <main className="container mx-auto px-6 lg:px-12 py-10">
         {/* back button above title */}
