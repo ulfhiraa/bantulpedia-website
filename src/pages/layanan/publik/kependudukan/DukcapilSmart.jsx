@@ -115,10 +115,14 @@ export default function DukcapilSmart() {
 
       {/* HERO */}
       <header className="relative w-full h-36 md:h-44 lg:h-52">
-        <div
-          className="absolute inset-0 bg-cover bg-center brightness-[0.55]"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
+        <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${heroBg})` }}
+                />
+                <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+              </div>
+        
       </header>
 
       {/* MAIN */}
