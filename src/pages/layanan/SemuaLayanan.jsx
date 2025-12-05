@@ -161,8 +161,8 @@ export default function SemuaLayanan() {
       <Wrapper
         {...props}
         className="group flex flex-col items-center gap-2 p-4 rounded-xl
-        bg-white/25 backdrop-blur-xl border border-white/40 shadow-lg
-        hover:bg-white/35 hover:scale-[1.05] transition text-center text-white w-full max-w-[170px]"
+        bg-white/35 backdrop-blur-xl border border-white/40 shadow-lg
+        hover:bg-white/45 hover:scale-[1.05] transition text-center text-white w-full max-w-[170px]"
       >
         <div className="w-16 h-16 flex items-center justify-center">
           <img src={item.icon} alt={item.title} className="w-18 h-13 object-contain" />
@@ -185,7 +185,7 @@ export default function SemuaLayanan() {
         <div className="relative">
           {/* layer background: 2 foto digabung */}
           <div
-            className="absolute inset-0 -z-20 blur-[2px] brightness-95"
+            className="absolute inset-0 -z-20 blur-[2px] brightness-125"
             style={{
               backgroundImage: `url(${bgAtas}), url(${bgBawah})`,
               backgroundSize: "100% 50%, 100% 50%",      // atas 1/2, bawah 1/2
