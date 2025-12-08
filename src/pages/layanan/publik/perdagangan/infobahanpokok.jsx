@@ -15,6 +15,86 @@ const CATEGORIES = [
   "Buah-Buahan",
 ];
 
+const PRODUCT_ICONS = {
+  // BAHAN POKOK / BERAS
+  [normalizeKey("Beras Premium")]: "🍚",
+  [normalizeKey("Beras Medium")]: "🍚",
+  [normalizeKey("Beras Bulog")]: "🍚",
+
+  // GULA & GARAPO
+  [normalizeKey("Gula Pasir Curah")]: "🍬",
+  [normalizeKey("Garam Yodium Bata")]: "🧂",
+  [normalizeKey("Garam Yodium Halus")]: "🧂",
+
+  // MINYAK GORENG
+  [normalizeKey("Minyak Goreng Kemasan Premium")]: "🛢️",
+  [normalizeKey("Minyak goreng sederhana/minyakkita")]: "🛢️",
+  [normalizeKey("Minyak goreng curah")]: "🛢️",
+
+  // TEPUNG / MIE
+  [normalizeKey("Terigu Segitiga Biru")]: "🥖",
+  [normalizeKey("Mie Instan Rebus Setara Indomie")]: "🍜",
+
+  // DAGING SAPI & AYAM
+  [normalizeKey("Daging Sapi Kualitas 1")]: "🥩",
+  [normalizeKey("Daging Sapi Kualitas 2")]: "🥩",
+  [normalizeKey("Ayam Ras/Boiler")]: "🍗",
+  [normalizeKey("Daging Ayam Kampung")]: "🐓",
+
+  // TELUR
+  [normalizeKey("Telur Ayam Negeri")]: "🥚",
+  [normalizeKey("Telur Ayam Kampung")]: "🥚",
+
+  // CABAI
+  [normalizeKey("Cabe Merah Keriting")]: "🌶️",
+  [normalizeKey("Cabe Merah Besar")]: "🌶️",
+  [normalizeKey("Cabe Rawit Merah")]: "🌶️",
+  [normalizeKey("Cabe Rawit Hijau")]: "🌶️",
+
+  // BAWANG
+  [normalizeKey("Bawang Merah")]: "🧅",
+  [normalizeKey("Bawang Putih Honan (Sinco)")]: "🧄",
+  [normalizeKey("Bawang Putih Kating")]: "🧄",
+  [normalizeKey("Bawang Bombay")]: "🧅",
+
+  // SUSU & OLAHAN
+  [normalizeKey("Susu bubuk Setara Dancow Rasa Vanila")]: "🥛",
+  [normalizeKey("Susu Kental Manis Bendera")]: "🥛",
+  [normalizeKey("Susu Kental Manis Indomilk")]: "🥛",
+
+  // KACANG-KACANGAN
+  [normalizeKey("kacang kedelai Impor")]: "🫘",
+  [normalizeKey("Kacang Kedelai Lokal")]: "🫘",
+  [normalizeKey("Kacang Tanah")]: "🥜",
+  [normalizeKey("Kacang Hijau")]: "🫘",
+
+  // IKAN & HASIL LAUT
+  [normalizeKey("Ikan Asin Teri")]: "🐟",
+  [normalizeKey("Ikan Kembung")]: "🐠",
+  [normalizeKey("Udang ukuran sedang")]: "🦐",
+
+  // UMBI & BIJI
+  [normalizeKey("Ketela Pohon")]: "🍠",
+  [normalizeKey("Jagung Pipil Kering")]: "🌽",
+
+  // SAYURAN
+  [normalizeKey("Tomat")]: "🍅",
+  [normalizeKey("Kol/Kobis")]: "🥬",
+  [normalizeKey("Sawi Hijau")]: "🥬",
+  [normalizeKey("Kentang")]: "🥔",
+  
+  // PROTEIN NABATI
+  [normalizeKey("Tempe")]: "🍱",
+  [normalizeKey("Tahu mentah putih")]: "🧈",
+
+  // BUAH
+  [normalizeKey("Pisang Ambon")]: "🍌",
+  [normalizeKey("Jeruk lokal")]: "🍊",
+};
+
+// Fallback jika nama tidak ditemukan
+const DEFAULT_ICON = "🛒";
+
 // daftar pasar (ID harus sama dengan marketId di JSON)
 const MARKETS = [
   {
@@ -47,6 +127,14 @@ const MARKETS = [
 function formatIDR(n) {
   if (n == null) return "-";
   return "Rp " + Number(n).toLocaleString("id-ID");
+}
+
+function normalizeKey(str = "") {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "_")  // semua selain huruf/angka jadi "_"
+    .replace(/^_+|_+$/g, "");     // hapus "_" di awal/akhir
 }
 
 export default function InfoBahanPokok() {
@@ -252,9 +340,11 @@ export default function InfoBahanPokok() {
                       idx % 2 === 0 ? "bg-white" : "bg-slate-50"
                     } hover:shadow-md`}
                 >
-                  {/* image placeholder (bisa dihubungkan dengan asset kalau mau) */}
+                  {/* icon produk */}
                   <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-slate-50 flex items-center justify-center">
-                    <div className="text-2xl">🥕</div>
+                    <div className="text-2xl">
+                      {PRODUCT_ICONS[normalizeKey(item.productName)] || DEFAULT_ICON}
+                    </div>
                   </div>
 
                   {/* main info */}
@@ -353,7 +443,7 @@ function StatusBadge({ status }) {
               polylines[status] || polylines["Stabil"]
             } L18 11 Z`}
             fill={`url(#${gid})`}
-            fillOpacity="0.30"
+            fillOpacity="0.8"
           />
           <polyline
             points={polylines[status] || polylines["Stabil"]}
