@@ -1,7 +1,7 @@
-// src/api/layanan/informasi/ILM.js
+// src/api/layanan/publik/agendaOPD.js
 import axios from "axios";
 
-const URL = "https://mock.apidog.com/m1/1132338-1124338-default/ILM";
+const URL = "https://mock.apidog.com/m1/1132338-1124338-default/AgendaOPD";
 
 export const getILM = async () => {
   const res = await axios.get(URL);
@@ -9,7 +9,7 @@ export const getILM = async () => {
   if (Array.isArray(res.data)) return res.data;
 
   if (res.data?.data && Array.isArray(res.data.data)) {
-    return res.data.data;
+    return res.data.data; 
   }
 
   return [];

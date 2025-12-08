@@ -1,10 +1,13 @@
 // src/pages/layanan/pemerintahan/AgendaPerangkatDaerah.jsx
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, ArrowLeft } from "lucide-react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
+
+// 🔗 IMPORT API AGENDA OPD
+import { getILM } from "../../../../api/layanan/publik/agendaOPD";
 
 export default function AgendaPerangkatDaerah() {
   const [search, setSearch] = useState("");
@@ -12,28 +15,13 @@ export default function AgendaPerangkatDaerah() {
   const dateRef = useRef(null);
   const navigate = useNavigate();
 
-  // sample data with ISO date field for filtering
-  const dataDummy = [
-    {
-      id: 1,
-      jam: "08:30 - 09:30",
-      dateLabel: "16–21 November 2025",
-      dateISO: "2025-11-16",
-      opd: "Rumah Sakit Umum Daerah Panembahan Senopati",
-      lokasi: "Lapangan Paseban Bantul",
-      kegiatan: "Pemeriksaan Dora… (isi seperti contoh kamu)"
-    },
-    {
-      id: 2,
-      jam: "07:00 - 09:00",
-      dateLabel: "17–21 November 2025",
-      dateISO: "2025-11-17",
-      opd: "Badan Perencanaan Pembangunan Daerah",
-      lokasi: "Ruang Assessment Center BKPSDM",
-      kegiatan: "Profiling ASN dalam rangka mendukung percepatan..."
-    },
-    // tambah data sesuai kebutuhan
-  ];
+  // state untuk data dari API
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // sample data (optional, bisa kamu hapus kalau sudah yakin API OK)
+  // const dataDummy = [ ... ];
 
   // hide native date icon (component-scoped)
   const injectedCSS = `
@@ -54,19 +42,52 @@ export default function AgendaPerangkatDaerah() {
       } catch (err) {}
     }
     el.focus();
-    try { el.click(); } catch (e) {}
+    try {
+      el.click();
+    } catch (e) {}
   };
+
+  // 🔄 AMBIL DATA DARI API SAAT PERTAMA KALI HALAMAN DIBUKA
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await getILM();
+
+        const formatted = data.map(item => ({
+          id: item.id,
+          jam: `${item.jam_mulai} - ${item.jam_selesai}`,     // 🟢 jam tampil
+          opd: item.perangkat_daerah,                        // 🟢 perangkat daerah tertampil
+          lokasi: item.lokasi,
+          kegiatan: item.kegiatan,                           // 🟢 kegiatan tampil
+          dateISO: item.tanggal_mulai,                       // filter tanggal tetap bekerja
+          dateLabel: `${item.tanggal_mulai} → ${item.tanggal_selesai}` // tampil tanggal range
+        }));
+
+        setRows(formatted);
+      } catch {
+        setError("Gagal memuat data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // filtered data based on search and date
   const filtered = useMemo(() => {
     const q = (search || "").trim().toLowerCase();
-    return dataDummy.filter((r) => {
+
+    return rows.filter((r) => {
       // date filter
       if (date) {
         if (!r.dateISO) return false;
         if (r.dateISO !== date) return false;
       }
+
       if (!q) return true;
+
       // match opd / lokasi / kegiatan
       return (
         (r.opd || "").toLowerCase().includes(q) ||
@@ -74,7 +95,7 @@ export default function AgendaPerangkatDaerah() {
         (r.kegiatan || "").toLowerCase().includes(q)
       );
     });
-  }, [search, date]);
+  }, [rows, search, date]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -90,26 +111,24 @@ export default function AgendaPerangkatDaerah() {
       </header>
 
       <main className="mx-auto w-full px-4 md:px-6 mt-10 pb-20">
-        
         {/* Back button + Title */}
         <div className="relative mb-6 flex items-center justify-center">
-        
-        {/* Panah kiri di ujung kiri */}
-        <button
+          {/* Panah kiri di ujung kiri */}
+          <button
             onClick={() => navigate(-1)}
             className="absolute left-0 p-2 rounded-md hover:bg-slate-100 active:scale-95 transition"
-        >
+          >
             <ArrowLeft size={20} className="text-slate-700" />
-        </button>
+          </button>
 
-        {/* Judul tetap center */}
-        <h1 className="text-md font-semibold text-slate-900">
+          {/* Judul tetap center */}
+          <h1 className="text-md font-semibold text-slate-900">
             Agenda Perangkat Daerah
-        </h1>
+          </h1>
         </div>
 
         {/* blue outline box - centered and md sized */}
-        <div className="w-full rounded-xl border-2  p-5 bg-white">
+        <div className="w-full rounded-xl border-2 p-5 bg-white">
           {/* search + date */}
           <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
             <input
@@ -158,26 +177,60 @@ export default function AgendaPerangkatDaerah() {
               </thead>
 
               <tbody>
-                {filtered.length === 0 ? (
+                {loading ? (
                   <tr>
-                    <td colSpan={4} className="py-8 text-center text-slate-500">
+                    <td
+                      colSpan={4}
+                      className="py-8 text-center text-slate-500 text-sm"
+                    >
+                      Memuat data agenda...
+                    </td>
+                  </tr>
+                ) : error ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="py-8 text-center text-red-500 text-sm"
+                    >
+                      {error}
+                    </td>
+                  </tr>
+                ) : filtered.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="py-8 text-center text-slate-500"
+                    >
                       Tidak ada agenda.
                     </td>
                   </tr>
                 ) : (
                   filtered.map((r) => (
-                    <tr key={r.id} className="align-top border-b border-slate-200">
+                    <tr
+                      key={r.id}
+                      className="align-top border-b border-slate-200"
+                    >
                       {/* jam with dateLabel under it */}
                       <td className="py-4 pl-2 align-top text-sm whitespace-normal break-words">
                         <div className="font-medium">{r.jam}</div>
-                        {r.dateLabel && <div className="text-xs text-slate-500 mt-2">{r.dateLabel}</div>}
+                        {r.dateLabel && (
+                          <div className="text-xs text-slate-500 mt-2">
+                            {r.dateLabel}
+                          </div>
+                        )}
                       </td>
 
-                      <td className="py-4 text-sm whitespace-normal break-words">{r.opd}</td>
+                      <td className="py-4 text-sm whitespace-normal break-words">
+                        {r.opd}
+                      </td>
 
-                      <td className="py-4 text-sm whitespace-normal break-words">{r.lokasi}</td>
+                      <td className="py-4 text-sm whitespace-normal break-words">
+                        {r.lokasi}
+                      </td>
 
-                      <td className="py-4 pr-2 text-sm whitespace-normal break-words">{r.kegiatan}</td>
+                      <td className="py-4 pr-2 text-sm whitespace-normal break-words">
+                        {r.kegiatan}
+                      </td>
                     </tr>
                   ))
                 )}

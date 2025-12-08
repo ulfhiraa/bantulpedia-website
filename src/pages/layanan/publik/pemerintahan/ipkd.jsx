@@ -5,6 +5,9 @@ import Footer from "../../../../components/Footer";
 import { Calendar, ChevronDown, ArrowLeft } from "lucide-react";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
+// 🔗 API IPKD (Apidog)
+import { getIPKD } from "../../../../api/layanan/publik/ipkd";
+
 export default function Ipkd() {
   const [kategori, setKategori] = useState("");
   const [tahun, setTahun] = useState("");
@@ -13,6 +16,11 @@ export default function Ipkd() {
   const [tahunPopupOpen, setTahunPopupOpen] = useState(false);
   const [popupPos, setPopupPos] = useState({ top: 0, left: 0, width: 0 });
 
+  // data dari API
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   // Options kategori
   const kategoriOptions = [
     { key: "perencanaan", label: "Perencanaan" },
@@ -20,32 +28,84 @@ export default function Ipkd() {
     { key: "pelaporan", label: "Pelaporan" },
   ];
 
-  // Dummy data
-  const data = [
-    { id: 1, nama: "RKPD Kabupaten Bantul 2025", kategoriKey: "perencanaan", kategoriLabel: "RKPD", tahun: 2025, tanggal: "5 Juli 2024" },
-    { id: 2, nama: "APBD Kabupaten Bantul 2024", kategoriKey: "keuangan", kategoriLabel: "APBD", tahun: 2024, tanggal: "10 Maret 2024" },
-    { id: 3, nama: "Laporan Keuangan SAKIP 2023", kategoriKey: "pelaporan", kategoriLabel: "SAKIP", tahun: 2023, tanggal: "20 Desember 2023" },
-    { id: 4, nama: "Rencana Strategis 2022-2026", kategoriKey: "perencanaan", kategoriLabel: "Rencana Strategis", tahun: 2022, tanggal: "1 Februari 2022" },
-    { id: 5, nama: "LPJ Kegiatan Tahun 2025", kategoriKey: "pelaporan", kategoriLabel: "LPJ", tahun: 2025, tanggal: "12 Agustus 2025" },
-    { id: 6, nama: "Laporan Realisasi APBD 2024", kategoriKey: "keuangan", kategoriLabel: "Realisasi APBD", tahun: 2024, tanggal: "30 November 2024" },
-    { id: 7, nama: "Dokumen Perencanaan KSP 2025", kategoriKey: "perencanaan", kategoriLabel: "Perencanaan Strategis", tahun: 2025, tanggal: "19 Juni 2024" },
-    { id: 8, nama: "Evaluasi Kinerja 2023", kategoriKey: "pelaporan", kategoriLabel: "Evaluasi", tahun: 2023, tanggal: "7 September 2023" },
-    { id: 9, nama: "Panduan Pengelolaan Keuangan 2022", kategoriKey: "keuangan", kategoriLabel: "Panduan Keuangan", tahun: 2022, tanggal: "2 April 2022" },
-    { id: 10, nama: "RKPD Kabupaten Bantul 2024 (Revisi)", kategoriKey: "perencanaan", kategoriLabel: "RKPD (Revisi)", tahun: 2024, tanggal: "15 Juni 2024" },
-  ];
+  // 🔄 ambil data dari Apidog sekali saat komponen mount
+  React.useEffect(() => {
+    let ignore = false;
 
+    const fetchData = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const data = await getIPKD();
+        if (ignore) return;
+
+        // mapping JSON API -> struktur yang dipakai tabel
+        const mapped = (data || []).map((item, idx) => {
+          const katText = (item.kategori || "").toLowerCase();
+
+          let kategoriKey = "";
+          if (
+            katText.includes("rencana kerja") ||
+            katText.includes("rkp") ||
+            katText.includes("rpjmd") ||
+            katText.includes("perencana")
+          ) {
+            kategoriKey = "perencanaan";
+          } else if (
+            katText.includes("keuangan") ||
+            katText.includes("lhp") ||
+            katText.includes("laporan keuangan")
+          ) {
+            kategoriKey = "keuangan";
+          } else if (
+            katText.includes("lppd") ||
+            katText.includes("pelaporan") ||
+            katText.includes("laporan penyelenggaraan")
+          ) {
+            kategoriKey = "pelaporan";
+          }
+
+          return {
+            id: idx + 1,
+            nama: item.nama_dokumen,
+            kategoriKey,
+            kategoriLabel: item.kategori,
+            tahun: item.tahun,
+            tanggal: item.tanggal,
+            fileUrl: item.url,
+          };
+        });
+
+        setRows(mapped);
+      } catch (err) {
+        console.error(err);
+        setError("Gagal memuat data IPKD. Silakan coba lagi.");
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    };
+
+    fetchData();
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  // opsi tahun berdasarkan data API
   const tahunOptions = useMemo(() => {
-    const s = new Set(data.map((d) => d.tahun));
+    const s = new Set(rows.map((d) => d.tahun));
     return Array.from(s).sort((a, b) => b - a);
-  }, [data]);
+  }, [rows]);
 
+  // filter berdasarkan kategori & tahun
   const filtered = useMemo(() => {
-    return data.filter((d) => {
+    return rows.filter((d) => {
       const byKategori = kategori ? d.kategoriKey === kategori : true;
       const byTahun = tahun ? String(d.tahun) === String(tahun) : true;
       return byKategori && byTahun;
     });
-  }, [data, kategori, tahun]);
+  }, [rows, kategori, tahun]);
 
   // open popup posisi berdasarkan input bounding rect
   function openTahunPopup() {
@@ -56,7 +116,6 @@ export default function Ipkd() {
     }
     const rect = el.getBoundingClientRect();
     const gap = 8;
-    // position popup slightly below input, but fixed so it is above overlays
     setPopupPos({
       top: rect.bottom + gap,
       left: rect.left,
@@ -81,7 +140,6 @@ export default function Ipkd() {
       const root = document.getElementById("ipkd-tahun-popup");
       if (!root) return;
       if (root.contains(e.target)) return;
-      // also allow clicks on input or calendar button
       const inp = inputTahunRef.current;
       if (inp && inp.contains && inp.contains(e.target)) return;
       closeTahunPopup();
@@ -89,6 +147,12 @@ export default function Ipkd() {
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [tahunPopupOpen]);
+
+  // buka file PDF
+  function openFile(url) {
+    if (!url) return;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -115,7 +179,9 @@ export default function Ipkd() {
             </button>
 
             <div>
-              <h1 className="text-lg font-semibold text-center">Indeks Pengelolaan Keuangan Daerah</h1>
+              <h1 className="text-lg font-semibold text-center">
+                Indeks Pengelolaan Keuangan Daerah
+              </h1>
               <div className="text-sm text-gray-500">IPKD</div>
             </div>
           </div>
@@ -146,28 +212,31 @@ export default function Ipkd() {
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium">Tahun</label>
 
-              <div className="relative mt-2">
-                <input
-                  ref={inputTahunRef}
-                  id="tahunInput"
-                  placeholder="Semua Tahun"
-                  value={tahun}
-                  onChange={(e) => setTahun(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg py-3 px-4 text-sm bg-white pr-12"
-                />
+              <div className="flex items-center gap-2 mt-2">
+                {/* Input + icon calendar */}
+                <div className="relative flex-1">
+                  <input
+                    ref={inputTahunRef}
+                    id="tahunInput"
+                    placeholder="Semua Tahun"
+                    value={tahun}
+                    onChange={(e) => setTahun(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg py-3 px-4 text-sm bg-white pr-12"
+                  />
 
-                <button
-                  type="button"
-                  onClick={(ev) => {
-                    ev.stopPropagation(); // avoid wrapper click issues
-                    openTahunPopup();
-                  }}
-                  aria-label="Buka pemilih tahun"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 z-50"
-                  style={{ background: "transparent", border: "none" }}
-                >
-                  <Calendar className="w-4 h-4 text-gray-600" />
-                </button>
+                  <button
+                    type="button"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      openTahunPopup();
+                    }}
+                    aria-label="Buka pemilih tahun"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 z-50"
+                    style={{ background: "transparent", border: "none" }}
+                  >
+                    <Calendar className="w-4 h-4 text-gray-600" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -197,7 +266,9 @@ export default function Ipkd() {
                       type="button"
                       onClick={() => selectTahun(t)}
                       className={`py-2 rounded text-sm ${
-                        String(t) === String(tahun) ? "bg-sky-100 text-sky-700" : "bg-gray-50"
+                        String(t) === String(tahun)
+                          ? "bg-sky-100 text-sky-700"
+                          : "bg-gray-50"
                       }`}
                       style={{ border: "1px solid rgba(0,0,0,0.04)" }}
                     >
@@ -205,11 +276,21 @@ export default function Ipkd() {
                     </button>
                   ))}
                 </div>
-                <div className="mt-3 text-right">
+
+                {/* Reset & Tutup */}
+                <div className="mt-4 flex justify-between items-center">
                   <button
                     type="button"
-                    onClick={() => closeTahunPopup()}
-                    className="text-sm text-gray-600 px-3 py-1 rounded hover:bg-gray-100"
+                    onClick={() => setTahun("")}
+                    className="text-sm px-3 py-1 rounded border border-gray-300 bg-white hover:bg-gray-100 text-gray-700"
+                  >
+                    Reset
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={closeTahunPopup}
+                    className="text-sm text-gray-600 px-3 py-1 rounded border hover:bg-gray-100"
                   >
                     Tutup
                   </button>
@@ -225,10 +306,18 @@ export default function Ipkd() {
                 <table className="w-full text-sm table-fixed">
                   <thead>
                     <tr className="text-left">
-                      <th className="px-4 py-3 font-semibold w-1/2">Nama Dokumen</th>
-                      <th className="px-4 py-3 font-semibold w-1/4">Kategori</th>
-                      <th className="px-4 py-3 font-semibold w-1/12">Tahun</th>
-                      <th className="px-4 py-3 font-semibold w-1/6">Tanggal</th>
+                      <th className="px-4 py-3 font-semibold w-1/2">
+                        Nama Dokumen
+                      </th>
+                      <th className="px-4 py-3 font-semibold w-1/4">
+                        Kategori
+                      </th>
+                      <th className="px-4 py-3 font-semibold w-1/12">
+                        Tahun
+                      </th>
+                      <th className="px-4 py-3 font-semibold w-1/6">
+                        Tanggal
+                      </th>
                       <th className="px-4 py-3 font-semibold w-20"></th>
                     </tr>
                   </thead>
@@ -240,21 +329,59 @@ export default function Ipkd() {
               <div className="max-w-full mx-auto overflow-x-auto">
                 <table className="w-full text-sm">
                   <tbody>
-                    {filtered.length === 0 ? (
+                    {loading ? (
                       <tr>
-                        <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
+                        <td
+                          colSpan={5}
+                          className="px-4 py-6 text-center text-gray-500"
+                        >
+                          Memuat data IPKD...
+                        </td>
+                      </tr>
+                    ) : error ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="px-4 py-6 text-center text-red-500"
+                        >
+                          {error}
+                        </td>
+                      </tr>
+                    ) : filtered.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="px-4 py-6 text-center text-gray-500"
+                        >
                           Tidak ada dokumen untuk filter yang dipilih.
                         </td>
                       </tr>
                     ) : (
                       filtered.map((d) => (
-                        <tr key={d.id} className="border-t border-gray-100 hover:bg-gray-50">
-                          <td className="px-4 py-4 align-top w-1/2">{d.nama}</td>
-                          <td className="px-4 py-4 align-top w-1/4">{d.kategoriLabel}</td>
-                          <td className="px-4 py-4 align-top w-1/12">{d.tahun}</td>
-                          <td className="px-4 py-4 align-top w-1/6">{d.tanggal}</td>
+                        <tr
+                          key={d.id}
+                          className="border-t border-gray-100 hover:bg-gray-50"
+                        >
+                          <td className="px-4 py-4 align-top w-1/2">
+                            {d.nama}
+                          </td>
+                          <td className="px-4 py-4 align-top w-1/4">
+                            {d.kategoriLabel}
+                          </td>
+                          <td className="px-4 py-4 align-top w-1/12">
+                            {d.tahun}
+                          </td>
+                          <td className="px-4 py-4 align-top w-1/6">
+                            {d.tanggal}
+                          </td>
                           <td className="px-4 py-4 align-top w-20 text-right">
-                            <button className="text-green-600 hover:underline text-sm">Rincian</button>
+                            <button
+                              onClick={() => openFile(d.fileUrl)}
+                              className="text-green-600 hover:underline text-sm disabled:text-gray-400"
+                              disabled={!d.fileUrl}
+                            >
+                              Rincian
+                            </button>
                           </td>
                         </tr>
                       ))
