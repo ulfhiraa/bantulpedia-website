@@ -7,7 +7,7 @@ import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
 // 🔗 IMPORT API AGENDA OPD
-import { getILM } from "../../../../api/layanan/publik/agendaOPD";
+import { getagendaOPD } from "../../../../api/layanan/publik/agendaOPD";
 
 export default function AgendaPerangkatDaerah() {
   const [search, setSearch] = useState("");
@@ -52,7 +52,7 @@ export default function AgendaPerangkatDaerah() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await getILM();
+        const data = await getagendaOPD();
 
         const formatted = data.map(item => ({
           id: item.id,

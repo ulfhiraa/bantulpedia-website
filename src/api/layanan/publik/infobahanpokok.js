@@ -1,9 +1,9 @@
-// src/api/layanan/publik/agendaOPD.js
+// src/api/layanan/publik/infobahanpokok.js
 import axios from "axios";
 
-const URL = "https://mock.apidog.com/m1/1132338-1124338-default/AgendaOPD";
+const URL = "https://mock.apidog.com/m1/1132338-1124338-default/InfoBahanPokok";
 
-export const getagendaOPD = async () => {
+export const getInfoBahanPokok = async () => {
   const res = await axios.get(URL);
 
   if (Array.isArray(res.data)) return res.data;
