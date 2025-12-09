@@ -123,7 +123,7 @@ const SERVICES = [
         id: "dashboard-stunting",
         title: "Dashboard Stunting",
         desc: "Grafik & data stunting per kapanewon (profil & tren).",
-        url: "#",
+        route: "/layanan/publik/kesehatan/statusgizi",
         icon: "/src/assets/stunting.png",
       },
       {

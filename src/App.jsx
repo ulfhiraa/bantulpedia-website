@@ -21,7 +21,7 @@ import RealisasiRetribusi from "./pages/layanan/publik/pajakretri/RealisasiRetri
 import InfoBahanPokok from "./pages/layanan/publik/perdagangan/infobahanpokok.jsx";
 import HubungiKami from "./pages/layanan/publik/HubungiKami/hubungikami.jsx";
 import JelajahBantul from "./pages/layanan/publik/Pariwisata/JelajahBantul.jsx";
-
+import Stunting from "./pages/layanan/publik/kesehatan/stunting.jsx";
 import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
 
@@ -50,6 +50,7 @@ export default function App() {
       <Route path="/layanan/publik/perdagangan/info-bahan-pokok" element={<InfoBahanPokok />} />
       <Route path="/layanan/publik/HubungiKami/hubungi-kami" element={<HubungiKami />} />
       <Route path="/layanan/publik/Pariwisata/jelajah-bantul" element={<JelajahBantul />} />
+      <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
     </Routes>
   );
 }
