@@ -148,16 +148,7 @@ export default function JelajahBantulPage() {
             <h3 className="text-emerald-700 font-semibold mb-5 text-lg">Jelajah Bantul</h3>
 
             {/* TOMBOL TAMPILKAN SEMUA */}
-            {/* <div className="mb-4">
-              <button
-                className={`w-full text-left px-3 py-2 rounded-md ${
-                  activeFilter === "" ? "bg-emerald-100 text-emerald-800 font-semibold" : "text-gray-700 hover:bg-gray-50"
-                }`}
-                onClick={() => setActiveFilter("")}
-              >
-                Tampilkan Semua
-              </button>
-            </div> */}
+            
 
             <div className="space-y-3">
               {categories.map((c) => (
@@ -211,6 +202,16 @@ export default function JelajahBantulPage() {
           <div className="bg-white rounded-lg p-6 shadow-inner border border-gray-100">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold">
+                <div className="mb-4">
+                  <button
+                    className={`w-full text-left px-3 py-2 rounded-md ${
+                      activeFilter === "" ? "bg-emerald-100 text-emerald-800 font-semibold" : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setActiveFilter("")}
+                  >
+                    Tampilkan Semua
+                  </button>
+                </div>
                 {/* Hasil: <span className="text-emerald-600">{activeFilter || "Semua"}</span>
                 <span className="text-sm text-gray-500 ml-2">({filteredCards.length} hasil)</span> */}
               </h2>
