@@ -89,13 +89,14 @@ export default function PendaftaranRSUD() {
 
       <Navbar />
 
-      {/* HERO */}
-      <header className="relative w-full h-44 md:h-56 lg:h-64">
+      {/* banner dengan overlay hijau */}
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-      </header>
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+      </div>
 
       {/* tabs (back button aligned left, tabs centered) */}
       <div className="max-w-6xl mx-auto px-6">
