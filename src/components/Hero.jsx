@@ -23,7 +23,7 @@ export default function Hero() {
             {/* Left */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-start">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold leading-tight text-white max-w-3xl">
-                Portal Informasi <br /> Kabupaten Bantul
+                Portal Informasi <br />Kabupaten Bantul
               </h1>
 
               <p className="mt-6 text-sm sm:text-base md:text-lg text-white/90 max-w-2xl">
@@ -36,7 +36,7 @@ export default function Hero() {
             </div>
 
             {/* Right */}
-            <div className="hidden lg:flex lg:col-span-5 xl:col-span-6 justify-end items-start">
+            <div className="hidden lg:flex lg:col-span-4 xl:col-span-6 justify-end items-start">
               <div className="relative w-60 lg:w-72" style={{ marginLeft: 30 }}>
                 <img src={phones} alt="phones" className="w-full h-auto transform -rotate-12 drop-shadow-2xl" />
               </div>

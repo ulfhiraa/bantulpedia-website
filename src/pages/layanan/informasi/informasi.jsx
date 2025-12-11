@@ -315,7 +315,7 @@ export default function InformasiIndex() {
     // CCTV GRID
     if (selectedMenu === "CCTV") {
       return (
-        <div id="cctv" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="cctv" className="max-h-[59vh] overflow-y-auto pr-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {items.map((it, i) => (
               <button
@@ -396,7 +396,7 @@ export default function InformasiIndex() {
     // GALERI VIDEO
     if (selectedMenu === "Galeri Video") {
       return (
-        <div id="galerivideo" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="galerivideo" className="max-h-[60vh] overflow-y-auto pr-2">
           {items.length === 0 ? (
             <div className="border rounded-lg p-4 text-slate-500">
               Tidak ada video untuk kategori <strong>{selectedMenu}</strong>.
@@ -508,7 +508,7 @@ export default function InformasiIndex() {
       const [headline, second, third, ...others] = items;
 
       return (
-        <div id="berita" className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+        <div id="berita" className="space-y-6 max-h-[63vh] overflow-y-auto pr-2">
           {/* ====== HERO ATAS ====== */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Kiri: headline besar */}
@@ -725,7 +725,7 @@ export default function InformasiIndex() {
     // GALERI FOTO: grid jejer + tanggal di bawah
     if (selectedMenu === "Galeri Foto") {
       return (
-        <div id="galerifoto" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="galerifoto" className="max-h-[60vh] overflow-y-auto pr-2">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
             {items.map((it,i)=>(
               <button

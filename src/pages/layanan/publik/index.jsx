@@ -516,8 +516,8 @@ export default function PublikIndex() {
         {/* remove visible border (no black line) -> use border-transparent */}
         <div className={`bg-white rounded-xl shadow-sm ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
           <div className="px-6 py-6 border-b">
-            <h2 className="text-lg md:text-xl font-semibold text-slate-900">Layanan Publik</h2>
-            <p className="text-sm text-slate-500 mt-1">
+            <h2 className="text-lg md:text-xl font-semibold text-slate-900 text-center">Layanan Publik</h2>
+            <p className="text-sm text-slate-500 mt-1 text-center">
               Pilih kategori untuk melihat sub-layanan dan akses cepat.
             </p>
           </div>

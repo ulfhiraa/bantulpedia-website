@@ -27,7 +27,7 @@ export default function FeatureSection() {
       excerpt: "Laporkan masalah publik seperti jalan rusak, drainase, dan lain-lain.",
       image: "/src/assets/LaporBantul.png",
       linkText: "Laporkan sekarang →",
-      link: "/layanan/publik/lapor"
+      link: "https://www.lapor.go.id/"
     },
     {
       id: "berita",
@@ -54,7 +54,7 @@ export default function FeatureSection() {
       excerpt: "Rekomendasi wisata dan kuliner di Bantul.",
       image: "/src/assets/LogoBantulWisata.png",
       linkText: "Jelajahi wisata →",
-      link: "/layanan/wisata"
+      link: "/layanan/publik/pariwisata/jelajah-bantul"
     },
     {
       id: "cctv",
