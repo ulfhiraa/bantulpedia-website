@@ -15,9 +15,14 @@ export default function CariDokter() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
-      <header className="relative w-full h-44 md:h-56 lg:h-64">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroBg})` }} />
-      </header>
+      {/* banner dengan overlay hijau */}
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+      </div>
 
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="flex gap-15 justify-start items-center py-6">
