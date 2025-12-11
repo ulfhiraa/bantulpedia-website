@@ -1,9 +1,8 @@
-// src/components/Hero.jsx
 import React from 'react'
 import phones from '../assets/phones.png'
 import heroBg from '../assets/hero-bg.jpg'
 import SearchBar from './SearchBar'
-import WeatherClock from './WeatherClock' // pastikan path benar
+import WeatherClock from './WeatherClock'
 
 export default function Hero() {
   return (
@@ -19,9 +18,8 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8
-                        h-[95vh] md:h-[110vh] lg:h-[100vh] flex items-start">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start pt-20 md:pt-28">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-start pt-28 sm:pt-32 md:pt-36 lg:pt-40 pb-30">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start">
             {/* Left */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-start">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold leading-tight text-white max-w-3xl">
@@ -47,7 +45,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* --- WEATHER CARD: pindahkan KE SINI agar shadow/blur menampilkan hero (bukan putih) --- */}
+      {/* Weather card centered */}
       <div className="absolute left-1/2 transform -translate-x-1/2 bottom-8 w-[92%] max-w-5xl z-20">
         <WeatherClock large />
       </div>
