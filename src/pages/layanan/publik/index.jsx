@@ -496,13 +496,14 @@ export default function PublikIndex() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      {/* HERO */}
-      <header className="relative w-full h-40 md:h-56 lg:h-64">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
-      </header>
+      {/* banner dengan overlay hijau */}
+            <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${heroBg})` }}
+              />
+              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+            </div>
 
       {/* MAIN */}
       <main className="max-w-6xl mx-auto w-full px-4 md:px-6 py-12">
