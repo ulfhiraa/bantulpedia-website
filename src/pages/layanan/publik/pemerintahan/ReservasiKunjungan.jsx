@@ -111,12 +111,15 @@ export default function ReservasiKunjungan() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
-      {/* optional hero */}
-      <div
-        className="w-full h-24 md:h-28 bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroBg})` }}
-        aria-hidden
-      />
+      {/* banner dengan overlay hijau */}
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+      </div>
+
 
       <main className="flex-1">
         <div className="max-w-5xl w-full mx-auto px-4 py-8">

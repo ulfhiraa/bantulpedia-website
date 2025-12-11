@@ -102,13 +102,15 @@ export default function AgendaPerangkatDaerah() {
       <style>{injectedCSS}</style>
       <Navbar />
 
-      {/* HERO */}
-      <header className="relative w-full h-36 md:h-54">
+      {/* banner dengan overlay hijau */}
+      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-      </header>
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+      </div>
+
 
       <main className="mx-auto w-full px-4 md:px-6 mt-10 pb-20">
         {/* Back button + Title */}
