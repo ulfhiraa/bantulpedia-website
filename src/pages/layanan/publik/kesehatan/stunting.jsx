@@ -176,7 +176,7 @@ export default function StatusGiziPage() {
 
         {/* kolom tengah: judul */}
         <div className="flex justify-center">
-            <h1 className="text-2xl md:text-2xl lg:text-2xl font-semibold text-slate-800 leading-tight">
+            <h1 className="text-xl md:text-xl lg:text-xl font-semibold text-slate-800 leading-tight">
             Status Gizi Balita Kabupaten Bantul
             </h1>
         </div>
