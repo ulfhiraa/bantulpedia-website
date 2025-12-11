@@ -4,6 +4,11 @@ import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg"; 
 import logoKab from "../../../../assets/bantul.png"; 
+
+import stuntingPic from "../../../../assets/stunting.jpg";
+import wastingPic from "../../../../assets/wasting.jpg";
+import underweightPic from "../../../../assets/underweight.jpg";
+
 import { ChevronDown, ArrowDown, ArrowUp, Search, Check, X } from "lucide-react";
 
 export default function StatusGiziPage() {
@@ -161,17 +166,29 @@ export default function StatusGiziPage() {
     },
   ];
 
+    function MetricImageCard({ imgSrc, alt }) {
+    return (
+        <div className="flex justify-center">
+        <img
+            src={imgSrc}
+            alt={alt}
+            className=" md:max-h-35 lg:max-h-35 object-contain"
+        />
+        </div>
+    );
+    }
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       <Navbar />
 
       {/* HERO SECTION */}
-      <div className="relative h-64 md:h-72 lg:h-80 overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroBg})` }} />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4 text-white">
-          <h1 className="text-3xl md:text-5xl font-bold drop-shadow-lg mb-2">Status Gizi Balita Kabupaten Bantul</h1>
-        </div>
+      <div className="h-40 md:h-80 relative rounded-b-lg overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
       </div>
 
       <div className="max-w-7xl mx-auto w-full px-4 md:px-8 lg:px-12 -mt-10 md:-mt-12 relative z-20 pb-20">
@@ -210,9 +227,12 @@ export default function StatusGiziPage() {
         </div>
 
         {/* --- PROBLEM METRIC CARDS --- */}
-        <div className="bg-emerald-100/80 border border-emerald-200 rounded-lg py-3 px-4 text-center mb-8 shadow-sm"><h2 className="text-emerald-800 text-lg md:text-xl font-medium">Besaran Masalah Gizi pada Balita</h2></div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">{metrics.map((m) => (<div key={m.key + "def"} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex items-start gap-4"><div className="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-2xl flex-shrink-0 border border-orange-100">{m.icon}</div><div><h4 className="font-bold text-slate-800 text-base mb-1">{m.definitionTitle}</h4><p className="text-xs text-slate-500 leading-snug">{m.definition}</p></div></div>))}</div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">{metrics.map((m) => (<div key={m.key} className={`relative overflow-hidden rounded-3xl shadow-lg bg-gradient-to-b ${m.colorFrom} ${m.colorTo} text-white`}><div className="p-6 pb-24 relative z-10 text-center"><h3 className="text-xl font-semibold opacity-100">{m.title}</h3><div className="text-5xl font-extrabold mt-3 tracking-tight">{m.total}</div><div className="text-[10px] font-bold tracking-wider opacity-80 uppercase mt-1">TOTAL BALITA {m.definitionTitle}</div><div className="mt-6 flex gap-3 text-left"><div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 flex-1"><span className="text-xl">👦</span><div><div className="text-[9px] uppercase opacity-90 leading-none mb-0.5">Laki-laki</div><div className="font-bold text-sm leading-tight">{m.male}</div></div></div><div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 flex-1"><span className="text-xl">👧</span><div><div className="text-[9px] uppercase opacity-90 leading-none mb-0.5">Perempuan</div><div className="font-bold text-sm leading-tight">{m.female}</div></div></div></div></div><div className="absolute bottom-4 left-4 right-4 bg-white rounded-xl p-4 shadow-lg text-slate-800 flex items-center justify-between"><div><div className="text-xs font-bold text-slate-400 uppercase">Prevalensi:</div><div className={`text-3xl font-extrabold ${m.key === 'stunting' ? 'text-teal-600' : m.key === 'wasting' ? 'text-cyan-600' : 'text-sky-600'}`}>{m.prevalence}</div></div><div className="flex items-center gap-2 text-right"><div className="flex flex-col items-end"><div className={`w-6 h-6 rounded-full flex items-center justify-center text-white mb-1 ${m.trend === 'down' ? 'bg-teal-500' : 'bg-rose-500'}`}>{m.trend === 'down' ? <ArrowDown size={14} /> : <ArrowUp size={14} />}</div></div><div className="text-[10px] text-slate-500 leading-tight w-16">{m.trend === 'down' ? 'Menurun' : 'Naik'} dari Tahun Lalu</div></div></div></div>))}</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <MetricImageCard imgSrc={stuntingPic} alt="Stunting" />
+        <MetricImageCard imgSrc={wastingPic} alt="Wasting" />
+        <MetricImageCard imgSrc={underweightPic} alt="Underweight" />
+        </div>
+
 
         {/* --- SECTION HEADER: STATISTIK BALITA WILAYAH (DENGAN MULTI-SELECT DROPDOWN) --- */}
         <div className="mb-6 mt-12 flex flex-col md:flex-row justify-between items-center gap-4">

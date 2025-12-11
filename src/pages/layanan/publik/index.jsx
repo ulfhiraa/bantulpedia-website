@@ -129,7 +129,7 @@ const SERVICES = [
       {
         id: "pendaftaran-rsud",
         title: "Pendaftaran Pasien RSUD",
-        desc: "Pendaftaran pasien, status pasien, cari dokter, dan info kamar RSUD.",
+        desc: "Pendaftaran online pasien (akses login jika diperlukan).",
         route: "/layanan/publik/kesehatan/pendaftaran-RSUD",
         icon: "/src/assets/pasienrsud.png",
       },
@@ -153,77 +153,78 @@ const SERVICES = [
         id: "agenda-perangkat-daerah",
         title: "Agenda Perangkat Daerah",
         desc: "Seluruh agenda PemDa Bantul (tanggal, jam, perangkat, lokasi).",
-        route: "/layanan/publik/pemerintahan/agenda-perangkat-daerah",
-        icon: "/src/assets/agenda.png",
+        url: "#",
+        icon: DEFAULT_ICON,
       },
       {
         id: "sinoman",
         title: "SINOMAN",
         desc: "Sistem Layanan & Pengetahuan Informatika.",
         url: "https://sinoman.bantulkab.go.id/",
-        icon: "/src/assets/sinoman.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "csr",
         title: "CSR",
         desc: "Corporate Social Responsibility; info & pengajuan CSR.",
         url: "https://csr.bantulkab.go.id/",
-        icon: "/src/assets/csr.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "sipd",
         title: "SIPD",
         desc: "Sistem Informasi Pemerintah Daerah (Kemendagri).",
         url: "https://sipd.kemendagri.go.id/landing",
-        icon: "/src/assets/sipd.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "sirup",
         title: "SIRUP",
         desc: "Sistem RUP - referensi pengadaan publik.",
         url: "https://sirup.lkpp.go.id/sirup/rekap/klpd/D68",
-        icon: "/src/assets/sirup.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "sapa-asn",
         title: "SAPA ASN",
         desc: "Aplikasi layanan ASN Kabupaten Bantul.",
         url: "https://asn.bantulkab.go.id/",
-        icon: "/src/assets/sapaasn.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "lpse",
         title: "LPSE (SPSE)",
         desc: "Pengadaan Barang/Jasa secara elektronik (SPSE).",
         url: "https://spse.inaproc.id/bantulkab",
-        icon: "/src/assets/lpse.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "buku-tamu",
         title: "Buku Tamu",
         desc: "Formulir tamu & pencatatan kunjungan resmi.",
-        route: "/layanan/publik/pemerintahan/buku-tamu",
-        icon: "/src/assets/bukutamu.png",
+        url: "#",
+        icon: DEFAULT_ICON,
       },
       {
         id: "reservasi-kunjungan",
         title: "Reservasi Kunjungan",
         desc: "Reservasi kunjungan instansi / tamu penting.",
-        route: "/layanan/publik/pemerintahan/reservasi-kunjungan",
-        icon: "/src/assets/reservasi.png",
+        url: "#",
+        icon: DEFAULT_ICON,
       },
       {
         id: "ipkd",
         title: "IPKD",
         desc: "Indeks Pengelolaan Keuangan Daerah (dokumen & kategori).",
-        route: "/layanan/publik/pemerintahan/ipkd",
-        icon: "/src/assets/ipkd.png",
+        url: "#",
+        icon: DEFAULT_ICON,
       },
       {
         id: "reservasi-ruangan",
         title: "Reservasi Ruangan",
         desc: "Sistem reservasi ruang rapat (butuh login).",
-        icon: "/src/assets/reservasi1.png",
+        url: "#",
+        icon: DEFAULT_ICON,
       },
     ],
   },
@@ -239,21 +240,21 @@ const SERVICES = [
         title: "JDIH Bantul",
         desc: "Jaringan Dokumentasi dan Informasi Hukum Bantul.",
         url: "https://jdih.bantulkab.go.id/",
-        icon: "/src/assets/jdih.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "jdih-dprd",
         title: "JDIH DPRD Bantul",
         desc: "JDIH DPRD — dokumentasi regulasi DPRD.",
         url: "https://jdih-dprd.bantulkab.go.id/",
-        icon:"/src/assets/jdih.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "info-persidangan",
         title: "Informasi Persidangan PN Bantul",
         desc: "Jadwal sidang & informasi perkara (SIPP PN Bantul).",
         url: "https://sipp.pn-bantul.go.id/",
-        icon: "/src/assets/infopekara.png",
+        icon: DEFAULT_ICON,
       },
     ],
   },
@@ -269,14 +270,14 @@ const SERVICES = [
         title: "OSS",
         desc: "Jaringan Dokumentasi dan Informasi Hukum Bantul.",
         url: "https://oss.go.id/id",
-        icon: "/src/assets/oss.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "lantip",
         title: "Lantip",
         desc: "Jaringan Dokumentasi dan Informasi Hukum Bantul.",
         url: "https://jdih.bantulkab.go.id/",
-        icon: "/src/assets/lantip.png",
+        icon: DEFAULT_ICON,
       },
     ],
   },
@@ -292,35 +293,35 @@ const SERVICES = [
         title: "Pajakda",
         desc: "Layanan pajak daerah online untuk pengecekan, pembayaran, dan validasi tagihan pajak Kabupaten Bantul.",
         url: "https://pajakda.bantulkab.go.id/apps/public/index",
-        icon: "/src/assets/pajakda.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "tagihan",
         title: "Pengecekan Tagihan Pasar",
         desc: "Pengecekan Tagihan Pasar",
-        route: "/layanan/publik/pajakretri/cek-tagihan",
-        icon: "/src/assets/cektagihan.png",
+        url: "",
+        icon: DEFAULT_ICON,
       },
       {
-        id: "sipentol",
-        title: "SiPentol",
+        id: "sipenthol",
+        title: "SiPenthol",
         desc: "",
-        route: "/layanan/publik/pajakretri/sipenthol",
-        icon: "/src/assets/sipentol.png",
+        url: "",
+        icon: DEFAULT_ICON,
       },
       {
         id: "lapakbantul",
         title: "Lapak Bantul",
         desc: "",
         url: "",
-        icon: "/src/assets/lapakbantul.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "realisasiretribusi",
         title: "Realisasi Retribusi",
         desc: "",
-        route: "/layanan/publik/pajakretri/realisasi-retribusi",
-        icon: "/src/assets/retribusi.png",
+        url: "",
+        icon: DEFAULT_ICON,
       },
     ],
   },
@@ -335,14 +336,14 @@ const SERVICES = [
         id: "info-bahan-pokok",
         title: "Info Bahan Pokok",
         desc: "Pantauan harga & status bahan pokok (klik untuk detail pasar & harga).",
-        route: "/layanan/publik/perdagangan/info-bahan-pokok",
-        icon: "/src/assets/InfoBahanPokok.png",
+        url: "/layanan/publik/perdagangan/info-bahan-pokok",
+        icon: DEFAULT_ICON,
         children: BAHAN_POKOK.map((b) => ({
           id: slugify(b),
           title: b,
           desc: "Klik untuk melihat pasar, harga lama/baru, dan status (naik/turun/stabil).",
           url: `/layanan/publik/perdagangan/info-bahan-pokok/${slugify(b)}`,
-          icon: "/src/assets/InfoBahanPokok.png",
+          icon: DEFAULT_ICON,
         })),
       },
       {
@@ -350,14 +351,14 @@ const SERVICES = [
         title: "Bantul Mapan",
         desc: "Sistem Bantul Mapan (informasi ekonomi lokal).",
         url: "https://bantulmapan.bantulkab.go.id/",
-        icon: "/src/assets/BantulMapan.png",
+        icon: DEFAULT_ICON,
       },
       {
         id: "marketplace",
         title: "Marketplace (BOS)",
         desc: "Marketplace lokal & layanan BOS.",
         url: "https://bos.bantulkab.go.id/id",
-        icon: "/src/assets/Marketplace.png",
+        icon: DEFAULT_ICON,
       },
     ],
   },
@@ -371,8 +372,8 @@ const SERVICES = [
         id: "jelajah-bantul",
         title: "Jelajah Bantul",
         desc: "Detail lokasi, gmaps, deskripsi singkat dan kategori wisata.",
-        route: "/layanan/publik/Pariwisata/jelajah-bantul",
-        icon: "/src/assets/JelajahBantul.png",
+        url: "/layanan/publik/pariwisata/jelajah-bantul",
+        icon: DEFAULT_ICON,
         children: [
           { id: "destinasi-wisata", title: "Destinasi Wisata", desc: "Desa Wisata, Wisata Buatan, Wisata Alam" },
           { id: "akomodasi", title: "Akomodasi Wisata", desc: "Hotel, Home Stay" },
@@ -394,8 +395,8 @@ const SERVICES = [
     title: "Penanda Keistimewaan",
     desc: "Situs & penanda keistimewaan daerah.",
     sub: [
-      { id: "makam-kotagede", title: "Makam Kotagede", desc: "Informasi & lokasi", url: "https://makamkotagede.bantulkab.go.id/", icon: "/src/assets/Makam1.png" },
-      { id: "makam-imogiri", title: "Makam Imogiri", desc: "Informasi & lokasi", url: "https://makamimogiri.bantulkab.go.id/", icon: "/src/assets/Makam1.png" },
+      { id: "makam-kotagede", title: "Makam Kotagede", desc: "Informasi & lokasi", url: "https://makamkotagede.bantulkab.go.id/" },
+      { id: "makam-imogiri", title: "Makam Imogiri", desc: "Informasi & lokasi", url: "https://makamimogiri.bantulkab.go.id/" },
     ],
   },
 
@@ -403,34 +404,39 @@ const SERVICES = [
     id: "kebudayaan",
     title: "Kebudayaan",
     desc: "Situs kebudayaan & event.",
-    sub: [{ id: "kebudayaan-site", title: "Kebudayaan Bantul", desc: "Portal kebudayaan", url: "https://kebudayaanbantul.bantulkab.go.id/", icon: "/src/assets/Kebudayaan.png" }]
+    sub: [{ id: "kebudayaan-site", title: "Kebudayaan Bantul", desc: "Portal kebudayaan", url: "https://kebudayaanbantul.bantulkab.go.id/" }],
   },
 
   {
     id: "sedata-bantul",
     title: "Sedata Bantul",
     desc: "Data & statistik publik.",
-    sub: [{ id: "sedata", title: "Sedata", desc: "Portal data Bantul", url: "https://data.bantulkab.go.id/", icon: "/src/assets/Sedata.png" }]    
+    sub: [{ id: "sedata", title: "Sedata", desc: "Portal data Bantul", url: "https://data.bantulkab.go.id/" }],
   },
 
   {
     id: "gsb-bantul",
     title: "GSB Bantul",
     desc: "GSB Bantul (informasi & layanan).",
-    sub: [{ id: "gsb", title: "GSB Bantul", desc: "Portal GSB", url: "https://gsb.bantulkab.go.id/", icon: "/src/assets/GSB.png" }]
+    sub: [{ id: "gsb", title: "GSB Bantul", desc: "Portal GSB", url: "https://gsb.bantulkab.go.id/" }],
   },
 
   {
     id: "hubungi-kami",
     title: "Hubungi Kami",
-    desc: "Kontak & pengaduan.",
+    desc: "Kontak & pengaduan (guest/user).",
     sub: [
       {
         id: "hubungi-guest",
-        title: "Hubungi Kami",
+        title: "Guest (akses terbatas)",
         desc: "Form pengaduan (wajib login untuk user penuh).",
-        route: "/layanan/publik/HubungiKami/hubungi-kami",
-        icon: "/src/assets/HubKami.png",
+        url: "/layanan/publik/hubungi-kami/guest",
+      },
+      {
+        id: "hubungi-user",
+        title: "User (akun Bantulpedia)",
+        desc: "Form dengan auto-fill email & upload dokumen (KTP).",
+        url: "/layanan/publik/hubungi-kami/user",
       },
     ],
   },
@@ -439,7 +445,7 @@ const SERVICES = [
     id: "lapor-bantul",
     title: "Lapor Bantul",
     desc: "Layanan pelaporan publik.",
-    sub: [{ id: "lapor", title: "Lapor.go.id", desc: "Platform Lapor Nasional", url: "https://www.lapor.go.id/", icon: "/src/assets/LaporBantul1.png" }]
+    sub: [{ id: "lapor", title: "Lapor.go.id", desc: "Platform Lapor Nasional", url: "https://www.lapor.go.id/" }],
   },
 ];
 
@@ -508,10 +514,10 @@ export default function PublikIndex() {
       {/* MAIN */}
       <main className="max-w-6xl mx-auto w-full px-4 md:px-6 py-12">
         {/* remove visible border (no black line) -> use border-transparent */}
-        <div className={`bg-white rounded-xl shadow-xl ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
+        <div className={`bg-white rounded-xl shadow-sm ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
           <div className="px-6 py-6 border-b">
-            <h2 className="text-lg text-center md:text-md font-semibold text-slate-900">Layanan Publik</h2>
-            <p className="text-sm text-center text-slate-500 mt-1">
+            <h2 className="text-lg md:text-xl font-semibold text-slate-900">Layanan Publik</h2>
+            <p className="text-sm text-slate-500 mt-1">
               Pilih kategori untuk melihat sub-layanan dan akses cepat.
             </p>
           </div>

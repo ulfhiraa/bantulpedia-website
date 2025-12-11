@@ -1,7 +1,11 @@
 // tailwind.config.js
 export default {
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+      poppins: ['Poppins'],
+      },
+    },
   },
   plugins: [],
 };

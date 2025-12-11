@@ -27,30 +27,32 @@ import Tentang from "./pages/Tentang";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/layanan/semua-layanan" element={<SemuaLayanan/>} />
-      <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
-      <Route path="/layanan/informasi/*" element={<InformasiIndex />} />
-      <Route path="/layanan/publik" element={<PublikIndex />} />
-      <Route path="/tentang" element={<Tentang />} />
-      <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
-      <Route path="/layanan/publik/kesehatan/pendaftaran-rsud" element={<PendaftaranRSUD />} />
-      <Route path="/layanan/publik/kesehatan/status-pasien" element={<StatusPasien />} />
-      <Route path="/layanan/publik/kesehatan/cari-dokter" element={<CariDokter />} />
-      <Route path="/layanan/publik/pemerintahan/agenda-perangkat-daerah" element={<AgendaPerangkatDaerah />} />
-      <Route path="/layanan/publik/pemerintahan/buku-tamu" element={<BukuTamu />} />
-      <Route path="/layanan/publik/pemerintahan/reservasi-kunjungan" element={<ReservasiKunjungan />} />
-      <Route path="/layanan/publik/pemerintahan/ipkd" element={<Ipkd />} />
-      <Route path="/layanan/publik/pajakretri/cek-tagihan" element={<CekTagihan />} />
-      <Route path="/layanan/publik/pajakretri/sipenthol" element={<SiPenthol />} />
-      <Route path="/layanan/publik/pajakretri/realisasi-retribusi" element={<RealisasiRetribusi />} />
-      <Route path="/layanan/publik/perdagangan/info-bahan-pokok" element={<InfoBahanPokok />} />
-      <Route path="/layanan/publik/HubungiKami/hubungi-kami" element={<HubungiKami />} />
-      <Route path="/layanan/publik/Pariwisata/jelajah-bantul" element={<JelajahBantul />} />
-      <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
-    </Routes>
+    <div className="font-poppins">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/layanan/semua-layanan" element={<SemuaLayanan/>} />
+        <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
+        <Route path="/layanan/informasi/*" element={<InformasiIndex />} />
+        <Route path="/layanan/publik" element={<PublikIndex />} />
+        <Route path="/tentang" element={<Tentang />} />
+        <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
+        <Route path="/layanan/publik/kesehatan/pendaftaran-rsud" element={<PendaftaranRSUD />} />
+        <Route path="/layanan/publik/kesehatan/status-pasien" element={<StatusPasien />} />
+        <Route path="/layanan/publik/kesehatan/cari-dokter" element={<CariDokter />} />
+        <Route path="/layanan/publik/pemerintahan/agenda-perangkat-daerah" element={<AgendaPerangkatDaerah />} />
+        <Route path="/layanan/publik/pemerintahan/buku-tamu" element={<BukuTamu />} />
+        <Route path="/layanan/publik/pemerintahan/reservasi-kunjungan" element={<ReservasiKunjungan />} />
+        <Route path="/layanan/publik/pemerintahan/ipkd" element={<Ipkd />} />
+        <Route path="/layanan/publik/pajakretri/cek-tagihan" element={<CekTagihan />} />
+        <Route path="/layanan/publik/pajakretri/sipenthol" element={<SiPenthol />} />
+        <Route path="/layanan/publik/pajakretri/realisasi-retribusi" element={<RealisasiRetribusi />} />
+        <Route path="/layanan/publik/perdagangan/info-bahan-pokok" element={<InfoBahanPokok />} />
+        <Route path="/layanan/publik/HubungiKami/hubungi-kami" element={<HubungiKami />} />
+        <Route path="/layanan/publik/Pariwisata/jelajah-bantul" element={<JelajahBantul />} />
+        <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
+      </Routes>
+    </div>
   );
 }
