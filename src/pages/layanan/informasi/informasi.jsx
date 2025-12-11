@@ -1103,13 +1103,14 @@ export default function InformasiIndex() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      <header className="relative w-full h-40 md:h-56 lg:h-64">
-        <div
-          className="absolute inset-0 bg-center bg-cover"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
-        <div className="absolute inset-0 bg-black/20" />
-      </header>
+      {/* banner dengan overlay hijau */}
+            <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${heroBg})` }}
+              />
+              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+            </div>
 
       <main className="max-w-7xl mx-auto px-6 py-16 -mt-8 grid grid-cols-1 md:grid-cols-5 gap-8">
         <aside className="md:col-span-1 bg-white rounded-xl border shadow-sm p-5 h-fit">
