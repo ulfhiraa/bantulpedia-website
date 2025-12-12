@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 // HERO IMAGE
 import heroBg from "../../../assets/pandansimo1.jpg";
@@ -36,6 +37,8 @@ export default function AdministrasiIndex() {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <div className="z-50">
@@ -43,10 +46,12 @@ export default function AdministrasiIndex() {
       </div>
 
       {/* HERO */}
-      <header className="relative w-full h-56 md:h-72 lg:h-96 overflow-hidden">
+      <header className="relative w-full h-56 md:h-62 lg:h-80 overflow-hidden">
         {/* Background Image */}
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+
         <div
-          className="absolute inset-0 bg-cover bg-center transform-gpu"
+          className="absolute inset-0 mix-blend-multiply bg-center"
           style={{
             backgroundImage: `url(${heroBg})`,
             filter: "contrast(0.95)",
@@ -64,19 +69,6 @@ export default function AdministrasiIndex() {
           }}
           aria-hidden="true"
         />
-
-        {/* Optional hero text (centered) */}
-        <div className="relative z-20 flex items-center justify-center h-full px-4">
-          <div className="text-center text-white">
-            <h1 className="text-lg md:text-2xl lg:text-3xl font-semibold drop-shadow-md">
-              Administrasi Pemerintahan
-            </h1>
-            <p className="mt-2 text-sm md:text-base text-emerald-100/80 max-w-2xl">
-              Akses cepat ke aplikasi administrasi & layanan internal pemerintah
-              daerah Bantul.
-            </p>
-          </div>
-        </div>
       </header>
 
       {/* MAIN - card container floating di atas hero */}
@@ -84,15 +76,24 @@ export default function AdministrasiIndex() {
         <div className="max-w-6xl mx-auto">
           {/* Floating panel */}
           <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
-            <div className="text-center mb-6">
-              <h2 className="text-slate-900 text-lg md:text-xl font-semibold">
+            <div className="relative mb-6 flex items-center justify-center">
+              {/* BUTTON KEMBALI */}
+              {/* <button
+                onClick={() => navigate("/")}
+                className="absolute left-0 flex items-center gap-1 text-slate-600 hover:text-slate-900 text-sm"
+              >
+                ← Kembali
+              </button> */}
+
+              {/* JUDUL */}
+              <h2 className="text-slate-900 text-lg md:text-xl font-semibold text-center">
                 Layanan Administrasi
               </h2>
-              <p className="text-sm text-slate-500 mt-2">
-                Pilih aplikasi yang ingin diakses. Semua link akan membuka tab
-                baru.
-              </p>
             </div>
+
+            <p className="text-sm text-slate-500 text-center -mt-2 mb-6">
+              Pilih aplikasi yang ingin diakses. Semua link akan membuka tab baru.
+            </p>
 
             {/* Grid kartu */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
@@ -106,7 +107,7 @@ export default function AdministrasiIndex() {
                   aria-label={`Buka ${item.title}`}
                 >
                   <div
-                    className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col items-center text-center transition-transform duration-200 transform-gpu
+                    className="bg-white rounded-2xl border border-slate-100 shadow-xl p-6 flex flex-col items-center text-center transition-transform duration-200 transform-gpu
                       hover:-translate-y-3 hover:shadow-lg focus-within:-translate-y-3 focus-within:shadow-lg"
                     role="button"
                     tabIndex={0}
