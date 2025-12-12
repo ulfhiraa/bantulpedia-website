@@ -27,6 +27,7 @@ import Tentang from "./pages/Tentang";
 
 export default function App() {
   return (
+    <div className="font-poppins">
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
@@ -52,5 +53,6 @@ export default function App() {
       <Route path="/layanan/publik/Pariwisata/jelajah-bantul" element={<JelajahBantul />} />
       <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
     </Routes>
+    </div>
   );
 }
