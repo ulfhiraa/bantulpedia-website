@@ -15,18 +15,20 @@ import "leaflet/dist/leaflet.css";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
-      <Route path="/layanan/informasi" element={<InformasiIndex />} />
-      <Route path="/layanan/publik" element={<PublikIndex />} />
-      <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
-      <Route path="/layanan/publik/kesehatan/pendaftaran-rsud" element={<PendaftaranRSUD />} />
-      <Route path="/layanan/publik/kesehatan/status-pasien" element={<StatusPasien />} />
-      <Route path="/layanan/publik/kesehatan/cari-dokter" element={<CariDokter />} />
-      <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
-    </Routes>
+    <div className="font-poppins">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
+        <Route path="/layanan/informasi" element={<InformasiIndex />} />
+        <Route path="/layanan/publik" element={<PublikIndex />} />
+        <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />
+        <Route path="/layanan/publik/kesehatan/pendaftaran-rsud" element={<PendaftaranRSUD />} />
+        <Route path="/layanan/publik/kesehatan/status-pasien" element={<StatusPasien />} />
+        <Route path="/layanan/publik/kesehatan/cari-dokter" element={<CariDokter />} />
+        <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
+      </Routes>
+    </div>
   );
 }
