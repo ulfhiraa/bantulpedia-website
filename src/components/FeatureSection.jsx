@@ -34,7 +34,7 @@ export default function FeatureSection() {
       icon: "📰",
       title: "Berita",
       excerpt: "Berita terbaru dari Pemerintah Kabupaten Bantul.",
-      image: "/src/assets/feature-berita.jpg",
+      image: "/src/assets/Berita.png",
       linkText: "Baca berita →",
       link: "/layanan/informasi#berita"
     },
