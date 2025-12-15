@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 function useInView(ref, options = { threshold: 0.18 }) {
   const [inView, setInView] = useState(false)
@@ -80,7 +82,7 @@ export default function FeatureSection() {
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold" style={{ color: "#074b25ff" }}>
+          <h2 className="text-2xl md:text-2xl font-bold" style={{ color: "#074b25ff" }}>
             Bantulpedia
           </h2>
           <p className="text-sm text-slate-600 mt-2">
@@ -107,12 +109,22 @@ export default function FeatureSection() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <div className="text-lg font-medium text-slate-800">{f.title}</div>
-                        <div className="text-slate-400">{isOpen ? "∧" : "∨"}</div>
+                        <div className="text-slate-400">
+                         <FontAwesomeIcon
+                            icon={isOpen ? faChevronUp : faChevronDown}
+                            className="text-sm text-slate-400 transition-transform duration-300"
+                          />
+                        </div>
                       </div>
-
-                      {isOpen && (
-                        <p className="mt-2 text-sm text-slate-600">{f.excerpt}</p>
-                      )}
+                        <div
+                            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                              isOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+                            }`}
+                          >
+                            <p className="text-sm text-slate-600">
+                              {f.excerpt}
+                            </p>
+                        </div>
                     </div>
                   </button>
 
