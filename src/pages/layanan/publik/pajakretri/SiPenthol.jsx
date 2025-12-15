@@ -1,323 +1,246 @@
 // src/pages/layanan/pemerintahan/SipentolCheck.jsx
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar, ChevronDown, ChevronLeft, Search, RefreshCw } from "lucide-react";
+import {
+  Calendar,
+  ChevronLeft,
+  Search,
+  RefreshCw,
+  Package,
+  CreditCard,
+  Car,
+} from "lucide-react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
-const CATEGORIES = ["Info Kuota", "Info Tagihan", "Cek Kendaraan"];
+/* ================= KATEGORI SIPENTOL ================= */
+const CATEGORIES = [
+  { key: "Info Kuota", label: "Info Kuota", icon: Package, color: "sky" },
+  { key: "Info Tagihan", label: "Info Tagihan", icon: CreditCard, color: "violet" },
+  { key: "Cek Kendaraan", label: "Cek Kendaraan", icon: Car, color: "amber" },
+];
+
+/* ================= WARNA AMAN TAILWIND ================= */
+const COLOR_STYLES = {
+  sky: {
+    bg: "bg-sky-100",
+    bgActive: "bg-sky-200",
+    text: "text-sky-600",
+    ring: "ring-sky-400",
+  },
+  violet: {
+    bg: "bg-violet-100",
+    bgActive: "bg-violet-200",
+    text: "text-violet-600",
+    ring: "ring-violet-400",
+  },
+  amber: {
+    bg: "bg-amber-100",
+    bgActive: "bg-amber-200",
+    text: "text-amber-600",
+    ring: "ring-amber-400",
+  },
+};
 
 export default function SipentolCheck() {
-  const [date, setDate] = useState("");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // 🔹 default kosong, bukan Info Kuota
   const [category, setCategory] = useState("");
-
+  const [date, setDate] = useState("");
+  const [extraInput, setExtraInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState(null);
-  const [extraInput, setExtraInput] = useState("");
   const [error, setError] = useState("");
-  const ddRef = useRef(null);
+
   const dateRef = useRef(null);
-
-  const injectedCSS = `
-    input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
-    input[type="date"] { -webkit-appearance: none; appearance: none; -moz-appearance: textfield; }
-    input[type="date"]::-ms-clear, input[type="date"]::-ms-expand { display: none; }
-  `;
-
-  useEffect(() => {
-    const onDoc = (e) => {
-      if (ddRef.current && !ddRef.current.contains(e.target)) setDropdownOpen(false);
-    };
-    window.addEventListener("mousedown", onDoc);
-    return () => window.removeEventListener("mousedown", onDoc);
-  }, []);
 
   useEffect(() => {
     setError("");
     setResultMessage(null);
+    setDate("");
     setExtraInput("");
   }, [category]);
 
-  const openDatePicker = () => {
-    const el = dateRef.current;
-    if (!el) return;
-    if (typeof el.showPicker === "function") {
-      try {
-        el.showPicker();
-        return;
-      } catch {}
-    }
-    el.focus();
-    try {
-      el.click();
-    } catch {}
+  /* ================= LABEL DINAMIS ================= */
+  const inputLabel = () => {
+    if (category === "Info Kuota") return "Pilih Tanggal";
+    if (category === "Info Tagihan") return "Masukkan Kode";
+    if (category === "Cek Kendaraan") return "Masukkan Plat Nomor Kendaraan";
+    return "Masukkan ID Pelanggan";
   };
 
-  const validateForm = () => {
-    // 🔹 wajib pilih kategori dulu
-    if (!category) return "Pilih kategori layanan terlebih dahulu.";
-
-    if (category === "Info Kuota") {
-      if (!date) return "Silakan pilih tanggal untuk cek kuota.";
-    } else if (category === "Info Tagihan") {
-      const v = (extraInput || "").trim();
-      if (!v) return "Masukkan kode tagihan.";
-      if (!/^[0-9A-Za-z\/\-\s]{4,}$/.test(v)) return "Format kode tidak valid.";
-    } else if (category === "Cek Kendaraan") {
-      const v = (extraInput || "").trim();
-      if (!v) return "Masukkan plat nomor kendaraan.";
-      if (!/^[A-Za-z]{1,4}\s?\d{1,4}([A-Za-z]{1,3})?$/.test(v))
-        return "Format plat nomor kemungkinan tidak valid.";
-    }
-    return null;
+  const openDatePicker = () => {
+    if (dateRef.current?.showPicker) dateRef.current.showPicker();
   };
 
   const handleSearch = (e) => {
-    e?.preventDefault();
+    e.preventDefault();
     setError("");
     setResultMessage(null);
 
-    const verr = validateForm();
-    if (verr) {
-      setError(verr);
-      return;
-    }
+    if (!category) return setError("Silakan pilih kategori layanan.");
+    if (category === "Info Kuota" && !date)
+      return setError("Silakan pilih tanggal.");
+    if (category !== "Info Kuota" && !extraInput.trim())
+      return setError("Masukkan data yang diperlukan.");
 
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      if (category === "Info Kuota") {
-        setResultMessage({
-          type: "success",
-          text: `Kuota untuk tanggal ${date} tersedia. (contoh)`,
-        });
-      } else if (category === "Info Tagihan") {
-        setResultMessage({
-          type: "success",
-          text: `Hasil Info Tagihan untuk kode "${extraInput.trim()}": Tagihan Rp 250.000 (contoh).`,
-        });
-      } else {
-        setResultMessage({
-          type: "success",
-          text: `Cek Kendaraan: Plat "${extraInput.trim().toUpperCase()}" terdaftar. (contoh)`,
-        });
-      }
-    }, 800);
+      setResultMessage({
+        type: "success",
+        text: `Hasil SIPENTOL untuk "${category}" berhasil ditampilkan (contoh).`,
+      });
+    }, 900);
   };
 
   const handleReset = () => {
+    setCategory("");
     setDate("");
-    setCategory(""); // 🔹 reset ke "pilih kategori"
     setExtraInput("");
     setResultMessage(null);
     setError("");
-    setLoading(false);
-  };
-
-  const panelTitle = () => {
-    if (category === "Info Tagihan") return "Pengecekan Tagihan";
-    if (category === "Cek Kendaraan") return "Cek Kendaraan";
-    if (category === "Info Kuota") return "Pengecekan Kuota Pelayanan Sipentol";
-    // default saat belum pilih
-    return "Layanan Sipentol";
-  };
-
-  const leftLabel = () => {
-    if (category === "Info Kuota") return "Pilih Tanggal";
-    if (category === "Info Tagihan") return "Masukkan Kode";
-    if (category === "Cek Kendaraan") return "Masukkan Plat Nomor";
-    return "Masukkan data"; // default
-  };
-
-  const middlePlaceholder = () => {
-    if (category === "Info Kuota") return "dd/mm/yyyy";
-    if (category === "Info Tagihan") return "xxxxx/xxx/xx/xx/xxxx";
-    if (category === "Cek Kendaraan") return "AB 1234 CD";
-    return ""; // default
-  };
-
-  const searchButtonLabel = () => {
-    if (!category) return "Cari";
-    if (category === "Info Kuota") return "Cari Kuota";
-    if (category === "Info Tagihan") return "Cek Tagihan";
-    if (category === "Cek Kendaraan") return "Cek Kendaraan";
-    return "Cari";
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <style>{injectedCSS}</style>
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+      {/* HERO */}
+      <div className="h-40 md:h-60 relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-emerald-900/60" />
       </div>
 
       <main className="container mx-auto px-6 lg:px-24 py-10">
-        <div className="mb-4">
-          <button
-            type="button"
-            onClick={() => window.history.back()}
-            className="inline-flex items-center gap-2 text-sm text-slate-700 bg-white border border-slate-200 px-3 py-1.5 rounded-md hover:bg-slate-50"
-          >
-            <ChevronLeft size={16} />
-            Kembali
-          </button>
-        </div>
+        {/* BACK */}
+        <button
+          onClick={() => window.history.back()}
+          className="mb-6 inline-flex items-center gap-2 text-sm bg-white border px-3 py-1.5 rounded-md"
+        >
+          <ChevronLeft size={16} />
+          Kembali
+        </button>
 
-        <div className="rounded-lg border border-slate-200 p-6">
-          <h2 className="text-center text-xl md:text-2xl font-semibold mb-4">
-            {panelTitle()}
-          </h2>
+        {/* ================= CARD UTAMA ================= */}
+        <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-8">
+          {/* INPUT */}
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              {inputLabel()}
+            </label>
 
-          <div className="bg-white rounded-md shadow-sm border border-slate-200 p-6">
-            <form onSubmit={handleSearch}>
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                {/* label kiri */}
-                <div className="md:col-span-3 flex items-center">
-                  <label className="block text-sm font-medium text-slate-700 mb-0">
-                    {leftLabel()}
-                  </label>
-                </div>
-
-                {/* input tengah */}
-                <div className="md:col-span-5">
-                  {category === "Info Kuota" ? (
-                    <div className="relative">
-                      <input
-                        ref={dateRef}
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        className="w-full h-12 border border-slate-200 rounded-full px-4 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-100"
-                        placeholder={middlePlaceholder()}
-                        aria-label="Pilih tanggal"
-                      />
-                      <button
-                        type="button"
-                        onClick={openDatePicker}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
-                        aria-label="Buka pemilih tanggal"
-                      >
-                        <Calendar size={18} className="text-slate-600" />
-                      </button>
-                    </div>
-                  ) : (
-                    <input
-                      type="text"
-                      value={extraInput}
-                      onChange={(e) => setExtraInput(e.target.value)}
-                      placeholder={middlePlaceholder()}
-                      className="w-full h-12 border border-slate-200 rounded-full px-4 text-sm focus:outline-none"
-                      aria-label={leftLabel()}
-                      disabled={!category} // 🔹 disable sampai kategori dipilih
-                    />
-                  )}
-                </div>
-
-                {/* dropdown kanan */}
-                <div className="md:col-span-4 flex items-center justify-end" ref={ddRef}>
-                  <div className="w-full max-w-xs">
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setDropdownOpen((s) => !s)}
-                        className="w-full h-12 text-left bg-white border border-slate-200 px-4 py-2 rounded-full shadow-sm inline-flex items-center justify-between gap-3"
-                        aria-haspopup="listbox"
-                        aria-expanded={dropdownOpen}
-                      >
-                        <span
-                          className={
-                            category
-                              ? "text-sm text-slate-800"
-                              : "text-sm text-slate-400 italic"
-                          }
-                        >
-                          {category || "Pilih kategori"}
-                        </span>
-                        <ChevronDown size={18} className="text-slate-500" />
-                      </button>
-
-                      {dropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-full bg-white border border-slate-200 rounded-lg shadow-lg z-50">
-                          {CATEGORIES.map((c) => (
-                            <button
-                              key={c}
-                              type="button"
-                              onClick={() => {
-                                setCategory(c);
-                                setDropdownOpen(false);
-                                setError("");
-                              }}
-                              className={`w-full text-left px-4 py-2 text-sm ${
-                                c === category
-                                  ? "bg-emerald-50 text-emerald-700 font-medium"
-                                  : "text-slate-700 hover:bg-slate-50"
-                              }`}
-                            >
-                              {c}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-slate-200 my-6" />
-
-              <div className="flex items-center gap-4">
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition"
-                >
-                  <Search size={16} />
-                  {searchButtonLabel()}
-                </button>
-
+            {category === "Info Kuota" ? (
+              <div className="relative">
+                <input
+                  ref={dateRef}
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full h-12 rounded-lg border px-4 pr-10"
+                />
                 <button
                   type="button"
-                  onClick={handleReset}
-                  className="inline-flex items-center gap-2 bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-md hover:bg-slate-50 transition"
+                  onClick={openDatePicker}
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
                 >
-                  <RefreshCw size={16} />
-                  Reset
+                  <Calendar size={18} />
                 </button>
               </div>
+            ) : (
+              <input
+                type="text"
+                value={extraInput}
+                onChange={(e) => setExtraInput(e.target.value)}
+                className="w-full h-12 rounded-lg border px-4"
+                disabled={!category}
+              />
+            )}
+          </div>
 
-              {error && (
-                <div className="mt-4 text-sm text-red-600">{error}</div>
-              )}
+          <div className="border-t my-8" />
 
-              <div className="mt-6">
-                {loading && (
-                  <div className="p-4 border border-slate-200 rounded bg-white text-slate-600">
-                    Mencari...
+          {/* JUDUL */}
+          <h2 className="text-center text-xl font-semibold mb-6">
+            Melayani Layanan SIPENTOL
+          </h2>
+
+          {/* ================= KATEGORI ================= */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-4">
+            {CATEGORIES.map((item) => {
+              const Icon = item.icon;
+              const active = category === item.key;
+              const color = COLOR_STYLES[item.color];
+
+              return (
+                <button
+                  key={item.key}
+                  onClick={() => setCategory(item.key)}
+                  className={`rounded-xl p-6 text-center transition-all
+                    ${
+                      active
+                        ? `${color.bgActive} ring-2 ${color.ring} shadow-lg`
+                        : `bg-white border border-slate-200 hover:${color.bg}`
+                    }`}
+                >
+                  <div
+                    className={`mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full
+                      ${active ? color.bg : "bg-slate-100"}
+                    `}
+                  >
+                    <Icon size={26} className={color.text} />
                   </div>
-                )}
-
-                {!loading && resultMessage && resultMessage.type === "success" && (
-                  <div className="p-4 border border-slate-200 rounded bg-emerald-50 text-emerald-800">
-                    {resultMessage.text}
+                  <div className="text-sm font-medium text-slate-700">
+                    {item.label}
                   </div>
-                )}
+                </button>
+              );
+            })}
+          </div>
 
-                {!loading && resultMessage && resultMessage.type === "error" && (
-                  <div className="p-4 border border-slate-200 rounded bg-red-50 text-red-700">
-                    {resultMessage.text}
-                  </div>
-                )}
+          <p className="text-center text-sm text-slate-400 italic">
+            Silakan pilih kategori layanan SIPENTOL
+          </p>
+
+          <div className="border-t my-8" />
+
+          {/* ACTION */}
+          <div className="flex gap-4">
+            <button
+              onClick={handleSearch}
+              className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-2.5 rounded-md hover:bg-emerald-700"
+            >
+              <Search size={16} />
+              Cari
+            </button>
+
+            <button
+              onClick={handleReset}
+              className="inline-flex items-center gap-2 bg-white border px-6 py-2.5 rounded-md hover:bg-slate-50"
+            >
+              <RefreshCw size={16} />
+              Reset
+            </button>
+          </div>
+
+          {/* HASIL */}
+          <div className="mt-8">
+            {loading && <div className="p-4 border rounded">Mencari...</div>}
+
+            {!loading && !resultMessage && (
+              <div className="p-4 border border-dashed rounded text-center text-slate-400">
+                Hasil akan muncul di sini setelah melakukan pencarian.
               </div>
-            </form>
+            )}
+
+            {resultMessage && (
+              <div className="p-4 border rounded bg-emerald-100 text-emerald-800">
+                {resultMessage.text}
+              </div>
+            )}
+
+            {error && <div className="mt-4 text-red-600">{error}</div>}
           </div>
         </div>
       </main>
@@ -326,4 +249,3 @@ export default function SipentolCheck() {
     </div>
   );
 }
- 

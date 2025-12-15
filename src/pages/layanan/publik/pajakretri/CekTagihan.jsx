@@ -1,40 +1,35 @@
 // src/pages/layanan/pajakretri/CekTagihan.jsx
-import React, { useState, useEffect, useRef } from "react";
-import { Search, RefreshCw, ChevronDown, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Search, RefreshCw, ArrowLeft } from "lucide-react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
-const OPTIONS = [
-  "Tagihan Pasar",
-  "Tagihan Lab",
-  "Tagihan Rusunawa",
-  "Tagihan Kios Terminal",
-  "Tagihan Pengujian Air",
-  "Tagihan Limbah",
-  "Tagihan Sampah",
+/**
+ * NOTE:
+ * - Untuk mengganti emoji dengan asset SVG/PNG: ubah `icon` pada ITEMS menjadi <img src={...} />
+ */
+
+const ITEMS = [
+  { key: "pasar", label: "Tagihan Pasar", icon: "🏪" },
+  { key: "rusunawa", label: "Tagihan Rusunawa", icon: "🏠" },
+  { key: "sampah", label: "Tagihan Sampah", icon: "🗑️" },
+  { key: "lab", label: "Tagihan Lab", icon: "🧪" },
+  { key: "air", label: "Tagihan Pengujian Air", icon: "💧" },
+  { key: "kios", label: "Tagihan Kios Terminal", icon: "🚌" },
+  { key: "limbah", label: "Tagihan Limbah", icon: "♻️" },
 ];
 
 export default function CekTagihan() {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
   const [idPelanggan, setIdPelanggan] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
-  const ddRef = useRef(null);
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (ddRef.current && !ddRef.current.contains(e.target)) {
-        setDropdownOpen(false);
-      }
-    };
-    window.addEventListener("mousedown", handler);
-    return () => window.removeEventListener("mousedown", handler);
-  }, []);
+  // Label input dinamis berdasarkan pilihan kategori
+  const inputLabel = selectedOption ? `Masukkan ID ${selectedOption.label}` : "Masukkan ID Pelanggan";
+  const inputPlaceholder = selectedOption ? `Contoh: xxxx/${selectedOption.key}/01/2025` : "xxxxx/xxx/xx/xx/xxxx";
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -42,7 +37,7 @@ export default function CekTagihan() {
     setResult(null);
 
     if (!idPelanggan.trim()) {
-      setError("Masukkan ID pelanggan terlebih dahulu.");
+      setError(`${inputLabel} terlebih dahulu.`);
       return;
     }
 
@@ -65,6 +60,7 @@ export default function CekTagihan() {
         period: "2025-11",
         amount: 125000,
         status: "Belum Lunas",
+        category: selectedOption.label,
       });
     }, 800);
   };
@@ -73,25 +69,22 @@ export default function CekTagihan() {
     setIdPelanggan("");
     setError("");
     setResult(null);
-    setSelectedOption("");
+    setSelectedOption(null);
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      {/* Banner dengan overlay hijau transparan */}
+      {/* Banner */}
       <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
-        {/* layer foto */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        {/* layer hijau transparan */}
-        <div className="absolute inset-0 bg-emerald-900/60  mix-blend-multiply" />
+        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
       </div>
 
-      {/* Main Content */}
       <main className="container mx-auto px-6 lg:px-24 py-8">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
@@ -124,79 +117,83 @@ export default function CekTagihan() {
         >
           <div className="px-8 py-10">
             <form onSubmit={handleSearch}>
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                {/* INPUT KIRI */}
-                <div className="md:col-span-8">
+              {/* INPUT ROW (full width) */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                <div className="md:col-span-12">
                   <label className="block text-sm text-slate-800 mb-3">
-                    Masukkan ID Pelanggan
+                    {inputLabel}
                   </label>
                   <input
                     type="text"
                     value={idPelanggan}
                     onChange={(e) => setIdPelanggan(e.target.value)}
-                    placeholder="xxxxx/xxx/xx/xx/xxxx"
+                    placeholder={inputPlaceholder}
                     className="w-full px-4 py-3 rounded-md border border-slate-300 bg-white focus:ring-2 focus:ring-emerald-200"
                   />
                 </div>
+              </div>
 
-                {/* DROPDOWN KANAN */}
-                <div className="md:col-span-4 relative" ref={ddRef}>
-                  <label className="block text-sm text-slate-800 mb-2">
-                    Pengecekan Tagihan
-                  </label>
+              {/* separator */}
+              <div className="mt-6 border-t border-slate-300" />
 
-                  <button
-                    type="button"
-                    onClick={() => setDropdownOpen((prev) => !prev)}
-                    className="inline-flex items-center justify-between bg-white border border-slate-300 px-6 py-3 rounded-full shadow-sm min-w-[260px] hover:shadow-md transition text-sm"
-                    aria-expanded={dropdownOpen}
-                  >
-                    <span
-                      className={
-                        selectedOption
-                          ? "text-slate-700"
-                          : "text-slate-400 italic"
-                      }
-                    >
-                      {selectedOption || "Pilih tagihan"}
+              {/* ICON CATEGORIES - CENTERED, each card fills its grid cell */}
+              <div className="mt-8 text-center">
+                <h4 className="text-lg font-medium text-slate-800 mb-6">Melayani Tagihan</h4>
+
+                {/*
+                  Grid:
+                  - mobile: 2 kolom
+                  - small/tablet: 4 kolom
+                  - desktop: 7 kolom (sesuaikan jika perlu)
+                  Setiap tombol dibuat full-width/height dari cell sehingga memenuhi card.
+                */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-6 px-4">
+                  {ITEMS.map((it) => {
+                    const isActive = selectedOption?.key === it.key;
+                    return (
+                      <button
+                        key={it.key}
+                        type="button"
+                        onClick={() => { setSelectedOption(it); setError(""); }}
+                        className={`w-full h-full flex flex-col items-center justify-center gap-3 p-4 rounded-lg transition transform focus:outline-none focus:ring-2 focus:ring-emerald-200
+                          ${isActive ? "bg-emerald-50 border border-emerald-200 shadow-sm" : "bg-white border border-transparent hover:border-slate-100"}
+                        `}
+                        aria-pressed={isActive}
+                      >
+                        {/* icon circle */}
+                        <div className={`w-14 h-14 rounded-full flex items-center justify-center ${isActive ? "bg-emerald-100" : "bg-white"} shadow-sm`}>
+                          <span className="text-2xl">{it.icon}</span>
+                        </div>
+
+                        {/* label */}
+                        <div className="text-sm text-slate-700">{it.label.replace("Tagihan ", "")}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* current selection */}
+                <div className="mt-5 text-sm text-slate-600">
+                  {selectedOption ? (
+                    <span>
+                      <span className="font-medium text-slate-800">Terpilih:</span>{" "}
+                      {selectedOption.label}
                     </span>
-                    <ChevronDown size={18} className="text-slate-500" />
-                  </button>
-
-                  {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 bg-white w-60 rounded-xl shadow-lg border border-slate-200 z-20">
-                      {OPTIONS.map((item, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => {
-                            setSelectedOption(item);
-                            setDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 ${
-                            selectedOption === item
-                              ? "bg-emerald-50 text-emerald-700 font-medium"
-                              : "text-slate-700"
-                          }`}
-                        >
-                          {item}
-                        </button>
-                      ))}
-                    </div>
+                  ) : (
+                    <span className="italic text-slate-400">Silakan pilih kategori tagihan</span>
                   )}
                 </div>
               </div>
 
               <div className="mt-8 border-t border-slate-300" />
 
-              {/* BUTTON CARI + RESET */}
-              <div className="mt-6 flex items-center gap-4">
+              {/* ACTION BUTTONS */}
+              <div className="mt-6 flex flex-col sm:flex-row items-center sm:items-stretch justify-center sm:justify-start gap-4">
                 <button
                   type="submit"
                   className="bg-emerald-600 text-white px-6 py-2 rounded-md hover:bg-emerald-700 flex items-center gap-2"
                 >
-                  <Search size={16} />
-                  Cari
+                  <Search size={16} /> Cari
                 </button>
 
                 <button
@@ -204,14 +201,13 @@ export default function CekTagihan() {
                   onClick={handleReset}
                   className="bg-white border border-slate-300 text-slate-700 px-6 py-2 rounded-md hover:bg-slate-50 flex items-center gap-2"
                 >
-                  <RefreshCw size={16} />
-                  Reset
+                  <RefreshCw size={16} /> Reset
                 </button>
 
                 {error && <span className="text-red-600 text-sm">{error}</span>}
               </div>
 
-              {/* HASIL PENCARIAN */}
+              {/* RESULTS */}
               <div className="mt-6">
                 {loading && (
                   <div className="p-4 border border-slate-200 bg-white rounded text-center text-slate-600">
@@ -242,6 +238,16 @@ export default function CekTagihan() {
                         <p className="font-bold text-emerald-700">
                           Rp {result.amount.toLocaleString()}
                         </p>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-slate-500">Kategori</p>
+                        <p>{result.category}</p>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-slate-500">Status</p>
+                        <p>{result.status}</p>
                       </div>
                     </div>
                   </div>
