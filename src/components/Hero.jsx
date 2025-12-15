@@ -11,10 +11,10 @@ export default function Hero() {
       {/* Background Layer */}
       <div className="absolute inset-0">
         <div
-          className="absolute inset-0 bg-center bg-cover filter blur-sm scale-105"
+          className="absolute inset-0 bg-center bg-cover filter scale-105"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/65" />
       </div>
 
       {/* Content */}

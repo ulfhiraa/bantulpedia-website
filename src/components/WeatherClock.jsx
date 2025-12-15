@@ -36,10 +36,10 @@ export default function WeatherClock({ large = false }) {
         <div className={valueClass}>{weather.desc}</div>
       </div>
 
-      <div className={itemClass}>
+      {/* <div className={itemClass}>
         <div className={labelClass}>Angin</div>
         <div className={valueClass}>{weather.wind} m/s</div>
-      </div>
+      </div> */}
     </div>
   )
 }

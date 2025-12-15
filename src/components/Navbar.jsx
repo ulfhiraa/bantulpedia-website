@@ -1,32 +1,21 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/LogoBantulpedia.png";
+// import logo from "../assets/LogoBantulpedia.png";
+import logo from "../assets/bantulpedia-iconblack.png";
 
 export default function Navbar() {
   const location = useLocation();
   const hideMenu = ["/login", "/register"].includes(location.pathname);
 
-  const NAV_COLOR = "#041D0F";
   const isActive = (path) => location.pathname === path;
-
-  // Jika di halaman login/register → NAWARAN: transparan gelap, NO blur
-  const navStyle = hideMenu
-    ? {
-        backgroundColor: "rgba(255, 255, 255, 0.5)", // semi translucent
-        backdropFilter: "blur(10px) saturate(100%)",
-        WebkitBackdropFilter: "blur(5px) saturate(100%)",
-        boxShadow: "none",
-      }
-    : {
-        backgroundColor: NAV_COLOR,
-      };
-  
-  const textColor = hideMenu ? "text-black" : "text-white";
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full z-[60] transition-all duration-300"
-      style={navStyle}
+      className={`fixed top-0 left-0 w-full z-[60] transition-all duration-300
+        ${hideMenu 
+          ? "bg-white/20 backdrop-blur-md" 
+          : "bg-white/20 backdrop-blur-md"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
 
@@ -37,7 +26,7 @@ export default function Navbar() {
 
         {/* MENU */}
         {!hideMenu && (
-          <ul className="flex items-center gap-8 font-medium text-white h-full ${textColor}">
+          <ul className="flex items-center gap-8 font-medium text-black h-full ${textColor}">
             <li className="h-full flex items-center">
               <Link
                 to="/"
@@ -59,7 +48,7 @@ export default function Navbar() {
                     : "border-b-2 border-transparent hover:border-white/60"
                 }`}
               >
-                Layanan ▾
+                Layanan 
               </span>
 
               <div
@@ -109,14 +98,14 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <Link
               to="/login"
-              className="px-6 py-2 rounded-full font-medium border text-white border-white/40 hover:bg-white/10 transition"
+              className="px-6 py-2 rounded-full font-medium border text-black border-black hover:bg-white/10 transition"
             >
               Masuk
             </Link>
 
             <Link
               to="/register"
-              className="px-6 py-2 rounded-full font-medium bg-white text-[#041D0F] hover:bg-white/90 transition"
+              className="px-6 py-2 rounded-full font-medium border bg-transparent text-black hover:bg-white/90 transition"
             >
               Daftar
             </Link>
