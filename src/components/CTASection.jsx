@@ -62,11 +62,11 @@ export default function CTASection() {
             </div>
 
             {/* Main heading */}
-            <div className="mt-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold leading-tight">
+            <div className="mt-15">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl font-extrabold leading-tight">
                 Cari <span className="text-yellow-300">Informasi Bantul?</span>
                 <br />
-                Semua ada di BantulPedia
+                Semua ada di <span className="text-yellow-300">Bantulpedia</span>
               </h2>
 
               <p className="max-w-lg mt-4 text-sm text-white/90">
