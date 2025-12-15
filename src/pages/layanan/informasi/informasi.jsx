@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import heroBg from "../../../assets/pandansimo1.jpg";
-import { ChevronDown } from "lucide-react";
 
 // API
 import { getPengumuman } from "../../../api/layanan/informasi/pengumuman.js";
@@ -113,6 +112,21 @@ export default function InformasiIndex() {
     if (d.type === "Feature" && d.properties) return [{ ...d.properties, _geometry: d.geometry }];
     if (typeof d === "object") return [d];
     return [];
+  };
+
+  const formatDateDMY = (value) => {
+    if (!value) return "";
+
+    const d = new Date(value);
+
+    // kalau date invalid
+    if (isNaN(d.getTime())) return value;
+
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+
+    return `${day}-${month}-${year}`;
   };
 
   // normalisasi item
@@ -304,7 +318,7 @@ export default function InformasiIndex() {
       return <div className="border rounded-lg p-6 text-red-600">Gagal memuat data: {error}</div>;
     }
 
-    if (!items || items.length === 0) {
+    if (!items || items.length   === 0) {
       return (
         <div className="border rounded-lg p-4 text-slate-500">
           Tidak ada data untuk kategori <strong>{selectedMenu}</strong>.
@@ -431,7 +445,11 @@ export default function InformasiIndex() {
                       <h4 className="font-semibold text-xs text-slate-800 line-clamp-2">
                         {it.title}
                       </h4>
-                      {it.date && <p className="text-[11px] text-slate-500 mt-1">{it.date}</p>}
+                      {it.date && (
+                        <p className="text-[11px] text-slate-500 mt-1">
+                          {formatDateDMY(it.date)}
+                        </p>
+                      )}
                     </div>
                   </button>
                 );
@@ -480,7 +498,9 @@ export default function InformasiIndex() {
                     </h4>
 
                     <div className="flex items-center gap-3 text-[12px] text-slate-400 mb-2">
-                      {it.date && <span>{it.date}</span>}
+                      {it.date && (
+                        <span>{formatDateDMY(it.date)}</span>
+                      )}
                       <span>•</span>
                       <span>Iklan Layanan Masyarakat</span>
                     </div>
@@ -562,9 +582,7 @@ export default function InformasiIndex() {
                           {it.title}
                         </h3>
                         {it.date && (
-                          <p className="text-[10px] text-slate-100">
-                            {it.date}
-                          </p>
+                          <span>{formatDateDMY(it.date)}</span>
                         )}
                       </div>
                     </button>
@@ -603,9 +621,7 @@ export default function InformasiIndex() {
                         {it.title}
                       </h5>
                       {it.date && (
-                        <p className="text-[10px] text-slate-500 mt-1">
-                          {it.date}
-                        </p>
+                        <span>{formatDateDMY(it.date)}</span>
                       )}
                     </div>
                   </button>
@@ -736,7 +752,9 @@ export default function InformasiIndex() {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden border shadow-sm">
                   <img src={it.image} className="w-full h-full object-cover group-hover:scale-105 transition" />
                 </div>
-                <p className="text-[11px] mt-1 text-slate-600 text-center">{it.date}</p>
+                <p className="text-[11px] mt-1 text-slate-600 text-center">
+                  {formatDateDMY(it.date)}
+                </p>
               </button>
             ))}
           </div>
@@ -767,10 +785,8 @@ export default function InformasiIndex() {
                 <h4 className="font-semibold text-slate-800 text-sm mb-1">
                   {it.title}
                 </h4>
-                {(it.date || it.tanggal) && (
-                  <p className="text-[11px] text-slate-400 mb-1">
-                    {it.date || it.tanggal}
-                  </p>
+                {it.date && (
+                  <span>{formatDateDMY(it.date)}</span>
                 )}
                 {it.lokasi && (
                   <p className="text-xs text-slate-500 mb-1">{it.lokasi}</p>
@@ -1121,7 +1137,7 @@ export default function InformasiIndex() {
             {descriptions[selectedMenu]}
           </p>
 
-          <div className="space-y-3 max-h-[56vh] overflow-y-auto pr-1">
+          <div className="space-y-3">
             {menuItems.map((item) => (
               <button
                 key={item}
@@ -1133,14 +1149,13 @@ export default function InformasiIndex() {
                 }`}
               >
                 <span>{item}</span>
-                <ChevronDown size={16} className="text-slate-500" />
               </button>
             ))}
           </div>
         </aside>
 
         <section className="md:col-span-4">
-          <div className="bg-white border rounded-xl shadow-sm p-5 md:p-7">
+          <div className="bg-white rounded-xl shadow-sm p-2 md:p-7">
             <h3 className="font-semibold text-slate-800 mb-4">
               {selectedMenu || "Semua Informasi"}
             </h3>

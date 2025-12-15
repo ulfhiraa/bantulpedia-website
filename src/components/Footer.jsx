@@ -15,7 +15,7 @@ import icMail from "../assets/icon-mail.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#041D0F]/45 text-black">
+    <footer className="bg-[#041D0F]/10 text-black">
       {/* container diperkecil */}
       <div className="max-w-7xl mx-auto px-6 py-6">
 
