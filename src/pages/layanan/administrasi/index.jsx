@@ -1,4 +1,3 @@
-// src/pages/layanan/administrasi/index.jsx
 import React from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
@@ -13,6 +12,8 @@ import presensiIcon from "../../../assets/presensi.png";
 import ekinerjaIcon from "../../../assets/ekinerja.png";
 
 export default function AdministrasiIndex() {
+  const navigate = useNavigate();
+
   const items = [
     {
       id: "surban",
@@ -37,110 +38,146 @@ export default function AdministrasiIndex() {
     },
   ];
 
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      {/* NAVBAR */}
       <div className="z-50">
         <Navbar />
       </div>
 
-      {/* HERO */}
-      <header className="relative w-full h-56 md:h-62 lg:h-80 overflow-hidden">
+      {/* ================= HERO ================= */}
+      <header className="relative w-full h-56 md:h-72 lg:h-80 overflow-hidden">
         {/* Background Image */}
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-
         <div
-          className="absolute inset-0 mix-blend-multiply bg-center"
-          style={{
-            backgroundImage: `url(${heroBg})`,
-            filter: "contrast(0.95)",
-          }}
-          aria-hidden="true"
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
         />
 
-        {/* Dark + green tint overlay untuk sinkron dengan footer */}
+        {/* Overlay */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,30,20,0.45) 0%, rgba(0,20,15,0.55) 60%, rgba(0,10,8,0.65) 100%)",
-            backdropFilter: "saturate(120%)",
+              "linear-gradient(180deg, rgba(0,40,30,0.45), rgba(0,25,20,0.6), rgba(0,15,12,0.7))",
           }}
-          aria-hidden="true"
         />
       </header>
 
-      {/* MAIN - card container floating di atas hero */}
-      <main className="relative z-30 w-full px-4 md:px-6 -mt-16 md:-mt-20 mb-12">
+      {/* ================= MAIN ================= */}
+      <main className="relative z-30 w-full px-4 md:px-6 -mt-16 md:-mt-20 mb-16">
         <div className="max-w-6xl mx-auto">
-          {/* Floating panel */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
-            <div className="relative mb-6 flex items-center justify-center">
-              {/* BUTTON KEMBALI */}
-              {/* <button
-                onClick={() => navigate("/")}
-                className="absolute left-0 flex items-center gap-1 text-slate-600 hover:text-slate-900 text-sm"
-              >
-                ← Kembali
-              </button> */}
+          {/* ===== Glass Panel ===== */}
+          <div
+            className="
+              relative
+              rounded-3xl
+              p-6 md:p-10
+              bg-white/20
+              backdrop-blur-xl
+              border border-white/30
+              shadow-[0_25px_60px_rgba(0,0,0,0.3)]
+              overflow-hidden
+            "
+          >
+            {/* Glass highlight */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent pointer-events-none" />
 
-              {/* JUDUL */}
-              <h2 className="text-slate-900 text-lg md:text-xl font-semibold text-center">
-                Layanan Administrasi
-              </h2>
-            </div>
+            <div className="relative z-10">
+              {/* HEADER */}
+              <div className="text-center mb-8">
+                <h2 className="text-slate-900 text-lg md:text-xl font-semibold">
+                  Layanan Administrasi
+                </h2>
+                <p className="text-sm text-slate-600 mt-2">
+                  Pilih aplikasi yang ingin diakses. Semua link akan membuka tab
+                  baru.
+                </p>
+              </div>
 
-            <p className="text-sm text-slate-500 text-center -mt-2 mb-6">
-              Pilih aplikasi yang ingin diakses. Semua link akan membuka tab baru.
-            </p>
-
-            {/* Grid kartu */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
-              {items.map((item) => (
-                <a
-                  key={item.id}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full max-w-xs group"
-                  aria-label={`Buka ${item.title}`}
-                >
-                  <div
-                    className="bg-white rounded-2xl border border-slate-100 shadow-xl p-6 flex flex-col items-center text-center transition-transform duration-200 transform-gpu
-                      hover:-translate-y-3 hover:shadow-lg focus-within:-translate-y-3 focus-within:shadow-lg"
-                    role="button"
-                    tabIndex={0}
+              {/* ===== CARDS ===== */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
+                {items.map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group w-full max-w-xs"
+                    aria-label={`Buka ${item.title}`}
                   >
+                    {/* CARD – PRESS IN EFFECT */}
                     <div
-                      className="w-20 h-20 md:w-24 md:h-24 rounded-xl flex items-center justify-center mb-4"
-                      style={{
-                        boxShadow: "inset 0 -6px 18px rgba(0,0,0,0.06)",
-                      }}
+                      className="
+                        relative
+                        rounded-2xl
+                        p-6
+                        flex flex-col items-center text-center
+
+                        bg-white/30
+                        backdrop-blur-2xl
+                        border border-white/30
+
+                        shadow-[0_14px_30px_rgba(0,0,0,0.25)]
+                        transition-all duration-300 ease-out
+                        transform-gpu
+
+                        hover:translate-y-[2px]
+                        hover:scale-[0.98]
+                        hover:bg-white/25
+                        hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.25)]
+
+                        active:scale-[0.96]
+                        active:shadow-[inset_0_6px_18px_rgba(0,0,0,0.35)]
+                      "
                     >
-                      <img
-                        src={item.icon}
-                        alt={`${item.title} icon`}
-                        className="w-12 h-12 md:w-14 md:h-14 object-contain"
-                      />
+                      {/* Card highlight */}
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/35 via-white/10 to-transparent opacity-60 pointer-events-none" />
+
+                      {/* Icon */}
+                      <div
+                        className="
+                          relative
+                          w-20 h-20 md:w-24 md:h-24
+                          rounded-2xl
+                          flex items-center justify-center
+                          mb-4
+
+                          bg-white/40
+                          backdrop-blur-xl
+                          border border-white/40
+                          shadow-[0_10px_25px_rgba(0,0,0,0.25)]
+                        "
+                      >
+                        <img
+                          src={item.icon}
+                          alt={`${item.title} icon`}
+                          className="w-12 h-12 md:w-14 md:h-14 object-contain"
+                        />
+                      </div>
+
+                      <h3 className="text-sm md:text-base font-semibold text-slate-900">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1 text-xs md:text-sm text-slate-600">
+                        {item.desc}
+                      </p>
+
+                      <span
+                        className="
+                          mt-4
+                          text-xs font-medium
+                          text-emerald-700
+                          opacity-0
+                          group-hover:opacity-100
+                          transition-all duration-300
+                        "
+                      >
+                        Buka aplikasi →
+                      </span>
                     </div>
-
-                    <h3 className="text-sm md:text-base font-semibold text-slate-900">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-xs md:text-sm text-slate-500">
-                      {item.desc}
-                    </p>
-
-                    <span
-                      className="mt-4 inline-flex items-center gap-2 text-emerald-600 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-                      aria-hidden="true"
-                    >
-                      Buka aplikasi →
-                    </span>
-                  </div>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
