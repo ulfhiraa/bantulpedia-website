@@ -897,23 +897,24 @@ export default function InformasiIndex() {
         style={isFullscreen ? undefined : { paddingTop: 84 }}
       >
         <div className="absolute inset-0 bg-black/40 backdrop-blur-md" onClick={handleClose} />
-        <div
-          id="informasi-modal-wrapper"
-          className={`relative z-60 ${
-            isFullscreen
-              ? "w-full h-full mx-0"
-              : "w-full mx-4 sm:mx-6 md:mx-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl"
-          }`}
-          style={{
-            maxHeight: isFullscreen ? "100vh" : "calc(100vh - 8rem)",
-          }}
-        >
+          <div
+            id="informasi-modal-wrapper"
+            className={`relative z-60 ${
+              isFullscreen
+                ? "w-full h-full mx-0"
+                : "mx-auto w-[92vw] xl:w-[88vw] 2xl:w-[80vw]"
+            }`}
+            style={{
+              maxHeight: isFullscreen ? "100vh" : "calc(100vh - 6rem)",
+            }}
+          >
+
           <div
             className="
-              bg-white/90
+              bg-white/95
               backdrop-blur-xl
-              rounded-2xl
-              shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)]
+              rounded-[28px]
+              shadow-[0_40px_120px_-20px_rgba(0,0,0,0.55)]
               border border-white/40
               overflow-hidden
               flex flex-col
@@ -921,9 +922,10 @@ export default function InformasiIndex() {
             style={{ height: "100%" }}
           >
 
+
             {/* HEADER */}
             <div className="relative px-5 py-4 border-b border-slate-200/70 flex items-center">
-              <h3 className="font-semibold text-lg truncate pr-20">
+              <h3 className="text-xl font-semibold tracking-tight leading-tight pr-24">
                 {item.title}
               </h3>
               <div className="absolute right-3 top-2 flex items-center gap-2">
@@ -1036,14 +1038,7 @@ export default function InformasiIndex() {
             </div>
 
             {/* FOOTER */}
-            <div className="flex justify-end gap-2 px-4 py-3 border-t">
-              <button
-                onClick={handleClose}
-                className="px-4 py-2 rounded border"
-              >
-                Tutup
-              </button>
-            </div>
+            <div className="flex justify-end gap-3 px-5 py-4 border-t border-slate-200/70 bg-slate-50/60"></div>
           </div>
         </div>
       </div>
