@@ -204,7 +204,7 @@ export default function InfoBahanPokok() {
         <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
       </div>
 
-      <main className="container mx-auto px-6 lg:px-12 py-10">
+      <main className="mx-auto py-10 px-4">
         {/* back button */}
         <div className="mb-4">
           <button
@@ -416,7 +416,7 @@ function StatusBadge({ status }) {
   const polylines = {
     Naik: "2,9 6,6 10,8 14,5 18,7",
     Turun: "2,5 6,8 10,6 14,10 18,8",
-    Stabil: "2,7 6,7 10,7 14,7 18,7",
+    Stabil: "2,6 6,6 10,6 14,6 18,6",
   };
 
   return (
@@ -434,21 +434,14 @@ function StatusBadge({ status }) {
           <defs>
             <linearGradient id={gid} x1="0" x2="1">
               <stop offset="0%" stopColor={st.colorFrom} />
-              <stop offset="100%" stopColor={st.colorTo} />
+              <stop offset="80%" stopColor={st.colorTo} />
             </linearGradient>
           </defs>
 
-          <path
-            d={`M2 11 L${
-              polylines[status] || polylines["Stabil"]
-            } L18 11 Z`}
-            fill={`url(#${gid})`}
-            fillOpacity="0.8"
-          />
           <polyline
             points={polylines[status] || polylines["Stabil"]}
-            stroke={`url(#${gid})`}
-            strokeWidth="1"
+            stroke={st.colorTo}
+            strokeWidth={status === "Stabil" ? "1.6" : "1.25"}
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
