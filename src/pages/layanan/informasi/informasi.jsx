@@ -896,8 +896,7 @@ export default function InformasiIndex() {
         }`}
         style={isFullscreen ? undefined : { paddingTop: 84 }}
       >
-        <div className="absolute inset-0 bg-black/50" onClick={handleClose} />
-
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" onClick={handleClose} />
         <div
           id="informasi-modal-wrapper"
           className={`relative z-60 ${
@@ -910,11 +909,20 @@ export default function InformasiIndex() {
           }}
         >
           <div
-            className="bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
+            className="
+              bg-white/90
+              backdrop-blur-xl
+              rounded-2xl
+              shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)]
+              border border-white/40
+              overflow-hidden
+              flex flex-col
+            "
             style={{ height: "100%" }}
           >
+
             {/* HEADER */}
-            <div className="relative px-4 py-3 border-b flex items-center">
+            <div className="relative px-5 py-4 border-b border-slate-200/70 flex items-center">
               <h3 className="font-semibold text-lg truncate pr-20">
                 {item.title}
               </h3>
@@ -929,9 +937,13 @@ export default function InformasiIndex() {
                 </button>
                 <button
                   onClick={handleClose}
-                  aria-label="Tutup"
-                  className="text-xl font-bold px-2"
-                  style={{ lineHeight: 1 }}
+                  className="
+                    w-9 h-9 rounded-full
+                    flex items-center justify-center
+                    hover:bg-slate-100
+                    transition
+                    text-lg
+                  "
                 >
                   ✕
                 </button>
