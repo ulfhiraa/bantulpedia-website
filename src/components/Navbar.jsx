@@ -40,64 +40,79 @@ export default function Navbar() {
         </Link>
 
         {/* MENU */}
-        {!hideMenu && (
-          <ul className={`flex items-center gap-8 text-sm font-medium ${textColor}`}>
-            <li>
-              <Link
-                to="/"
-                className={`pb-1 border-b-2 transition ${
-                  isActive("/")
-                    ? borderActive
-                    : `border-transparent ${borderHover}`
-                }`}
-              >
-                Beranda
-              </Link>
-            </li>
 
-            <li className="relative group">
-              <span className={`pb-1 cursor-pointer border-b-2 transition ${
+        {hideMenu ? (
+        // === LOGIN / REGISTER (CENTER BERANDA) ===
+        <Link
+          to="/"
+          className={`
+            absolute left-1/2 -translate-x-1/2
+            text-md font-medium ${textColor}
+            hover:underline
+          `}
+        >
+          Beranda
+        </Link>
+      ) : (
+        // === NORMAL NAVBAR ===
+        <ul className={`flex items-center gap-8 text-sm font-medium ${textColor}`}>
+          <li>
+            <Link
+              to="/"
+              className={`pb-1 border-b-2 transition ${
+                isActive("/")
+                  ? borderActive
+                  : `border-transparent ${borderHover}`
+              }`}
+            >
+              Beranda
+            </Link>
+          </li>
+
+          <li className="relative group">
+            <span
+              className={`pb-1 cursor-pointer border-b-2 transition ${
                 location.pathname.startsWith("/layanan")
                   ? borderActive
                   : `border-transparent ${borderHover}`
-              }`}>
+              }`}
+            >
+              Layanan
+            </span>
 
-                Layanan
-              </span>
-
-              <div className="
-                absolute left-0 mt-3 w-56
-                bg-white text-black rounded-xl shadow-lg border border-slate-200
-                opacity-0 invisible group-hover:opacity-100 group-hover:visible
-                translate-y-2 group-hover:translate-y-0
-                transition-all
-              ">
-                <Link to="/layanan/informasi" className="block px-5 py-3 hover:bg-slate-50">
-                  Informasi Publik
-                </Link>
-                <Link to="/layanan/publik" className="block px-5 py-3 hover:bg-slate-50">
-                  Layanan Publik
-                </Link>
-                <Link to="/layanan/administrasi" className="block px-5 py-3 hover:bg-slate-50">
-                  Administrasi
-                </Link>
-              </div>
-            </li>
-
-            <li>
-              <Link
-                to="/tentang"
-                className={`pb-1 border-b-2 transition ${
-                  isActive("/tentang")
-                    ? borderActive
-                    : `border-transparent ${borderHover}`
-                }`}
-              >
-                Tentang
+            <div className="
+              absolute left-0 mt-3 w-56
+              bg-white text-black rounded-xl shadow-lg border border-slate-200
+              opacity-0 invisible group-hover:opacity-100 group-hover:visible
+              translate-y-2 group-hover:translate-y-0
+              transition-all
+            ">
+              <Link to="/layanan/informasi" className="block px-5 py-3 hover:bg-slate-50">
+                Informasi Publik
               </Link>
-            </li>
-          </ul>
-        )}
+              <Link to="/layanan/publik" className="block px-5 py-3 hover:bg-slate-50">
+                Layanan Publik
+              </Link>
+              <Link to="/layanan/administrasi" className="block px-5 py-3 hover:bg-slate-50">
+                Administrasi
+              </Link>
+            </div>
+          </li>
+
+          <li>
+            <Link
+              to="/tentang"
+              className={`pb-1 border-b-2 transition ${
+                isActive("/tentang")
+                  ? borderActive
+                  : `border-transparent ${borderHover}`
+              }`}
+            >
+              Tentang
+            </Link>
+          </li>
+        </ul>
+      )}
 
         {/* AUTH BUTTON */}
         {!hideMenu && (
