@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import heroBg from "../assets/pandansimo1.jpg";
-import googleIcon from "../assets/globe.png";
+import googleIcon from "../assets/Google.png";
 
 export default function Login() {
   const navigate = useNavigate();
