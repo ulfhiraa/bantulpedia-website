@@ -1,5 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom"; // <--- tambahkan ini
+import { Link } from "react-router-dom"; 
+import pengumumanIcon from "../assets/Pengumuman.png";
+import beritaIcon from "../assets/Berita.png";
+import cctvIcon from "../assets/cctv.png";
+import wifiIcon from "../assets/Wi-Fi.png";
+import galeriFotoIcon from "../assets/GaleriFoto.png";
+
+// Admin Pemerintahan
+import surbanIcon from "../assets/surban.png";
+import presensiIcon from "../assets/presensi.png";
+import ekinerjaIcon from "../assets/ekinerja.png";
+
+import informasiImg from "../assets/Informasi.png";
+import pemerintahanImg from "../assets/Pemerintahan.jpg";
+import administrasiImg from "../assets/Administrasi.jpg";
+
+import kesehatanIcon from "../assets/bedrs.png";
+import pendidikanIcon from "../assets/Pendidikan.png";
+import pariwisataIcon from "../assets/JelajahBantul.png";
+import kebudayaanIcon from "../assets/Kebudayaan.png";
+import pemerintahanIcon from "../assets/Pemerintahan.png";
 
 export default function CategorySection() {
   const sectionRef = useRef(null);
@@ -12,40 +32,40 @@ export default function CategorySection() {
       id: "info",
       title: "Informasi Publik",
       itemsCount: 8,
-      image: "../src/assets/Informasi.jpg",
+      image: informasiImg,
       link: "/layanan/informasi",
       services: [
-        { name: "Pengumuman", icon: "📢" },
-        { name: "Berita", icon: "📰" },
-        { name: "CCTV", icon: "📹" },
-        { name: "Titik Wifi", icon: "📶" },
-        { name: "Galeri Foto", icon: "📷" },
+        { name: "Pengumuman", image: pengumumanIcon },
+        { name: "Berita", image: beritaIcon },
+        { name: "CCTV", image: cctvIcon },
+        { name: "Titik Wifi", image: wifiIcon },
+        { name: "Galeri Foto", image: galeriFotoIcon },
       ],
     },
     {
       id: "layanan",
       title: "Layanan Publik",
       itemsCount: 45,
-      image: "../src/assets/Pemerintahan.jpg",
+      image: pemerintahanImg,
       link: "/layanan/publik",
       services: [
-        { name: "Kesehatan", icon: "🩺" },
-        { name: "Pendidikan", icon: "🎓" },
-        { name: "Pariwisata", icon: "🗺️" },
-        { name: "Kebudayaan", icon: "🎭" },
-        { name: "Pemerintahan", icon: "🏛️" },
+        { name: "Kesehatan", image: kesehatanIcon },
+        { name: "Pendidikan", image: pendidikanIcon },
+        { name: "Pariwisata", image: pariwisataIcon },
+        { name: "Kebudayaan", image: kebudayaanIcon },
+        { name: "Pemerintahan", image: pemerintahanIcon },
       ],
     },
     {
       id: "admin",
       title: "Administrasi Pemerintahan",
       itemsCount: 3,
-      image: "../src/assets/Administrasi.jpg",
+      image: administrasiImg,
       link: "/layanan/administrasi",
       services: [
-        { name: "SURBAN", icon: "🗂️" },
-        { name: "Presensi Bantul", icon: "👤" },
-        { name: "eKinerja", icon: "📈" },
+        { name: "SURBAN", image: surbanIcon },
+        { name: "Presensi Bantul", image: presensiIcon },
+        { name: "eKinerja", image: ekinerjaIcon },
       ],
     },
   ];
@@ -126,7 +146,11 @@ export default function CategorySection() {
                 <ul className="mt-2 space-y-2 text-sm">
                   {item.services.map((s, i) => (
                     <li key={i} className="flex items-center gap-2">
-                      <span>{s.icon}</span>
+                      <img
+                        src={s.image}
+                        alt={s.name}
+                        className="w-5 h-5 object-contain"
+                      />
                       <span>{s.name}</span>
                     </li>
                   ))}
