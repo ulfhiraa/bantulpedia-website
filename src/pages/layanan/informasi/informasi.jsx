@@ -329,7 +329,7 @@ export default function InformasiIndex() {
     // CCTV GRID
     if (selectedMenu === "CCTV") {
       return (
-        <div id="cctv" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="cctv" className="h-full overflow-y-auto pr-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {items.map((it, i) => (
               <button
@@ -380,7 +380,7 @@ export default function InformasiIndex() {
     // EVENT BANTUL: grid poster
     if (selectedMenu === "Event Bantul") {
       return (
-        <div id="event" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-h-[60vh] overflow-y-auto pr-2">
+        <div id="event" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-full overflow-y-auto pr-2">
           {items.map((it, i) => (
             <button
               key={i}
@@ -410,7 +410,7 @@ export default function InformasiIndex() {
     // GALERI VIDEO
     if (selectedMenu === "Galeri Video") {
       return (
-        <div id="galerivideo" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="galerivideo" className="h-full overflow-y-auto pr-2">
           {items.length === 0 ? (
             <div className="border rounded-lg p-4 text-slate-500">
               Tidak ada video untuk kategori <strong>{selectedMenu}</strong>.
@@ -463,7 +463,7 @@ export default function InformasiIndex() {
     // ILM 
     if (selectedMenu === "ILM") {
       return (
-        <div id="ilm" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="ilm" className="h-full overflow-y-auto pr-2">
           {items.length === 0 ? (
             <div className="border rounded-lg p-4 text-slate-500">
               Tidak ada data untuk <strong>{selectedMenu}</strong>.
@@ -528,14 +528,14 @@ export default function InformasiIndex() {
       const [headline, second, third, ...others] = items;
 
       return (
-        <div id="berita" className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+        <div id="berita" className="space-y-6 h-full overflow-y-auto pr-2">
           {/* ====== HERO ATAS ====== */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Kiri: headline besar */}
             {headline && (
               <button
                 onClick={() => openModal(headline)}
-                className="group relative rounded-2xl overflow-hidden border shadow-md md:col-span-2"
+                className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-md md:col-span-2"
               >
                 {headline.image && (
                   <img
@@ -568,7 +568,7 @@ export default function InformasiIndex() {
                     <button
                       key={idx}
                       onClick={() => openModal(it)}
-                      className="group relative rounded-2xl overflow-hidden border shadow-sm flex-1 min-h-[110px]"
+                      className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-md flex-1 min-h-[110px]"
                     >
                       {it.image && (
                         <img
@@ -603,7 +603,7 @@ export default function InformasiIndex() {
                   <button
                     key={i}
                     onClick={() => openModal(it)}
-                    className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition"
+                    className="group rounded-xl overflow-hidden border border-slate-200 bg-white shadow-md hover:shadow-md transition"
                   >
                     {it.image && (
                       <div className="w-full h-24 md:h-28 overflow-hidden">
@@ -651,7 +651,7 @@ export default function InformasiIndex() {
       }
 
       return (
-        <div id="wifi" className="max-h-[62.5vh] overflow-y-auto pr-2 space-y-5">
+        <div id="wifi" className="h-full overflow-y-auto pr-2 space-y-5">
           {/* PETA BESAR SEMUA TITIK WIFI */}
           <div className="rounded-2xl border shadow-sm overflow-hidden bg-white">
             <div className="p-4 border-b">
@@ -741,7 +741,7 @@ export default function InformasiIndex() {
     // GALERI FOTO: grid jejer + tanggal di bawah
     if (selectedMenu === "Galeri Foto") {
       return (
-        <div id="galerifoto" className="max-h-[57vh] overflow-y-auto pr-2">
+        <div id="galerifoto" className="h-full overflow-y-auto pr-2">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
             {items.map((it,i)=>(
               <button
@@ -764,7 +764,7 @@ export default function InformasiIndex() {
 
     // DEFAULT: list
     return (
-      <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+      <div className="space-y-4 h-full overflow-y-auto pr-2">
         {items.map((it, i) => {
           const showImage = selectedMenu !== "Pengumuman" && it.image;
 
@@ -772,7 +772,7 @@ export default function InformasiIndex() {
             <button
               key={i}
               onClick={() => openModal(it)}
-              className="w-full text-left border rounded-lg p-4 bg-white shadow-sm flex gap-4 hover:shadow-md transition"
+              className="w-full text-left border border-slate-200 rounded-lg p-4 bg-white shadow-md flex gap-4 hover:shadow-md transition"
             >
               {showImage && (
                 <img
@@ -896,26 +896,36 @@ export default function InformasiIndex() {
         }`}
         style={isFullscreen ? undefined : { paddingTop: 84 }}
       >
-        <div className="absolute inset-0 bg-black/50" onClick={handleClose} />
-
-        <div
-          id="informasi-modal-wrapper"
-          className={`relative z-60 ${
-            isFullscreen
-              ? "w-full h-full mx-0"
-              : "w-full mx-4 sm:mx-6 md:mx-8 max-w-2xl sm:max-w-3xl lg:max-w-4xl"
-          }`}
-          style={{
-            maxHeight: isFullscreen ? "100vh" : "calc(100vh - 8rem)",
-          }}
-        >
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" onClick={handleClose} />
           <div
-            className="bg-white rounded-lg shadow-xl overflow-hidden flex flex-col"
+            id="informasi-modal-wrapper"
+            className={`relative z-60 ${
+              isFullscreen
+                ? "w-full h-full mx-0"
+                : "mx-auto w-[92vw] xl:w-[88vw] 2xl:w-[80vw]"
+            }`}
+            style={{
+              maxHeight: isFullscreen ? "100vh" : "calc(100vh - 6rem)",
+            }}
+          >
+
+          <div
+            className="
+              bg-white/95
+              backdrop-blur-xl
+              rounded-[28px]
+              shadow-[0_40px_120px_-20px_rgba(0,0,0,0.55)]
+              border border-white/40
+              overflow-hidden
+              flex flex-col
+            "
             style={{ height: "100%" }}
           >
+
+
             {/* HEADER */}
-            <div className="relative px-4 py-3 border-b flex items-center">
-              <h3 className="font-semibold text-lg truncate pr-20">
+            <div className="relative px-5 py-4 border-b border-slate-200/70 flex items-center">
+              <h3 className="text-xl font-semibold tracking-tight leading-tight pr-24">
                 {item.title}
               </h3>
               <div className="absolute right-3 top-2 flex items-center gap-2">
@@ -929,9 +939,13 @@ export default function InformasiIndex() {
                 </button>
                 <button
                   onClick={handleClose}
-                  aria-label="Tutup"
-                  className="text-xl font-bold px-2"
-                  style={{ lineHeight: 1 }}
+                  className="
+                    w-9 h-9 rounded-full
+                    flex items-center justify-center
+                    hover:bg-slate-100
+                    transition
+                    text-lg
+                  "
                 >
                   ✕
                 </button>
@@ -986,7 +1000,7 @@ export default function InformasiIndex() {
                       src={item.image}
                       alt={item.title}
                       className={`w-full object-contain rounded mb-4 ${
-                        isBerita || isGaleriFoto ? "max-h-[60vh]" : "max-h-[60vh]"
+                        isBerita || isGaleriFoto ? "h-full" : "h-full"
                       }`}
                     />
                   )}
@@ -1024,14 +1038,7 @@ export default function InformasiIndex() {
             </div>
 
             {/* FOOTER */}
-            <div className="flex justify-end gap-2 px-4 py-3 border-t">
-              <button
-                onClick={handleClose}
-                className="px-4 py-2 rounded border"
-              >
-                Tutup
-              </button>
-            </div>
+            <div className="flex justify-end gap-3 px-5 py-4 border-t border-slate-200/70 bg-slate-50/60"></div>
           </div>
         </div>
       </div>
@@ -1119,20 +1126,29 @@ export default function InformasiIndex() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-            <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${heroBg})` }}
-              />
-              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-            </div>
+          {/* Banner – clear image with deep tone */}
+          <div className="h-40 md:h-60 relative overflow-hidden ">
+            {/* Background image (jernih) */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${heroBg})` }}
+            />
 
-      <main className="max-w-7xl mx-auto px-6 py-16 -mt-8 grid grid-cols-1 md:grid-cols-5 gap-8">
-        <aside className="md:col-span-1 bg-white rounded-xl border shadow-sm p-5 h-fit">
+            {/* Deep dark overlay */}
+            <div className="absolute inset-0 bg-black/45" />
+
+            {/* Subtle color tone (optional, for depth) */}
+            <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+          </div>
+
+          <main className="max-w-7xl mx-auto px-6 py-16 -mt-8 grid grid-cols-1 md:grid-cols-5 gap-8 items-start overflow-visible">
+          
+          <aside className="md:col-span-1 bg-white rounded-xl border shadow-sm p-5 sticky top-20 self-start">
+          
           <h3 className="font-bold text-slate-900 mb-3 text-sm">
             {selectedMenu || "Pengumuman"}
           </h3>
+
           <p className="text-xs text-slate-500 mb-4">
             {descriptions[selectedMenu]}
           </p>
@@ -1154,14 +1170,17 @@ export default function InformasiIndex() {
           </div>
         </aside>
 
-        <section className="md:col-span-4">
-          <div className="bg-white rounded-xl shadow-sm p-2 md:p-7">
-            <h3 className="font-semibold text-slate-800 mb-4">
-              {selectedMenu || "Semua Informasi"}
-            </h3>
+       <section className="md:col-span-4 h-full">
+        <div className="bg-white rounded-xl shadow-sm h-full flex flex-col p-6">
+          <h3 className="font-semibold mb-4">{selectedMenu}</h3>
+
+          {/* INI SATU-SATUNYA YANG BOLEH SCROLL */}
+          <div className="flex-1 overflow-y-auto pr-2">
             {renderContent()}
           </div>
-        </section>
+        </div>
+      </section>
+
       </main>
 
       <Footer />
