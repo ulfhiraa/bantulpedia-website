@@ -47,142 +47,137 @@ export default function AdministrasiIndex() {
 
       {/* ================= HERO ================= */}
       <header className="relative w-full h-56 md:h-72 lg:h-80 overflow-hidden">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
+          {/* Banner – clear image with deep tone */}
+          <div className="h-40 md:h-60 relative overflow-hidden ">
+            {/* Background image (jernih) */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${heroBg})` }}
+            />
 
-        {/* Overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,40,30,0.45), rgba(0,25,20,0.6), rgba(0,15,12,0.7))",
-          }}
-        />
-      </header>
+            {/* Deep dark overlay */}
+            <div className="absolute inset-0 bg-black/45" />
 
-      {/* ================= MAIN ================= */}
-      <main className="relative z-30 w-full px-4 md:px-6 -mt-16 md:-mt-20 mb-16">
-        <div className="max-w-6xl mx-auto">
-          {/* ===== Glass Panel ===== */}
-          <div
-            className="
-              relative
-              rounded-3xl
-              p-6 md:p-10
-              bg-white/20
-              backdrop-blur-xl
-              border border-white/30
-              shadow-[0_25px_60px_rgba(0,0,0,0.3)]
-              overflow-hidden
-            "
-          >
-            {/* Glass highlight */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent pointer-events-none" />
+            {/* Subtle color tone (optional, for depth) */}
+            <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+          </div>
+        </header>
 
-            <div className="relative z-10">
-              {/* HEADER */}
-              <div className="text-center mb-8">
-                <h2 className="text-slate-900 text-lg md:text-xl font-semibold">
-                  Layanan Administrasi
-                </h2>
-                <p className="text-sm text-slate-600 mt-2">
-                  Pilih aplikasi yang ingin diakses. Semua link akan membuka tab
-                  baru.
-                </p>
-              </div>
+        {/* ================= MAIN ================= */}
+        <main className="relative z-30 w-full -mt-12 md:-mt-16 px-4 md:px-8 pb-10">
+            {/* ===== Glass Panel ===== */}
+            <div
+              className="
+                relative
+                rounded-3xl
+                p-6 md:p-8
+                bg-white/20
+                backdrop-blur-sm
+                border border-white/10
+                shadow-[0_25px_60px_rgba(0,0,0,0.3)]
+                overflow-hidden
+              "
+            >
+              {/* Glass highlight */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent pointer-events-none" />
 
-              {/* ===== CARDS ===== */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
-                {items.map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group w-full max-w-xs"
-                    aria-label={`Buka ${item.title}`}
-                  >
-                    {/* CARD – PRESS IN EFFECT */}
-                    <div
+                <div className="relative z-10">
+
+                {/* ===== HEADER ===== */}
+                <div className="text-center mb-10">
+                  <h2 className="text-slate-900 text-lg md:text-xl font-semibold">
+                    Layanan Administrasi
+                  </h2>
+                  <p className="text-sm text-slate-600 mt-2">
+                    Pilih aplikasi yang ingin diakses. Semua link akan membuka tab baru.
+                  </p>
+                </div>
+
+                {/* ===== CARDS ===== */}
+                <div className="flex justify-center">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+                    {/* SURBAN */}
+                    <a
+                      href="https://esurat.bantulkab.go.id/login"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="
-                        relative
+                        w-64
                         rounded-2xl
                         p-6
+                        bg-white/80
+                        border border-slate-200
+                        shadow-md
                         flex flex-col items-center text-center
-
-                        bg-white/30
-                        backdrop-blur-2xl
-                        border border-white/30
-
-                        shadow-[0_14px_30px_rgba(0,0,0,0.25)]
-                        transition-all duration-300 ease-out
-                        transform-gpu
-
-                        hover:translate-y-[2px]
-                        hover:scale-[0.98]
-                        hover:bg-white/25
-                        hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.25)]
-
-                        active:scale-[0.96]
-                        active:shadow-[inset_0_6px_18px_rgba(0,0,0,0.35)]
+                        hover:shadow-lg
+                        hover:-translate-y-1
+                        transition
                       "
                     >
-                      {/* Card highlight */}
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/35 via-white/10 to-transparent opacity-60 pointer-events-none" />
-
-                      {/* Icon */}
-                      <div
-                        className="
-                          relative
-                          w-20 h-20 md:w-24 md:h-24
-                          rounded-2xl
-                          flex items-center justify-center
-                          mb-4
-
-                          bg-white/40
-                          backdrop-blur-xl
-                          border border-white/40
-                          shadow-[0_10px_25px_rgba(0,0,0,0.25)]
-                        "
-                      >
-                        <img
-                          src={item.icon}
-                          alt={`${item.title} icon`}
-                          className="w-12 h-12 md:w-14 md:h-14 object-contain"
-                        />
-                      </div>
-
-                      <h3 className="text-sm md:text-base font-semibold text-slate-900">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1 text-xs md:text-sm text-slate-600">
-                        {item.desc}
+                      <img src={surbanIcon} className="w-12 h-12 mb-4" />
+                      <h3 className="text-sm font-semibold text-slate-900">SURBAN</h3>
+                      <p className="text-xs text-slate-600 mt-1">
+                        Sistem Urusan Bantul
                       </p>
+                    </a>
 
-                      <span
-                        className="
-                          mt-4
-                          text-xs font-medium
-                          text-emerald-700
-                          opacity-0
-                          group-hover:opacity-100
-                          transition-all duration-300
-                        "
-                      >
-                        Buka aplikasi →
-                      </span>
-                    </div>
-                  </a>
-                ))}
+                    {/* PRESENSI */}
+                    <a
+                      href="https://play.google.com/store/apps/details?id=dmi.presensibantul&hl=id&pli=1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                        w-64
+                        rounded-2xl
+                        p-6
+                        bg-white/80
+                        border border-slate-200
+                        shadow-md
+                        flex flex-col items-center text-center
+                        hover:shadow-lg
+                        hover:-translate-y-1
+                        transition
+                      "
+                    >
+                      <img src={presensiIcon} className="w-12 h-12 mb-4" />
+                      <h3 className="text-sm font-semibold text-slate-900">Presensi</h3>
+                      <p className="text-xs text-slate-600 mt-1">
+                        Presensi Pegawai
+                      </p>
+                    </a>
+
+                    {/* EKINERJA */}
+                    <a
+                      href="https://kinerja.bkn.go.id/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                        w-64
+                        rounded-2xl
+                        p-6
+                        bg-white/80
+                        border border-slate-200
+                        shadow-md
+                        flex flex-col items-center text-center
+                        hover:shadow-lg
+                        hover:-translate-y-1
+                        transition
+                      "
+                    >
+                      <img src={ekinerjaIcon} className="w-12 h-12 mb-4" />
+                      <h3 className="text-sm font-semibold text-slate-900">eKinerja</h3>
+                      <p className="text-xs text-slate-600 mt-1">
+                        Kinerja ASN
+                      </p>
+                    </a>
+
+                  </div>
+                </div>
+
               </div>
             </div>
-          </div>
-        </div>
-      </main>
-
+        </main>
       <Footer />
     </div>
   );
