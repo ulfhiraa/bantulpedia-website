@@ -63,7 +63,8 @@ export default function SipentolCheck() {
   const inputLabel = () => {
     if (category === "Info Kuota") return "Pilih Tanggal";
     if (category === "Info Tagihan") return "Masukkan Kode";
-    if (category === "Cek Kendaraan") return "Masukkan Plat Nomor Kendaraan";
+    if (category === "Cek Kendaraan")
+      return "Masukkan Plat Nomor Kendaraan";
     return "Masukkan ID Pelanggan";
   };
 
@@ -104,30 +105,39 @@ export default function SipentolCheck() {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      {/* Banner – clear image with deep tone */}
-      <div className="h-40 md:h-60 relative overflow-hidden ">
-        {/* Background image (jernih) */}
+      {/* HERO */}
+      <div className="h-40 md:h-60 relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-
-        {/* Deep dark overlay */}
         <div className="absolute inset-0 bg-black/45" />
-
-        {/* Subtle color tone (optional, for depth) */}
         <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
       </div>
 
       <main className="container mx-auto px-6 lg:px-24 py-10">
-        {/* BACK */}
-        <button
-          onClick={() => window.history.back()}
-          className="mb-6 inline-flex items-center gap-2 text-sm bg-white border px-3 py-1.5 rounded-md"
-        >
-          <ChevronLeft size={16} />
-          Kembali
-        </button>
+        {/* ================= HEADER (SEJAJAR) ================= */}
+        <div className="relative flex items-center justify-center mb-8">
+          {/* BACK BUTTON */}
+          <button
+            onClick={() => window.history.back()}
+            className="absolute left-0 inline-flex items-center gap-2
+                       text-sm bg-white border px-3 py-1.5 rounded-md
+                       hover:bg-slate-50"
+          >
+            <ChevronLeft size={16} />
+          </button>
+
+          {/* TITLE */}
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold text-emerald-700">
+              Pengecekan Layanan SIPENTOL
+            </h3>
+            <p className="text-sm text-slate-500 mt-1">
+              Makin gampang layanan publikmu dengan SIPENTOL!
+            </p>
+          </div>
+        </div>
 
         {/* ================= CARD UTAMA ================= */}
         <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-8">
@@ -167,12 +177,7 @@ export default function SipentolCheck() {
 
           <div className="border-t my-8" />
 
-          {/* JUDUL */}
-          <h2 className="text-center text-xl font-semibold mb-6">
-            Melayani Layanan SIPENTOL
-          </h2>
-
-          {/* ================= KATEGORI ================= */}
+          {/* KATEGORI */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-4">
             {CATEGORIES.map((item) => {
               const Icon = item.icon;
@@ -192,8 +197,7 @@ export default function SipentolCheck() {
                 >
                   <div
                     className={`mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full
-                      ${active ? color.bg : "bg-slate-100"}
-                    `}
+                      ${active ? color.bg : "bg-slate-100"}`}
                   >
                     <Icon size={26} className={color.text} />
                   </div>
