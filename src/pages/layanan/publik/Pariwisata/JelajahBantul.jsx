@@ -188,7 +188,7 @@ export default function JelajahBantulPage() {
             className="mb-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg border bg-white hover:bg-emerald-50"
           >
             <ArrowLeft className="w-4 h-4" />
-            Kembali
+          
           </button>
 
           <div className="bg-white rounded-lg shadow-md p-6 border">
