@@ -95,17 +95,20 @@ export default function HubungiKami() {
 
       {/* HERO / Banner */}
       <header className="relative w-full h-44 md:h-56 lg:h-64">
-        <div className="h-40 md:h-75 relative rounded-b-lg overflow-hidden">
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${heroBg})` }}
-                />
-                <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-              </div>
-        {/* <div className="absolute inset-0 bg-black/25" /> */}
-        {/* <div className="relative z-10 container mx-auto px-6 py-6">
-          <h1 className="text-center text-lg md:text-xl lg:text-2xl font-semibold text-white">Layanan Publik</h1>
-        </div> */}
+        {/* Banner – clear image with deep tone */}
+        <div className="h-40 md:h-60 relative overflow-hidden ">
+          {/* Background image (jernih) */}
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${heroBg})` }}
+          />
+
+          {/* Deep dark overlay */}
+          <div className="absolute inset-0 bg-black/45" />
+
+          {/* Subtle color tone (optional, for depth) */}
+          <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+        </div>
       </header>
 
       {/* CONTENT */}

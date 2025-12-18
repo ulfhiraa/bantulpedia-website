@@ -111,15 +111,20 @@ export default function ReservasiKunjungan() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+      {/* Banner – clear image with deep tone */}
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-      </div>
 
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+      </div>
 
       <main className="flex-1">
         <div className="max-w-5xl w-full mx-auto px-4 py-8">
@@ -141,8 +146,6 @@ export default function ReservasiKunjungan() {
             onSubmit={handleSubmit}
             className="bg-white rounded-lg shadow-sm border border-transparent text-[13px]"
           >
-            {/* thin colored top accent like desain */}
-            <div className="h-1 bg-black rounded-t-lg" />
 
             <div className="p-5 space-y-6">
               {/* small title */}

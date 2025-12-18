@@ -195,13 +195,19 @@ export default function InfoBahanPokok() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
-      {/* hero/banner */}
-      <div className="h-40 md:h-65 relative rounded-b-lg overflow-hidden">
+      {/* Banner – clear image with deep tone */}
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
       </div>
 
       <main className="mx-auto py-10 px-4">

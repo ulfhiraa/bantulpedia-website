@@ -168,13 +168,19 @@ export default function StatusGiziPage() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${heroBg})` }}
-              />
-              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-            </div>
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+      </div>
 
       {/* MAIN CONTAINER - removed negative top margin so hero stays clean */}
       <div className="max-w-7xl mx-auto w-full px-4 md:px-8 lg:px-12 mt-8 relative z-20 pb-20">

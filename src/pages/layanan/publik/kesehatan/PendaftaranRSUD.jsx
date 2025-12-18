@@ -5,8 +5,10 @@ import { NavLink } from "react-router-dom";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function PendaftaranRSUD() {
+  const navigate = useNavigate();
   const rowStyle = "grid grid-cols-12 gap-4 items-center";
   const labelStyle = "col-span-12 md:col-span-3 text-sm text-slate-700";
   const inputWrap = "col-span-12 md:col-span-9";
@@ -89,78 +91,71 @@ export default function PendaftaranRSUD() {
 
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+      {/* banner  */}
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
       </div>
 
       {/* tabs (back button aligned left, tabs centered) */}
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center py-6">
-          {/* left: back button */}
-          <div className="flex-none mr-20">
-            <button
-              type="button"
-              onClick={() => window.history.back()}
-              className="inline-flex items-center justify-center w-9 h-9 text-slate-700 bg-white border border-slate-200 rounded-md hover:bg-slate-50"
-              aria-label="Kembali"
-              title="Kembali"
-            >
-              <ChevronLeft size={16} />
-            </button>
-          </div>
+      <div className="w-full relative">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/layanan/publik");
+          }}
+          className="absolute left-4 md:left-6 lg:left-8 top-6 
+                    inline-flex items-center justify-center
+                    w-9 h-9 text-slate-700 bg-white
+                    border border-slate-200 rounded-md shadow-sm
+                    hover:bg-slate-50
+                    z-[70]"
+        >
+          <ChevronLeft size={16} />
+        </button>
 
-          {/* center: tabs */}
-          <div className="flex-1 flex justify-center">
-            <div className="flex gap-15 items-center">
-              <NavLink
-                to="/layanan/publik/kesehatan/pendaftaran-rsud"
-                end
-                className={({ isActive }) =>
-                  isActive
-                    ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-                    : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-                }
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="flex justify-center py-6">
+            <div className="flex items-center space-x-8">
+              <a
+                href="/layanan/publik/kesehatan/pendaftaran-rsud"
+                className="px-6 py-2.5 rounded-lg bg-emerald-100 text-sm shadow-md min-w-[160px] text-center"
               >
                 Pendaftaran Pasien
-              </NavLink>
+              </a>
 
-              <NavLink
-                to="/layanan/publik/kesehatan/status-pasien"
-                end
-                className={({ isActive }) =>
-                  isActive
-                    ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-                    : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-                }
+              <a
+                href="/layanan/publik/kesehatan/status-pasien"
+                className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm min-w-[160px] text-center"
               >
                 Status Pasien
-              </NavLink>
+              </a>
 
               <a
                 href="https://rsudps.bantulkab.go.id/hal/info-bed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
+                className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm min-w-[160px] text-center"
               >
                 Info Kamar / Bed RS
               </a>
 
-              <NavLink
-                to="/layanan/publik/kesehatan/cari-dokter"
-                end
-                className={({ isActive }) =>
-                  isActive
-                    ? "px-4 py-2 rounded-md bg-emerald-100 text-sm shadow-sm text-slate-800"
-                    : "px-4 py-2 rounded-md bg-white border border-slate-200 text-sm shadow-sm text-slate-700"
-                }
+              <a
+                href="/layanan/publik/kesehatan/cari-dokter"
+                className="px-6 py-2.5 rounded-lg bg-white border border-slate-200 text-sm shadow-sm min-w-[160px] text-center"
               >
                 Cari Dokter
-              </NavLink>
+              </a>
             </div>
           </div>
         </div>
@@ -169,23 +164,6 @@ export default function PendaftaranRSUD() {
       {/* main rounded container */}
       <main className="max-w-6xl w-full mx-auto px-6 pb-20">
         <div className="bg-white rounded-xl shadow-none border border-transparent mt-1 overflow-visible">
-          {/* back button inside card header so it aligns with card content */}
-          {/* <div className="px-6 pt-4">
-            <button
-              type="button"
-              onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 text-sm text-slate-700 bg-white border border-slate-200 px-3 py-1.5 rounded-md hover:bg-slate-50"
-              aria-label="Kembali"
-            >
-              <ChevronLeft size={16} />
-              Kembali
-            </button>
-          </div> */}
-
-          {/* heading */}
-          {/* thin separator */}
-          <div className="border-t border-slate-200" />
-
           {/* panel */}
           <div className="p-6">
             <div className=" rounded-lg bg-white border border-transparent">

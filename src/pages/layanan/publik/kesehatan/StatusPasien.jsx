@@ -53,13 +53,19 @@ export default function StatusPasien() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+      {/* Banner – clear image with deep tone */}
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
+
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
       </div>
 
       {/* BACK BUTTON + TABS: button diposisikan absolut di paling kiri, tabs tetap di dalam container terpusat */}

@@ -20,9 +20,6 @@ export default function AgendaPerangkatDaerah() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // sample data (optional, bisa kamu hapus kalau sudah yakin API OK)
-  // const dataDummy = [ ... ];
-
   // hide native date icon (component-scoped)
   const injectedCSS = `
     input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
@@ -102,15 +99,20 @@ export default function AgendaPerangkatDaerah() {
       <style>{injectedCSS}</style>
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
+      {/* Banner – clear image with deep tone */}
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-      </div>
 
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+      </div>
 
       <main className="mx-auto w-full px-4 md:px-6 mt-10 pb-20">
         {/* Back button + Title */}

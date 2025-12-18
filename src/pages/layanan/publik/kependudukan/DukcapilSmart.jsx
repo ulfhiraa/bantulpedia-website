@@ -114,16 +114,20 @@ export default function DukcapilSmart() {
       <Navbar />
 
       {/* HERO */}
-      <header className="relative w-full h-36 md:h-44 lg:h-52">
-        <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${heroBg})` }}
-                />
-                <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-              </div>
-        
-      </header>
+{/* Banner – clear image with deep tone */}
+      <div className="h-40 md:h-60 relative overflow-hidden ">
+        {/* Background image (jernih) */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+
+        {/* Deep dark overlay */}
+        <div className="absolute inset-0 bg-black/45" />
+
+        {/* Subtle color tone (optional, for depth) */}
+        <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+      </div>
 
       {/* MAIN */}
       <main className="mx-auto w-full px-4 md:px-6 py-10 -mt-8">
