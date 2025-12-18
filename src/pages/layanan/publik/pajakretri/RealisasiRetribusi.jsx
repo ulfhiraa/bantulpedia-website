@@ -27,7 +27,7 @@ function formatIDR(value) {
   return "Rp " + Math.round(value).toLocaleString("id-ID");
 }
 
-// khusus YAxis (biar tidak kepotong)
+
 function formatIDRShort(value) {
   if (value >= 1_000_000_000)
     return `Rp ${(value / 1_000_000_000).toFixed(1)} M`;
@@ -38,15 +38,19 @@ function formatIDRShort(value) {
   return `Rp ${value}`;
 }
 
+
 /* ================= DATA WAKTU ================= */
 const DAYS_ORDERED = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+
 const MONTHS = [
   "Jan","Feb","Mar","Apr","Mei","Jun",
   "Jul","Agu","Sep","Okt","Nov","Des"
 ];
 
 function genHarian(base) {
-  // SELALU URUT SENIN → MINGGU
+
+  const DAYS_ORDERED = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+
   return DAYS_ORDERED.map((day) => ({
     label: day,
     value: Math.round(base * (0.6 + Math.random() * 1.4)),
@@ -81,7 +85,7 @@ function CustomTooltip({ active, payload, label }) {
   );
 }
 
-/* ================= WARNA ICON ================= */
+/* ================= WARNA ================= */
 const COLOR_STYLES = {
   emerald: {
     activeBg: "bg-emerald-100",
@@ -137,36 +141,47 @@ export default function RealisasiRetribusi() {
 
   const total = data.reduce((s, d) => s + d.value, 0);
   const avg = Math.round(total / data.length);
-
   const activeCategory = categories.find((c) => c.key === activeTab);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
-      {/* Banner – clear image with deep tone */}
-      <div className="h-40 md:h-60 relative overflow-hidden ">
-        {/* Background image (jernih) */}
+      {/* HERO */}
+      <div className="h-40 md:h-60 relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-
-        {/* Deep dark overlay */}
         <div className="absolute inset-0 bg-black/45" />
-
-        {/* Subtle color tone (optional, for depth) */}
         <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
       </div>
 
       <main className="container mx-auto px-6 py-10">
-        {/* BACK */}
-        <button
-          onClick={() => window.history.back()}
-          className="mb-6 inline-flex items-center gap-2 text-sm bg-white px-4 py-2 rounded-md border"
-        >
-          <ChevronLeft size={16} /> Kembali
-        </button>
+        {/* ================= HEADER (SEJAJAR) ================= */}
+        <div className="relative flex items-center justify-center mb-8">
+          {/* BACK */}
+          <button
+            onClick={() => window.history.back()}
+            className="absolute left-0 inline-flex items-center gap-2
+                       text-sm bg-white px-4 py-2 rounded-md border
+                       hover:bg-slate-50"
+          >
+            <ChevronLeft size={16} />
+          </button>
+
+
+          {/* TITLE */}
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold text-emerald-700">
+              Pengecekan Realisasi Retribusi Daerah
+            </h3>
+            <p className="text-sm text-slate-500 mt-1">
+              Makin gampang urus pajak retribusi daerahmu!
+            </p>
+          </div>
+        </div>
+
 
         {/* PILIH KATEGORI */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
@@ -189,8 +204,7 @@ export default function RealisasiRetribusi() {
                 <div
                   className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full
                     ${active ? style.activeBg : style.idleBg}
-                    ${active ? style.activeText : style.idleText}
-                  `}
+                    ${active ? style.activeText : style.idleText}`}
                 >
                   <Icon size={30} strokeWidth={2.2} />
                 </div>
@@ -210,9 +224,7 @@ export default function RealisasiRetribusi() {
         <section className="bg-white rounded-xl shadow p-6">
           <div className="flex flex-col md:flex-row justify-between mb-6 gap-4">
             <div>
-              <h3 className="text-lg font-semibold">
-                {activeCategory.label}
-              </h3>
+              <h3 className="text-lg font-semibold">{activeCategory.label}</h3>
               <p className="text-sm text-slate-500">
                 Performa — {granularity}
               </p>
@@ -256,10 +268,7 @@ export default function RealisasiRetribusi() {
               <LineChart data={data}>
                 <CartesianGrid stroke="#eee" vertical={false} />
                 <XAxis dataKey="label" />
-                <YAxis
-                  tickFormatter={formatIDRShort}
-                  width={90}
-                />
+                <YAxis tickFormatter={formatIDRShort} width={90} />
                 <Tooltip content={<CustomTooltip />} />
                 <Area dataKey="value" fill="#d1fae5" stroke="none" />
                 <Line
