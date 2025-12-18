@@ -514,7 +514,7 @@ export default function PublikIndex() {
       {/* MAIN */}
       <main className="max-w-6xl mx-auto w-full px-4 md:px-6 py-12">
         {/* remove visible border (no black line) -> use border-transparent */}
-        <div className={`bg-white rounded-xl shadow-xl ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
+        <div className={`bg-white rounded-xl shadow-2xl ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
           <div className="px-6 py-6 border-b">
             <h2 className="text-lg text-center md:text-md font-semibold text-slate-900">Layanan Publik</h2>
             <p className="text-sm text-center text-slate-500 mt-1">
