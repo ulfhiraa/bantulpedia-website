@@ -46,7 +46,9 @@ export default function Navbar() {
               <Link
                 to="/"
                 className={`pb-1 border-b-2 transition ${
-                  isActive("/") ? "border-black" : "border-transparent hover:border-black/40"
+                  isActive("/")
+                    ? borderActive
+                    : `border-transparent ${borderHover}`
                 }`}
               >
                 Beranda
@@ -83,18 +85,16 @@ export default function Navbar() {
             </li>
 
             <li>
-              <li>
-                <Link
-                  to="/tentang"
-                  className={`pb-1 border-b-2 transition ${
-                    isActive("/tentang")
-                      ? borderActive
-                      : `border-transparent ${borderHover}`
-                  }`}
-                >
-                  Tentang
-                </Link>
-              </li>
+              <Link
+                to="/tentang"
+                className={`pb-1 border-b-2 transition ${
+                  isActive("/tentang")
+                    ? borderActive
+                    : `border-transparent ${borderHover}`
+                }`}
+              >
+                Tentang
+              </Link>
             </li>
           </ul>
         )}
