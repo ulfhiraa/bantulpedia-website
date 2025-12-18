@@ -16,6 +16,11 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+  const textColor = scrolled ? "text-black" : "text-white";
+  const borderActive = scrolled ? "border-black" : "border-white";
+  const borderHover = scrolled ? "hover:border-black/40" : "hover:border-white/60";
+  const buttonBorder = scrolled ? "border-black text-black" : "border-white text-white";
+
   return (
     <nav
       className={`
@@ -36,7 +41,7 @@ export default function Navbar() {
 
         {/* MENU */}
         {!hideMenu && (
-          <ul className="flex items-center gap-8 text-sm font-medium text-black">
+          <ul className={`flex items-center gap-8 text-sm font-medium ${textColor}`}>
             <li>
               <Link
                 to="/"
@@ -49,19 +54,18 @@ export default function Navbar() {
             </li>
 
             <li className="relative group">
-              <span
-                className={`pb-1 cursor-pointer border-b-2 transition ${
-                  location.pathname.startsWith("/layanan")
-                    ? "border-black"
-                    : "border-transparent hover:border-black/40"
-                }`}
-              >
+              <span className={`pb-1 cursor-pointer border-b-2 transition ${
+                location.pathname.startsWith("/layanan")
+                  ? borderActive
+                  : `border-transparent ${borderHover}`
+              }`}>
+
                 Layanan
               </span>
 
               <div className="
                 absolute left-0 mt-3 w-56
-                bg-white rounded-xl shadow-lg border
+                bg-white text-black rounded-xl shadow-lg border border-slate-200
                 opacity-0 invisible group-hover:opacity-100 group-hover:visible
                 translate-y-2 group-hover:translate-y-0
                 transition-all
@@ -79,14 +83,18 @@ export default function Navbar() {
             </li>
 
             <li>
-              <Link
-                to="/tentang"
-                className={`pb-1 border-b-2 transition ${
-                  isActive("/tentang") ? "border-black" : "border-transparent hover:border-black/40"
-                }`}
-              >
-                Tentang
-              </Link>
+              <li>
+                <Link
+                  to="/tentang"
+                  className={`pb-1 border-b-2 transition ${
+                    isActive("/tentang")
+                      ? borderActive
+                      : `border-transparent ${borderHover}`
+                  }`}
+                >
+                  Tentang
+                </Link>
+              </li>
             </li>
           </ul>
         )}
@@ -94,10 +102,16 @@ export default function Navbar() {
         {/* AUTH BUTTON */}
         {!hideMenu && (
           <div className="flex gap-3">
-            <Link to="/login" className="px-5 py-2 rounded-full border border-black text-sm">
+            <Link
+              to="/login"
+              className={`px-5 py-2 rounded-full border text-sm transition ${buttonBorder}`}
+            >
               Masuk
             </Link>
-            <Link to="/register" className="px-5 py-2 rounded-full border border-black text-sm">
+            <Link
+              to="/register"
+              className={`px-5 py-2 rounded-full border text-sm transition ${buttonBorder}`}
+            >
               Daftar
             </Link>
           </div>
