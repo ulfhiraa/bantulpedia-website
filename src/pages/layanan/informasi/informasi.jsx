@@ -525,103 +525,116 @@ export default function InformasiIndex() {
 
     // BERITA: headline + grid siaran pers
     if (selectedMenu === "Berita") {
-      const [headline, second, third, ...others] = items;
+      const beritaTerkini = items[0]
+      const beritaTerpopuler = items.slice(1, 5)
+      const beritaUtama = items.slice(4, 8)
+      const beritaPers = items.slice(8)
 
       return (
-        <div id="berita" className="space-y-6 h-full overflow-y-auto pr-2">
-          {/* ====== HERO ATAS ====== */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Kiri: headline besar */}
-            {headline && (
-              <button
-                onClick={() => openModal(headline)}
-                className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-md md:col-span-2"
-              >
-                {headline.image && (
-                  <img
-                    src={headline.image}
-                    alt={headline.title}
-                    className="w-full h-60 md:h-64 object-cover group-hover:scale-105 transition-transform"
-                  />
-                )}
+        <div className="space-y-10">
 
-                {/* overlay gelap + teks putih */}
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/85 via-black/50 to-transparent">
-                  <h2 className="text-base md:text-xl font-semibold text-white drop-shadow-md mb-2 line-clamp-2">
-                    {headline.title}
+          {/* ================= BERITA TERKINI ================= */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* KIRI: BERITA TERKINI (HERO) */}
+            {beritaTerkini && (
+              <button
+                onClick={() => openModal(beritaTerkini)}
+                className="md:col-span-3 relative overflow-hidden rounded-lg group"
+              >
+                <img
+                  src={beritaTerkini.image}
+                  alt={beritaTerkini.title}
+                  className="w-full h-72 md:h-80 object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                />
+
+                {/* SILUET */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent" />
+
+                {/* CONTENT */}
+                <div className="absolute bottom-4 left-4 right-4  right-16 text-left space-y-1">
+                  {/* ITEM LABEL */}
+                  <span className="text-[10px] uppercase tracking-wide text-white/80">
+                    Berita Terkini
+                  </span>
+
+                  {/* TITLE */}
+                  <h2 className="text-sm md:text-base font-medium text-white leading-snug line-clamp-2">
+                    {beritaTerkini.title}
                   </h2>
 
-                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-100">
-                    {headline.date && <span>{headline.date}</span>}
-                    <span>Humas Bantul</span>
-                    {/* kalau punya view count, bisa ditaruh di sini */}
-                  </div>
+                  {/* DATE */}
+                  {beritaTerkini.date && (
+                    <p className="text-[11px] text-white/70">
+                      {formatDateDMY(beritaTerkini.date)}
+                    </p>
+                  )}
                 </div>
               </button>
             )}
 
-            {/* Kanan: 2 berita lain, vertikal */}
-            <div className="flex flex-col gap-4 md:col-span-1">
-              {[second, third].map(
-                (it, idx) =>
-                  it && (
-                    <button
-                      key={idx}
-                      onClick={() => openModal(it)}
-                      className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-md flex-1 min-h-[110px]"
-                    >
-                      {it.image && (
-                        <img
-                          src={it.image}
-                          alt={it.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      )}
-                      <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                        <h3 className="text-xs font-semibold text-white line-clamp-2 mb-1">
-                          {it.title}
-                        </h3>
-                        {it.date && (
-                          <span>{formatDateDMY(it.date)}</span>
-                        )}
-                      </div>
-                    </button>
-                  )
-              )}
+            {/* KANAN: TERPOPULER */}
+            <div className="space-y-5">
+              <h3 className="font-semibold text-sm mb-2">Berita Terpopuler</h3>
+
+              {beritaTerpopuler.slice(0, 4).map((it, i) => (
+                <button
+                  key={i}
+                  onClick={() => openModal(it)}
+                  className="flex gap-3 items-center text-left group"
+                >
+                  <img
+                    src={it.image}
+                    alt={it.title}
+                    className="w-20 h-14 object-cover rounded-md"
+                  />
+                  <div>
+                    <p className="text-sm leading-snug line-clamp-2">
+                      {it.title}
+                    </p>
+                    {it.date && (
+                      <p className="text-[11px] text-slate-500">
+                        {formatDateDMY(it.date)}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* ====== SIARAN PERS LAINNYA ====== */}
-          {others.length > 0 && (
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-sm">Siaran Pers</h4>
-              </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {others.map((it, i) => (
+          {/* ================= BERITA UTAMA ================= */}
+          {beritaUtama.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-sm mb-3">Berita Utama</h3>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {beritaUtama.map((it, i) => (
                   <button
                     key={i}
                     onClick={() => openModal(it)}
-                    className="group rounded-xl overflow-hidden border border-slate-200 bg-white shadow-md hover:shadow-md transition"
+                    className="relative overflow-hidden rounded-lg group text-left"
                   >
-                    {it.image && (
-                      <div className="w-full h-24 md:h-28 overflow-hidden">
-                        <img
-                          src={it.image}
-                          alt={it.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                    )}
+                    {/* IMAGE */}
+                    <img
+                      src={it.image}
+                      alt={it.title}
+                      className="w-full h-32 md:h-36 object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                    />
 
-                    {/* box bawah transparan keputihan */}
-                    <div className="p-3 bg-white/70 backdrop-blur-sm">
-                      <h5 className="font-semibold text-xs text-slate-800 line-clamp-2">
+                    {/* SILUET */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+                    {/* CONTENT */}
+                    <div className="absolute bottom-2 left-2 right-2 space-y-0.5">
+                      <p className="text-xs text-white font-medium leading-snug line-clamp-2">
                         {it.title}
-                      </h5>
+                      </p>
+
                       {it.date && (
-                        <span>{formatDateDMY(it.date)}</span>
+                        <span className="text-[10px] text-white/70">
+                          {formatDateDMY(it.date)}
+                        </span>
                       )}
                     </div>
                   </button>
@@ -629,9 +642,74 @@ export default function InformasiIndex() {
               </div>
             </div>
           )}
+
+
+          {/* ================= BERITA PERS ================= */}
+          {beritaPers.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-sm mb-3">Berita Pers</h3>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {beritaPers.map((it, i) => (
+                  <button
+                    key={i}
+                    onClick={() => openModal(it)}
+                    className="rounded-lg overflow-hidden border shadow-sm text-left"
+                  >
+                    <div className="relative overflow-hidden rounded-lg group">
+                      {/* IMAGE */}
+                      <img
+                        src={it.image}
+                        alt={it.title}
+                        className="w-full h-full object-cover"
+                      />
+
+                      {/* SILUET GRADIENT */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+                      {/* CONTENT */}
+                      <div className="absolute bottom-3 left-3 right-3 space-y-1">
+                        {/* LABEL / ITEM */}
+                        {/* <span className="
+                          inline-block
+                          text-[10px]
+                          uppercase
+                          tracking-wide
+                          text-white/80
+                        ">
+                          Berita Pers
+                        </span> */}
+
+                        {/* TITLE */}
+                        <h3 className="
+                          text-xs md:text-sm
+                          font-medium
+                          text-white
+                          leading-snug
+                          line-clamp-2
+                          drop-shadow-sm
+                        ">
+                          {it.title}
+                        </h3>
+
+                        {/* DATE */}
+                        {it.date && (
+                          <p className="text-[10px] text-white/70">
+                            {formatDateDMY(it.date)}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      );
+      )
     }
+
 
     // TITIK WIFI
     if (selectedMenu === "Titik Wifi") {
