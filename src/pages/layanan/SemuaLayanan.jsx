@@ -185,7 +185,7 @@ export default function SemuaLayanan() {
         <div className="relative">
           {/* layer background: 2 foto digabung */}
           <div
-            className="absolute inset-0 -z-20 blur-[2px] brightness-125"
+            className="absolute inset-0 -z-20 brightness-120"
             style={{
               backgroundImage: `url(${bgAtas}), url(${bgBawah})`,
               backgroundSize: "100% 50%, 100% 50%",      // atas 1/2, bawah 1/2
