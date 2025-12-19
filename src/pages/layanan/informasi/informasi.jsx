@@ -299,7 +299,6 @@ export default function InformasiIndex() {
   }, [selectedMenu]);
 
   const openModal = (item) => {
-    // ✅ kalau galeri foto, simpan index
     if (selectedMenu === "Galeri Foto" && typeof item.__index === "number") {
       setGalleryIndex(item.__index);
     }
@@ -307,6 +306,16 @@ export default function InformasiIndex() {
     setModalItem(item);
     setModalOpen(true);
     document.body.style.overflow = "hidden";
+
+    // 🔥 AUTO FULLSCREEN KHUSUS BERITA
+    if (selectedMenu === "Berita") {
+      setTimeout(() => {
+        const el = document.getElementById("informasi-modal-wrapper");
+        if (el && el.requestFullscreen) {
+          el.requestFullscreen().catch(() => {});
+        }
+      }, 50);
+    }
   };
 
   const closeModal = () => {
@@ -950,27 +959,8 @@ export default function InformasiIndex() {
       if (!open) return;
 
       const onKey = (e) => {
-        // tutup modal
         if (e.key === "Escape") {
           handleClose();
-        }
-
-        // ⬅️ foto sebelumnya
-        if (
-          selectedMenu === "Galeri Foto" &&
-          e.key === "ArrowLeft" &&
-          galleryIndex > 0
-        ) {
-          setGalleryIndex((i) => i - 1);
-        }
-
-        // ➡️ foto berikutnya
-        if (
-          selectedMenu === "Galeri Foto" &&
-          e.key === "ArrowRight" &&
-          galleryIndex < galleryItems.length - 1
-        ) {
-          setGalleryIndex((i) => i + 1);
         }
       };
 
@@ -985,7 +975,7 @@ export default function InformasiIndex() {
         window.removeEventListener("keydown", onKey);
         document.removeEventListener("fullscreenchange", onFsChange);
       };
-    }, [open, galleryIndex, galleryItems.length]);
+    }, [open]);
 
     if (!open || !item) return null;
 
@@ -1065,7 +1055,7 @@ export default function InformasiIndex() {
           >
             
             {/* HEADER */}
-            {!isGaleriFoto && (
+            {!isGaleriFoto && selectedMenu !== "Berita" && (
               <div className="relative px-5 py-4 border-b border-slate-200/70 flex items-center">
                 <h3 className="text-xl font-semibold tracking-tight leading-tight pr-24">
                   {item.title}
@@ -1091,69 +1081,54 @@ export default function InformasiIndex() {
 
             {/* BODY */}
             {isGaleriFoto ? (
-              /* ================= GALERI FOTO (FULL, NO SPACE) ================= */
+              /* ================= GALERI FOTO ================= */
               <div className="flex-1 bg-black flex items-center justify-center relative overflow-hidden p-8">
+                {/* (punya kamu, BIARKAN) */}
+              </div>
+            ) : selectedMenu === "Berita" ? (
+              /* ================= DETAIL BERITA (PORTAL STYLE) ================= */
+              <div className="flex-1 overflow-y-auto bg-white">
 
-                {/* BACKGROUND BLUR */}
-                <div
-                  className="absolute inset-0 bg-center bg-cover blur-2xl scale-110"
-                  style={{ backgroundImage: `url(${currentImage?.image})` }}
-                />
-                <div className="absolute inset-0 bg-black/60" />
+                {/* HERO IMAGE */}
+                {item.image && (
+                  <div className="relative h-[360px] w-full">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                {/* IMAGE */}
-                <div className="relative z-10 w-full h-full flex items-center justify-center">
-                  <img
-                    src={currentImage?.image}
-                    alt={currentImage?.title}
-                    className="max-w-full max-h-full object-contain select-none"
-                    draggable={false}
-                  />
+                    {/* JUDUL */}
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <h1 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                        {item.title}
+                      </h1>
+
+                      {item.date && (
+                        <p className="mt-2 text-sm text-white/80">
+                          {formatDateDMY(item.date)}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* ISI BERITA */}
+                <div className="pl-6 pr-10 py-10 space-y-6 max-w-5xl text-left">
+
+                  {item.excerpt && (
+                    <p className="text-lg text-slate-700 leading-relaxed font-medium">
+                      {item.excerpt}
+                    </p>
+                  )}
+
+                  {item.content && (
+                    <div className="text-base text-slate-800 leading-relaxed whitespace-pre-line">
+                      {item.content}
+                    </div>
+                  )}
                 </div>
-
-                {/* NAV LEFT */}
-                {galleryIndex > 0 && (
-                  <button
-                    onClick={() => setGalleryIndex((i) => i - 1)}
-                    className="
-                      absolute left-4 top-1/2 -translate-y-1/2
-                      z-20
-                      w-12 h-12
-                      rounded-full
-                      bg-black/50
-                      text-white
-                      text-3xl
-                      flex items-center justify-center
-                      hover:bg-black/70
-                      transition
-                    "
-                    aria-label="Sebelumnya"
-                  >
-                    ‹
-                  </button>
-                )}
-
-                {/* NAV RIGHT */}
-                {galleryIndex < galleryItems.length - 1 && (
-                  <button
-                    onClick={() => setGalleryIndex((i) => i + 1)}
-                    className="
-                      absolute right-4 top-1/2 -translate-y-1/2
-                      z-20
-                      w-12 h-12
-                      rounded-full
-                      bg-black/50
-                      text-white
-                      text-3xl
-                      flex items-center justify-center
-                      hover:bg-black/70
-                      transition
-                    "
-                    aria-label="Berikutnya"
-                  >
-                    ›
-                  </button>
-                )}
               </div>
             ) : (
               /* ================= KONTEN NORMAL (MEDIA + TEXT) ================= */
