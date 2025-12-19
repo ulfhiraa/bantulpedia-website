@@ -5,9 +5,9 @@ import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
-/* ===============================
-   PLACEHOLDER & ICON
-================================ */
+import { getJelajahBantul } from "../../../../api/layanan/publik/jelajahBantul";
+
+/* PLACEHOLDER & ICON */
 const PLACEHOLDER_IMG =
   "https://placehold.co/600x400?text=Bantul+Wisata";
 
@@ -40,15 +40,11 @@ const CATEGORY_ICON = {
   "ATM": "🏧",
 };
 
-/* ===============================
-   COMPONENT
-================================ */
+  /* COMPONENT */
 export default function JelajahBantulPage() {
   const navigate = useNavigate();
 
-  /* ===============================
-     SIDEBAR CATEGORY
-  ================================ */
+  /* SIDEBAR CATEGORY */
   const categories = [
     {
       id: "destinasi",
@@ -102,39 +98,18 @@ export default function JelajahBantulPage() {
     },
   ];
 
-  /* ===============================
-     DATA DUMMY
-  ================================ */
-  const initialCards = [
-    { id: 1, title: "Desa Wisata Ngremo", location: "Pajangan", category: "Desa Wisata", img: PLACEHOLDER_IMG, visitors: 420, createdAt: Date.now() - 9000000 },
-    { id: 2, title: "Pantai Parangtritis", location: "Kretek", category: "Wisata Alam", img: PLACEHOLDER_IMG, visitors: 1800, createdAt: Date.now() - 8800000 },
-    { id: 3, title: "Taman Edukasi Bantul", location: "Bantul", category: "Wisata Buatan", img: PLACEHOLDER_IMG, visitors: 760, createdAt: Date.now() - 8600000 },
-    { id: 4, title: "Hotel Permata Bantul", location: "Bantul", category: "Hotel", img: PLACEHOLDER_IMG, visitors: 430, createdAt: Date.now() - 8400000 },
-    { id: 5, title: "Homestay Alam Dlingo", location: "Dlingo", category: "Home Stay", img: PLACEHOLDER_IMG, visitors: 180, createdAt: Date.now() - 8200000 },
-    { id: 6, title: "Paket Wisata Imogiri", location: "Imogiri", category: "Paket Wisata", img: PLACEHOLDER_IMG, visitors: 530, createdAt: Date.now() - 8000000 },
-    { id: 7, title: "Travel Agen Sigap", location: "Sewon", category: "Travel Agen", img: PLACEHOLDER_IMG, visitors: 410, createdAt: Date.now() - 7800000 },
-    { id: 8, title: "Kuliner Bantul Rasa", location: "Jetis", category: "Kuliner", img: PLACEHOLDER_IMG, visitors: 860, createdAt: Date.now() - 7600000 },
-    { id: 9, title: "Oleh-oleh Khas Bantul", location: "Srandakan", category: "Oleh-oleh", img: PLACEHOLDER_IMG, visitors: 520, createdAt: Date.now() - 7400000 },
-    { id: 10, title: "UMKM Batik Bantul", location: "Pleret", category: "UMKM", img: PLACEHOLDER_IMG, visitors: 290, createdAt: Date.now() - 7200000 },
-    { id: 11, title: "Pasar Tradisional Bantul", location: "Bantul", category: "Pasar Tradisional", img: PLACEHOLDER_IMG, visitors: 720, createdAt: Date.now() - 7000000 },
-    { id: 12, title: "Kerajinan Gerabah Kasongan", location: "Kasongan", category: "Kerajinan", img: PLACEHOLDER_IMG, visitors: 980, createdAt: Date.now() - 6800000 },
-    { id: 13, title: "Pemandu Lokal Bantul", location: "Bantul", category: "Pemandu Lokal", img: PLACEHOLDER_IMG, visitors: 210, createdAt: Date.now() - 6600000 },
-  ];
-
-  /* ===============================
-     STATE
-  ================================ */
+  /*  STATE */
   const [openCategory, setOpenCategory] = useState("destinasi");
   const [activeFilter, setActiveFilter] = useState("");
   const [search, setSearch] = useState("");
   const [sortOption, setSortOption] = useState("Semua Wisata");
-  const [filteredCards, setFilteredCards] = useState(initialCards);
+  const [cards, setCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  /* ===============================
-     FILTER & SORT LOGIC (FIXED)
-  ================================ */
+  /* FILTER & SORT LOGIC (FIXED) */
   useEffect(() => {
-    let result = [...initialCards];
+    let result = [...cards];
 
     // FILTER SIDEBAR
     if (activeFilter) {
@@ -162,11 +137,21 @@ export default function JelajahBantulPage() {
     }
 
     setFilteredCards(result);
-  }, [search, sortOption, activeFilter]);
+  }, [search, sortOption, activeFilter, cards]);
 
-  /* ===============================
-     RENDER
-  ================================ */
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      const data = await getJelajahBantul();
+      setCards(data);
+      setFilteredCards(data);
+      setLoading(false);
+    };
+
+    loadData();
+  }, []);
+
+  /*  RENDER */
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
