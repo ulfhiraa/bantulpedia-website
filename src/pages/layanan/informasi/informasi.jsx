@@ -950,8 +950,27 @@ export default function InformasiIndex() {
       if (!open) return;
 
       const onKey = (e) => {
+        // tutup modal
         if (e.key === "Escape") {
           handleClose();
+        }
+
+        // ⬅️ foto sebelumnya
+        if (
+          selectedMenu === "Galeri Foto" &&
+          e.key === "ArrowLeft" &&
+          galleryIndex > 0
+        ) {
+          setGalleryIndex((i) => i - 1);
+        }
+
+        // ➡️ foto berikutnya
+        if (
+          selectedMenu === "Galeri Foto" &&
+          e.key === "ArrowRight" &&
+          galleryIndex < galleryItems.length - 1
+        ) {
+          setGalleryIndex((i) => i + 1);
         }
       };
 
@@ -966,7 +985,7 @@ export default function InformasiIndex() {
         window.removeEventListener("keydown", onKey);
         document.removeEventListener("fullscreenchange", onFsChange);
       };
-    }, [open]);
+    }, [open, galleryIndex, galleryItems.length]);
 
     if (!open || !item) return null;
 
@@ -1096,7 +1115,19 @@ export default function InformasiIndex() {
                 {galleryIndex > 0 && (
                   <button
                     onClick={() => setGalleryIndex((i) => i - 1)}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl opacity-80 hover:opacity-100 z-20"
+                    className="
+                      absolute left-4 top-1/2 -translate-y-1/2
+                      z-20
+                      w-12 h-12
+                      rounded-full
+                      bg-black/50
+                      text-white
+                      text-3xl
+                      flex items-center justify-center
+                      hover:bg-black/70
+                      transition
+                    "
+                    aria-label="Sebelumnya"
                   >
                     ‹
                   </button>
@@ -1106,7 +1137,19 @@ export default function InformasiIndex() {
                 {galleryIndex < galleryItems.length - 1 && (
                   <button
                     onClick={() => setGalleryIndex((i) => i + 1)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl opacity-80 hover:opacity-100 z-20"
+                    className="
+                      absolute right-4 top-1/2 -translate-y-1/2
+                      z-20
+                      w-12 h-12
+                      rounded-full
+                      bg-black/50
+                      text-white
+                      text-3xl
+                      flex items-center justify-center
+                      hover:bg-black/70
+                      transition
+                    "
+                    aria-label="Berikutnya"
                   >
                     ›
                   </button>
