@@ -102,23 +102,28 @@ export default function AgendaPerangkatDaerah() {
       <style>{injectedCSS}</style>
       <Navbar />
 
-      {/* banner dengan overlay hijau */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
-        <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-      </div>
+          {/* Banner – clear image with deep tone */}
+          <div className="h-40 md:h-60 relative overflow-hidden ">
+            {/* Background image (jernih) */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${heroBg})` }}
+            />
 
+            {/* Deep dark overlay */}
+            <div className="absolute inset-0 bg-black/45" />
+
+            {/* Subtle color tone (optional, for depth) */}
+            <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+          </div>
 
       <main className="mx-auto w-full px-4 md:px-6 mt-10 pb-20">
         {/* Back button + Title */}
-        <div className="relative mb-6 flex items-center justify-center">
+        <div className="relative mb-6 flex items-center gap-3">
           {/* Panah kiri di ujung kiri */}
           <button
             onClick={() => navigate(-1)}
-            className="absolute left-0 p-2 rounded-md hover:bg-slate-100 active:scale-95 transition"
+            className="p-2 rounded-md hover:bg-slate-100 active:scale-95 transition"
           >
             <ArrowLeft size={20} className="text-slate-700" />
           </button>

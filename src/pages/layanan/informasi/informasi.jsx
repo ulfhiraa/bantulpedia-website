@@ -741,24 +741,27 @@ export default function InformasiIndex() {
     // GALERI FOTO: grid jejer + tanggal di bawah
     if (selectedMenu === "Galeri Foto") {
       return (
-        <div id="galerifoto" className="h-full overflow-y-auto pr-2">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-            {items.map((it,i)=>(
-              <button
-                key={i}
-                onClick={()=>openModal(it)}
-                className="group"
-              >
-                <div className="aspect-[4/3] rounded-xl overflow-hidden border shadow-sm">
-                  <img src={it.image} className="w-full h-full object-cover group-hover:scale-105 transition" />
-                </div>
-                <p className="text-[11px] mt-1 text-slate-600 text-center">
-                  {formatDateDMY(it.date)}
-                </p>
-              </button>
-            ))}
-          </div>
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3">
+          {items.map((it, i) => (
+            <button
+              key={i}
+              onClick={() => openModal(it)}
+              className="snap-center flex-shrink-0 w-64"
+            >
+              <div className="aspect-[4/3] rounded-xl overflow-hidden border shadow-sm">
+                <img
+                  src={it.image}
+                  alt={it.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-[11px] mt-1 text-slate-600 text-center">
+                {formatDateDMY(it.date)}
+              </p>
+            </button>
+          ))}
         </div>
+
       );
     }
 
@@ -786,7 +789,9 @@ export default function InformasiIndex() {
                   {it.title}
                 </h4>
                 {it.date && (
-                  <span>{formatDateDMY(it.date)}</span>
+                  <span className="text-xs text-slate-400 block mb-1">
+                    {formatDateDMY(it.date)}
+                  </span>
                 )}
                 {it.lokasi && (
                   <p className="text-xs text-slate-500 mb-1">{it.lokasi}</p>
@@ -983,7 +988,7 @@ export default function InformasiIndex() {
                       id="informasi-modal-player"
                       className="w-full bg-black rounded overflow-hidden mb-4"
                     >
-                      <div className="w-full h-full aspect-video">
+                      <div className="w-full max-w-4xl mx-auto aspect-video">
                         <iframe
                           title={item.title}
                           src={embedUrl}
@@ -999,9 +1004,7 @@ export default function InformasiIndex() {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className={`w-full object-contain rounded mb-4 ${
-                        isBerita || isGaleriFoto ? "h-full" : "h-full"
-                      }`}
+                      className="w-full max-w-5xl mx-auto object-contain rounded-xl mb-4"
                     />
                   )}
                 </>

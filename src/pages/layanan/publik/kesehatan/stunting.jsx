@@ -168,43 +168,42 @@ export default function StatusGiziPage() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <div className="h-40 md:h-60 relative rounded-b-lg overflow-hidden">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${heroBg})` }}
-              />
-              <div className="absolute inset-0 bg-emerald-900/60 mix-blend-multiply" />
-            </div>
+          {/* Banner – clear image with deep tone */}
+          <div className="h-40 md:h-60 relative overflow-hidden ">
+            {/* Background image (jernih) */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${heroBg})` }}
+            />
+
+            {/* Deep dark overlay */}
+            <div className="absolute inset-0 bg-black/45" />
+
+            {/* Subtle color tone (optional, for depth) */}
+            <div className="absolute inset-0 bg-slate-900/20 mix-blend-multiply" />
+          </div>
 
       {/* MAIN CONTAINER - removed negative top margin so hero stays clean */}
       <div className="max-w-7xl mx-auto w-full px-4 md:px-8 lg:px-12 mt-8 relative z-20 pb-20">
         
         {/* wrapper: grid 3 kolom untuk menyeimbangkan */}
-        <div className="mb-6 grid grid-cols-3 items-center gap-4">
-          {/* kolom kiri: tombol */}
-          <div className="flex justify-start">
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-full shadow-sm text-sm text-slate-700"
-              aria-label="Kembali"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Kembali</span>
-            </button>
-          </div>
+        <div className="mb-6 flex items-center gap-4">
+        {/* Tombol Kembali */}
+        <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-full shadow-sm text-sm text-slate-700"
+            aria-label="Kembali"
+        >
+            <ArrowLeft className="w-4 h-4" />
+            {/* <span className="hidden sm:inline">Kembali</span> */}
+        </button>
 
-          {/* kolom tengah: judul */}
-          <div className="flex justify-center">
-            <h1 className="text-4xl md:text-6xl lg:text-xl font-semibold text-slate-900 leading-tight">
-              Status Gizi Balita Kabupaten Bantul
-            </h1>
-          </div>
-
-          {/* kolom kanan: kosong (penyeimbang) */}
-          <div></div>
+        {/* Judul */}
+        <h1 className="text-xl md:text-xl font-semibold text-slate-900 leading-tight">
+            Status Gizi Balita Kabupaten Bantul
+        </h1>
         </div>
-
 
         {/* GLOBAL FILTER */}
         <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-4 md:p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
