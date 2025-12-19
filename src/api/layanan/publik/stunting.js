@@ -1,10 +1,10 @@
-// src/api/layanan/publik/jelajahBantul.js
+// src/api/layanan/publik/stunting.js
 import axios from "axios";
 
 // gunakan link mock Apidog kamu
-const URL = "https://mock.apidog.com/m1/1132338-1124338-default/JelajahBantul";
+const URL = "https://mock.apidog.com/m1/1132338-1124338-default/Stunting";
 
-export const getJelajahBantul = async () => {
+export const getStunting = async () => {
   try {
     const res = await axios.get(URL);
 
@@ -16,7 +16,7 @@ export const getJelajahBantul = async () => {
 
     return [];
   } catch (error) {
-    console.log("Gagal mengambil data Jelajah Bantul:", error.message);
+    console.log("Gagal mengambil data Stunting:", error.message);
     return [];
   }
 };
