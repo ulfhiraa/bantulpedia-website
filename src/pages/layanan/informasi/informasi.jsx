@@ -28,6 +28,7 @@ const wifiIcon = new L.Icon({
 });
 
 export default function InformasiIndex() {
+
   const [selectedMenu, setSelectedMenu] = useState("");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,8 @@ export default function InformasiIndex() {
   // modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalItem, setModalItem] = useState(null);
+
+  const [galleryIndex, setGalleryIndex] = useState(0);
 
   const menuItems = [
     "Pengumuman",
@@ -158,15 +161,22 @@ export default function InformasiIndex() {
       it.lokasi || it.lokasi_detail || it.lokasi_full || it.desa || it.alamat || ""
     );
 
-    const summary = safeString(
+    const excerpt = safeString(
+      it.ringkasan ||
       it.summary ||
-        it.ringkasan ||
-        it.keterangan ||
-        it.deskripsi ||
-        it.content ||
-        it.desc ||
-        ""
+      it.keterangan ||
+      it.deskripsi ||
+      ""
     );
+
+    const content = safeString(
+      it.isi ||
+      it.content ||
+      ""
+    );
+
+    // fallback universal (buat list, kartu, dll)
+    const summary = content || excerpt;
 
     let image = safeString(
       it.image ||
@@ -201,6 +211,7 @@ export default function InformasiIndex() {
       it.koordinat_lat ||
       it.lat_wifi ||
       (it.geom && it.geom.lat);
+
     const lng =
       it.lng ||
       it.longitude ||
@@ -213,7 +224,11 @@ export default function InformasiIndex() {
       ...it,
       title,
       date,
-      summary,
+
+      excerpt,   // ✅ khusus ringkasan
+      content,   // ✅ isi lengkap
+      summary,   // ✅ fallback global (AMAN)
+
       lokasi,
       image,
       youtube: youtubeUrl,
@@ -221,6 +236,7 @@ export default function InformasiIndex() {
       lng,
       raw: it,
     };
+
   };
 
   // fetcher
@@ -283,10 +299,16 @@ export default function InformasiIndex() {
   }, [selectedMenu]);
 
   const openModal = (item) => {
+    // ✅ kalau galeri foto, simpan index
+    if (selectedMenu === "Galeri Foto" && typeof item.__index === "number") {
+      setGalleryIndex(item.__index);
+    }
+
     setModalItem(item);
     setModalOpen(true);
     document.body.style.overflow = "hidden";
   };
+
   const closeModal = () => {
     setModalOpen(false);
     setModalItem(null);
@@ -525,103 +547,116 @@ export default function InformasiIndex() {
 
     // BERITA: headline + grid siaran pers
     if (selectedMenu === "Berita") {
-      const [headline, second, third, ...others] = items;
+      const beritaTerkini = items[0]
+      const beritaTerpopuler = items.slice(1, 5)
+      const beritaUtama = items.slice(4, 8)
+      const beritaPers = items.slice(8)
 
       return (
-        <div id="berita" className="space-y-6 h-full overflow-y-auto pr-2">
-          {/* ====== HERO ATAS ====== */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Kiri: headline besar */}
-            {headline && (
-              <button
-                onClick={() => openModal(headline)}
-                className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-md md:col-span-2"
-              >
-                {headline.image && (
-                  <img
-                    src={headline.image}
-                    alt={headline.title}
-                    className="w-full h-60 md:h-64 object-cover group-hover:scale-105 transition-transform"
-                  />
-                )}
+        <div className="space-y-10">
 
-                {/* overlay gelap + teks putih */}
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/85 via-black/50 to-transparent">
-                  <h2 className="text-base md:text-xl font-semibold text-white drop-shadow-md mb-2 line-clamp-2">
-                    {headline.title}
+          {/* ================= BERITA TERKINI ================= */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* KIRI: BERITA TERKINI (HERO) */}
+            {beritaTerkini && (
+              <button
+                onClick={() => openModal(beritaTerkini)}
+                className="md:col-span-3 relative overflow-hidden rounded-lg group"
+              >
+                <img
+                  src={beritaTerkini.image}
+                  alt={beritaTerkini.title}
+                  className="w-full h-72 md:h-80 object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                />
+
+                {/* SILUET */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent" />
+
+                {/* CONTENT */}
+                <div className="absolute bottom-4 left-4 right-4  right-16 text-left space-y-1">
+                  {/* ITEM LABEL */}
+                  <span className="text-[10px] uppercase tracking-wide text-white/80">
+                    Berita Terkini
+                  </span>
+
+                  {/* TITLE */}
+                  <h2 className="text-xs md:text-base font-light leading-[1.25] tracking-tight text-white line-clamp-2">
+                    {beritaTerkini.title}
                   </h2>
 
-                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-100">
-                    {headline.date && <span>{headline.date}</span>}
-                    <span>Humas Bantul</span>
-                    {/* kalau punya view count, bisa ditaruh di sini */}
-                  </div>
+                  {/* DATE */}
+                  {beritaTerkini.date && (
+                    <p className="text-[11px] text-white/70">
+                      {formatDateDMY(beritaTerkini.date)}
+                    </p>
+                  )}
                 </div>
               </button>
             )}
 
-            {/* Kanan: 2 berita lain, vertikal */}
-            <div className="flex flex-col gap-4 md:col-span-1">
-              {[second, third].map(
-                (it, idx) =>
-                  it && (
-                    <button
-                      key={idx}
-                      onClick={() => openModal(it)}
-                      className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-md flex-1 min-h-[110px]"
-                    >
-                      {it.image && (
-                        <img
-                          src={it.image}
-                          alt={it.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      )}
-                      <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                        <h3 className="text-xs font-semibold text-white line-clamp-2 mb-1">
-                          {it.title}
-                        </h3>
-                        {it.date && (
-                          <span>{formatDateDMY(it.date)}</span>
-                        )}
-                      </div>
-                    </button>
-                  )
-              )}
+            {/* KANAN: TERPOPULER */}
+            <div className="space-y-5">
+              <h2 className="font-semibold text-sm mb-2">Berita Terpopuler</h2>
+
+              {beritaTerpopuler.slice(0, 4).map((it, i) => (
+                <button
+                  key={i}
+                  onClick={() => openModal(it)}
+                  className="flex gap-3 items-center text-left group"
+                >
+                  <img
+                    src={it.image}
+                    alt={it.title}
+                    className="w-20 h-14 object-cover rounded-md"
+                  />
+                  <div>
+                    <p className="text-xs leading-snug line-clamp-2">
+                      {it.title}
+                    </p>
+                    {it.date && (
+                      <p className="text-[11px] text-slate-500">
+                        {formatDateDMY(it.date)}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* ====== SIARAN PERS LAINNYA ====== */}
-          {others.length > 0 && (
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-sm">Siaran Pers</h4>
-              </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {others.map((it, i) => (
+          {/* ================= BERITA UTAMA ================= */}
+          {beritaUtama.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-sm mb-3">Berita Utama</h3>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {beritaUtama.map((it, i) => (
                   <button
                     key={i}
                     onClick={() => openModal(it)}
-                    className="group rounded-xl overflow-hidden border border-slate-200 bg-white shadow-md hover:shadow-md transition"
+                    className="relative overflow-hidden rounded-lg group text-left"
                   >
-                    {it.image && (
-                      <div className="w-full h-24 md:h-28 overflow-hidden">
-                        <img
-                          src={it.image}
-                          alt={it.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                    )}
+                    {/* IMAGE */}
+                    <img
+                      src={it.image}
+                      alt={it.title}
+                      className="w-full h-32 md:h-36 object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                    />
 
-                    {/* box bawah transparan keputihan */}
-                    <div className="p-3 bg-white/70 backdrop-blur-sm">
-                      <h5 className="font-semibold text-xs text-slate-800 line-clamp-2">
+                    {/* SILUET */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                    {/* CONTENT */}
+                    <div className="absolute bottom-2 left-2 right-2 space-y-0.5">
+                      <p className="text-[12px] font-light leading-[1.25] tracking-tight text-white line-clamp-2">
                         {it.title}
-                      </h5>
+                      </p>
+
                       {it.date && (
-                        <span>{formatDateDMY(it.date)}</span>
+                        <span className="text-[10px] text-white/70">
+                          {formatDateDMY(it.date)}
+                        </span>
                       )}
                     </div>
                   </button>
@@ -629,9 +664,64 @@ export default function InformasiIndex() {
               </div>
             </div>
           )}
+
+
+          {/* ================= BERITA PERS ================= */}
+          {beritaPers.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-sm mb-3">Berita Pers</h3>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {beritaPers.map((it, i) => (
+                  <button
+                    key={i}
+                    onClick={() => openModal(it)}
+                    className="rounded-lg overflow-hidden border shadow-sm text-left"
+                  >
+                    <div className="relative overflow-hidden rounded-lg group">
+                      {/* IMAGE */}
+                      <img
+                        src={it.image}
+                        alt={it.title}
+                        className="w-full h-32 md:h-36 object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                      />
+
+                      {/* SILUET GRADIENT */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                      {/* CONTENT */}
+                      <div className="absolute bottom-3 left-3 right-3 space-y-1">
+
+                        {/* TITLE */}
+                        <h3 className="
+                          text-[12px]
+                          font-light
+                          leading-[1.25]
+                          tracking-tight
+                          text-white
+                          line-clamp-2
+                        ">
+                          {it.title}
+                        </h3>
+
+                        {/* DATE */}
+                        {it.date && (
+                          <p className="text-[10px] text-white/70">
+                            {formatDateDMY(it.date)}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      );
+      )
     }
+
 
     // TITIK WIFI
     if (selectedMenu === "Titik Wifi") {
@@ -739,31 +829,61 @@ export default function InformasiIndex() {
     }
 
     // GALERI FOTO: grid jejer + tanggal di bawah
+    // GALERI FOTO: GRID 4 KOLOM
     if (selectedMenu === "Galeri Foto") {
       return (
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3">
+        <div
+          id="galerifoto"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
           {items.map((it, i) => (
             <button
               key={i}
-              onClick={() => openModal(it)}
-              className="snap-center flex-shrink-0 w-64"
+              onClick={() => openModal({ ...it, __index: i })}
+              className="group rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition bg-white text-left"
             >
-              <div className="aspect-[4/3] rounded-xl overflow-hidden border shadow-sm">
+              <div className="aspect-[4/3] overflow-hidden bg-slate-100 relative">
                 <img
                   src={it.image}
                   alt={it.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform"
                 />
+                {/* GRADIENT OVERLAY */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+                {/* DATE */}
+                {it.date && (
+                  <span
+                    className="
+                      absolute bottom-2 right-2
+                      text-[11px]
+                      text-white/90
+                      font-medium
+                      px-2 py-0.5
+                      rounded-md
+                      bg-black/40
+                      backdrop-blur
+                    "
+                  >
+                    {formatDateDMY(it.date)}
+                  </span>
+                )}
+
               </div>
-              <p className="text-[11px] mt-1 text-slate-600 text-center">
-                {formatDateDMY(it.date)}
-              </p>
+
+              {/* <div className="p-2">
+                {it.date && (
+                  <p className="text-[11px] text-slate-500 text-center">
+                    {formatDateDMY(it.date)}
+                  </p>
+                )}
+              </div> */}
             </button>
           ))}
         </div>
-
       );
     }
+
 
     // DEFAULT: list
     return (
@@ -811,6 +931,10 @@ export default function InformasiIndex() {
 
   // ===================== MODAL ==========================
   const Modal = ({ open, item, onClose }) => {
+  const isGaleriFoto = selectedMenu === "Galeri Foto";
+  const galleryItems = isGaleriFoto ? items : [];
+  const currentImage = isGaleriFoto ? galleryItems[galleryIndex] : item;
+
     const [isFullscreen, setIsFullscreen] = React.useState(false);
 
     const handleClose = () => {
@@ -820,6 +944,7 @@ export default function InformasiIndex() {
       setIsFullscreen(false);
       onClose();
     };
+    
 
     useEffect(() => {
       if (!open) return;
@@ -851,9 +976,8 @@ export default function InformasiIndex() {
       : null;
 
     const isPengumuman = selectedMenu === "Pengumuman";
-    const isBerita = selectedMenu === "Berita";
+    const isTextWithExcerpt = selectedMenu === "Berita" || selectedMenu === "Pengumuman";
     const isWifi = selectedMenu === "Titik Wifi";
-    const isGaleriFoto = selectedMenu === "Galeri Foto";
 
     // maps untuk wifi
     let mapSrc = "";
@@ -896,19 +1020,13 @@ export default function InformasiIndex() {
 
     return (
       <div
-        className={`fixed inset-0 z-50 flex justify-center ${
-          isFullscreen ? "items-stretch" : "items-start"
-        }`}
-        style={isFullscreen ? undefined : { paddingTop: 84 }}
+        className="fixed inset-0 z-50 flex items-stretch justify-center"
+        style={isFullscreen ? undefined : { paddingTop: 20, paddingBottom: 20, paddingLeft: 160, paddingRight: 160 }}
       >
         <div className="absolute inset-0 bg-black/40 backdrop-blur-md" onClick={handleClose} />
           <div
             id="informasi-modal-wrapper"
-            className={`relative z-60 ${
-              isFullscreen
-                ? "w-full h-full mx-0"
-                : "mx-auto w-[92vw] xl:w-[88vw] 2xl:w-[80vw]"
-            }`}
+            className="relative z-60 w-full h-full"
             style={{
               maxHeight: isFullscreen ? "100vh" : "calc(100vh - 6rem)",
             }}
@@ -926,69 +1044,103 @@ export default function InformasiIndex() {
             "
             style={{ height: "100%" }}
           >
-
-
+            
             {/* HEADER */}
-            <div className="relative px-5 py-4 border-b border-slate-200/70 flex items-center">
-              <h3 className="text-xl font-semibold tracking-tight leading-tight pr-24">
-                {item.title}
-              </h3>
-              <div className="absolute right-3 top-2 flex items-center gap-2">
-                <button
-                  onClick={toggleFullscreen}
-                  title="Fullscreen"
-                  className="px-2 py-1 rounded hover:bg-slate-100"
-                  aria-label="Fullscreen"
-                >
-                  ⤢
-                </button>
-                <button
-                  onClick={handleClose}
-                  className="
-                    w-9 h-9 rounded-full
-                    flex items-center justify-center
-                    hover:bg-slate-100
-                    transition
-                    text-lg
-                  "
-                >
-                  ✕
-                </button>
+            {!isGaleriFoto && (
+              <div className="relative px-5 py-4 border-b border-slate-200/70 flex items-center">
+                <h3 className="text-xl font-semibold tracking-tight leading-tight pr-24">
+                  {item.title}
+                </h3>
+
+                <div className="absolute right-3 top-2 flex items-center gap-2">
+                  <button
+                    onClick={toggleFullscreen}
+                    title="Fullscreen"
+                    className="px-2 py-1 rounded hover:bg-slate-100"
+                  >
+                    ⤢
+                  </button>
+                  <button
+                    onClick={handleClose}
+                    className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-slate-100"
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* BODY */}
-            <div
-              className="p-4 overflow-y-auto"
-              style={{
-                maxHeight: isFullscreen
-                  ? "calc(100vh - 10rem)"
-                  : "calc(100vh - 14rem)",
-              }}
-            >
-              {/* MEDIA SECTION */}
-              {showMedia && (
-                <>
-                  {isWifi && mapSrc && (
-                    <div className="w-full rounded-xl overflow-hidden border mb-4">
-                      <div className="aspect-video w-full">
+            {isGaleriFoto ? (
+              /* ================= GALERI FOTO (FULL, NO SPACE) ================= */
+              <div className="flex-1 bg-black flex items-center justify-center relative overflow-hidden p-8">
+
+                {/* BACKGROUND BLUR */}
+                <div
+                  className="absolute inset-0 bg-center bg-cover blur-2xl scale-110"
+                  style={{ backgroundImage: `url(${currentImage?.image})` }}
+                />
+                <div className="absolute inset-0 bg-black/60" />
+
+                {/* IMAGE */}
+                <div className="relative z-10 w-full h-full flex items-center justify-center">
+                  <img
+                    src={currentImage?.image}
+                    alt={currentImage?.title}
+                    className="max-w-full max-h-full object-contain select-none"
+                    draggable={false}
+                  />
+                </div>
+
+                {/* NAV LEFT */}
+                {galleryIndex > 0 && (
+                  <button
+                    onClick={() => setGalleryIndex((i) => i - 1)}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl opacity-80 hover:opacity-100 z-20"
+                  >
+                    ‹
+                  </button>
+                )}
+
+                {/* NAV RIGHT */}
+                {galleryIndex < galleryItems.length - 1 && (
+                  <button
+                    onClick={() => setGalleryIndex((i) => i + 1)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl opacity-80 hover:opacity-100 z-20"
+                  >
+                    ›
+                  </button>
+                )}
+              </div>
+            ) : (
+              /* ================= KONTEN NORMAL (MEDIA + TEXT) ================= */
+              <div
+                className="flex-1 overflow-y-auto p-6 space-y-6"
+                style={{
+                  maxHeight: isFullscreen
+                    ? "calc(100vh - 10rem)"
+                    : "calc(100vh - 14rem)",
+                }}
+              >
+
+                {/* ===== MEDIA SECTION ===== */}
+                {showMedia && (
+                  <>
+                    {/* WIFI MAP */}
+                    {isWifi && mapSrc && (
+                      <div className="w-full rounded-xl overflow-hidden border">
                         <iframe
                           src={mapSrc}
                           title={item.title}
-                          className="w-full h-full border-0"
+                          className="w-full aspect-video border-0"
                           loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
                         />
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {!isWifi && embedUrl && (
-                    <div
-                      id="informasi-modal-player"
-                      className="w-full bg-black rounded overflow-hidden mb-4"
-                    >
-                      <div className="w-full max-w-4xl mx-auto aspect-video">
+                    {/* YOUTUBE */}
+                    {!isWifi && embedUrl && (
+                      <div className="w-full max-h-[55vh] aspect-video rounded-xl overflow-hidden bg-black">
                         <iframe
                           title={item.title}
                           src={embedUrl}
@@ -997,51 +1149,62 @@ export default function InformasiIndex() {
                           className="w-full h-full border-0"
                         />
                       </div>
+                    )}
+
+                    {/* IMAGE */}
+                    {!isWifi && !embedUrl && item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full max-h-[50vh] object-contain rounded-xl"
+                      />
+                    )}
+                  </>
+                )}
+
+                {/* ===== TEXT ===== */}
+                <div className="space-y-5">
+                  <div className="text-xs text-slate-500 flex gap-3">
+                    {item.date && <span>{formatDateDMY(item.date)}</span>}
+                    {item.lokasi && <span>{item.lokasi}</span>}
+                  </div>
+
+                  {item.excerpt && (
+                    <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-md">
+                      <p className="text-sm text-slate-700 leading-relaxed">
+                        {item.excerpt}
+                      </p>
                     </div>
                   )}
 
-                  {!isWifi && !embedUrl && item.image && (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full max-w-5xl mx-auto object-contain rounded-xl mb-4"
-                    />
+                  {item.content && (
+                    <div className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">
+                      {item.content}
+                    </div>
                   )}
-                </>
-              )}
+                </div>
+              </div>
+            )}
 
-              {/* TEXT SECTION */}
-              {isBerita ? (
-                <div className="space-y-3">
-                  <div className="text-xs text-slate-500 flex flex-wrap gap-3">
-                    {item.date && <span>{item.date}</span>}
-                    {item.lokasi && <span>{item.lokasi}</span>}
-                  </div>
-                  {item.summary && (
-                    <p className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">
-                      {item.summary}
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <div className="mt-2 space-y-1">
-                  {item.lokasi && (
-                    <p className="text-sm text-slate-600">{item.lokasi}</p>
-                  )}
-                  {item.date && (
-                    <p className="text-xs text-slate-400">{item.date}</p>
-                  )}
-                  {item.summary && (
-                    <p className="text-sm text-slate-700 mt-2 whitespace-pre-line">
-                      {item.summary}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
+            {/* CLOSE BUTTON */}
+            <button
+              onClick={handleClose}
+              className="absolute top-4 right-4 z-30 text-white text-2xl opacity-80 hover:opacity-100"
+            >
+              ✕
+            </button>
+
+            {/* FULLSCREEN */}
+            <button
+              onClick={toggleFullscreen}
+              className="absolute top-4 right-14 z-30 text-white text-xl opacity-80 hover:opacity-100"
+            >
+              ⤢
+            </button>
+
 
             {/* FOOTER */}
-            <div className="flex justify-end gap-3 px-5 py-4 border-t border-slate-200/70 bg-slate-50/60"></div>
+            {/* <div className="flex justify-end gap-3 px-5 py-4 border-t border-slate-200/70 bg-slate-50/60"></div> */}
           </div>
         </div>
       </div>
@@ -1095,8 +1258,6 @@ export default function InformasiIndex() {
         const scrollParent = findScrollParent(target);
 
         if (scrollParent === document.documentElement || scrollParent === document.body) {
-          // jump window instantly (no smooth)
-          // compute absolute top: current scroll + element top relative to viewport - header offset (if any)
           const headerOffset = 0; // ubah kalau navbar fixed punya tinggi (mis. 80)
           const top = window.pageYOffset + target.getBoundingClientRect().top - headerOffset;
           window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: "auto" });
@@ -1127,8 +1288,7 @@ export default function InformasiIndex() {
   // ====================== PAGE WRAPPER ======================
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <Navbar />
-
+      {!modalOpen && <Navbar />}
           {/* Banner – clear image with deep tone */}
           <div className="h-40 md:h-60 relative overflow-hidden ">
             {/* Background image (jernih) */}
