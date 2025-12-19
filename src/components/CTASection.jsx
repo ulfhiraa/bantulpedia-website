@@ -55,7 +55,7 @@ export default function CTASection() {
             <div className="mt-6">
               <button
                 className="inline-block bg-white text-emerald-700 px-5 py-2 rounded-md shadow-sm hover:shadow-md transition font-medium"
-                onClick={() => window.location.href = "#contact"}
+                onClick={() => window.location.href = "/layanan/publik/HubungiKami/hubungi-kami"}
               >
                 Hubungi Kami
               </button>
