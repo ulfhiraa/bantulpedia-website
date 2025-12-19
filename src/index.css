@@ -3,3 +3,14 @@
 
 html, body, #root { height: 100%; }
 body { font-family: Poppins; }
+
+/* Agar leaflet selalu di bawah navbar */
+.leaflet-container {
+  z-index: 0 !important;
+}
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
+}
