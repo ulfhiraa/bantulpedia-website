@@ -90,7 +90,7 @@ const categoryData = [
       { title: "EVOSS", icon: evossIcon, url: "https://evoss.bantulkab.go.id/" },
       { title: "PISA", icon: pisaIcon, url: "https://pisa.bantulkab.go.id/" },
 
-      { title: "Dashboard Stunting", icon: stuntingIcon, route: "/layanan/publik/kesehatan/stunting" },
+      { title: "Dashboard Stunting", icon: stuntingIcon, route: "/layanan/publik/kesehatan/statusgizi" },
       { title: "Pendaftaran RSUD", icon: rsudIcon, route: "/layanan/publik/kesehatan/pendaftaran-RSUD" },
       { title: "Info Bed RS", icon: bedIcon, url: "https://rsudps.bantulkab.go.id/hal/info-bed" },
 
@@ -117,7 +117,7 @@ const categoryData = [
       { title: "Pengecekan Tagihan", icon: tagihanIcon, route: "/layanan/publik/pajakretri/cek-tagihan" },
       { title: "SiPenthol", icon: sipentholIcon, route: "/layanan/publik/pajakretri/sipenthol" },
       { title: "Lapak Bantul", icon: lapakIcon, url: "https://play.google.com/store/apps/details?id=com.lapakbantul&hl=id" },
-      { title: "Jelajah Bantul", icon: wisataIcon, route: "#" },
+      { title: "Jelajah Bantul", icon: wisataIcon, route: "/layanan/publik/Pariwisata/jelajah-bantul" },
 
       { title: "Realisasi Retribusi", icon: retriIcon, route: "/layanan/publik/pajakretri/realisasi-retribusi" },
 
@@ -131,7 +131,7 @@ const categoryData = [
       { title: "Kebudayaan", icon: budayaIcon, url: "https://kebudayaanbantul.bantulkab.go.id/" },
       { title: "SEDATA", icon: sedataIcon, url: "https://data.bantulkab.go.id/" },
       { title: "GSB Bantul", icon: gsbIcon, url: "https://gsb.bantulkab.go.id/" },
-      { title: "Hubungi Kami", icon: hubungiIcon },
+      { title: "Hubungi Kami", icon: hubungiIcon, route: "/layanan/publik/HubungiKami/hubungi-kami" },
       { title: "Lapor Bantul", icon: laporIcon, url: "https://www.lapor.go.id/" },
     ],
   },
