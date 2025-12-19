@@ -211,7 +211,7 @@ export default function InfoBahanPokok() {
       </div>
 
       <main className="mx-auto py-10 px-4">
-        {/* back button */}
+        {/* back button
         <div className="mb-4">
           <button
             type="button"
@@ -221,19 +221,42 @@ export default function InfoBahanPokok() {
             <ChevronLeft size={16} />
             Kembali
           </button>
-        </div>
+        </div> */}
 
-        {/* PILIH PASAR */}
-        <div className="mb-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-          <div>
-            <h2 className="text-xl md:text-xl font-bold text-emerald-700">
-              Informasi Harga Bahan Pokok
-            </h2>
-            <p className="text-sm text-slate-600 mt-1">
-              Data harga harian berdasarkan pasar rakyat di Kabupaten Bantul.
-            </p>
+        {/* HEADER + BACK + PILIH PASAR */}
+        <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+          {/* KIRI: BACK + TITLE */}
+          <div className="flex items-start gap-3">
+            <button
+              type="button"
+              onClick={() => window.history.back()}
+              className="
+                inline-flex items-center justify-center
+                w-9 h-9
+                rounded-md
+                border border-slate-200
+                bg-white
+                text-slate-700
+                hover:bg-slate-50
+                flex-shrink-0
+              "
+              aria-label="Kembali"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <div>
+              <h2 className="text-md md:text-xl font-bold text-emerald-700">
+                Informasi Harga Bahan Pokok
+              </h2>
+              <p className="text-xs text-slate-600 mt-1">
+                Data harga harian berdasarkan pasar rakyat di Kabupaten Bantul.
+              </p>
+            </div>
           </div>
 
+          {/* KANAN: PILIH PASAR */}
           <div className="flex gap-2 items-center">
             <span className="text-sm text-slate-600">Pilih Pasar:</span>
             <select
@@ -249,23 +272,6 @@ export default function InfoBahanPokok() {
             </select>
           </div>
         </div>
-
-
-        <div className="p-4 border-b border-slate-100">
-          <div className="max-w-2xl mx-auto">
-            <input
-              type="text"
-              readOnly                
-              value={
-                currentMarket
-                  ? currentMarket.description
-                  : "Pilih pasar terlebih dahulu"
-              }
-              className="w-full max-w-4xl mx-auto text-center bg-white border border-slate-200 rounded-full px-6 py-3 text-sm text-slate-600 shadow-sm"
-            />
-          </div>          
-        </div>
-
  
         {/* divider */}
         <hr className="border-t border-slate-200 my-6" />
