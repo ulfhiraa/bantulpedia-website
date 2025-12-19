@@ -572,7 +572,7 @@ export default function InformasiIndex() {
                   </span>
 
                   {/* TITLE */}
-                  <h2 className="text-sm md:text-base font-medium text-white leading-snug line-clamp-2">
+                  <h2 className="text-sm md:text-base font-light leading-[1.25] tracking-tight text-white line-clamp-2">
                     {beritaTerkini.title}
                   </h2>
 
@@ -588,7 +588,7 @@ export default function InformasiIndex() {
 
             {/* KANAN: TERPOPULER */}
             <div className="space-y-5">
-              <h3 className="font-semibold text-sm mb-2">Berita Terpopuler</h3>
+              <h2 className="font-semibold text-sm mb-2">Berita Terpopuler</h2>
 
               {beritaTerpopuler.slice(0, 4).map((it, i) => (
                 <button
@@ -602,7 +602,7 @@ export default function InformasiIndex() {
                     className="w-20 h-14 object-cover rounded-md"
                   />
                   <div>
-                    <p className="text-sm leading-snug line-clamp-2">
+                    <p className="text-xs leading-snug line-clamp-2">
                       {it.title}
                     </p>
                     {it.date && (
@@ -637,11 +637,11 @@ export default function InformasiIndex() {
                     />
 
                     {/* SILUET */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                     {/* CONTENT */}
                     <div className="absolute bottom-2 left-2 right-2 space-y-0.5">
-                      <p className="text-xs text-white font-medium leading-snug line-clamp-2">
+                      <p className="text-[12px] font-light leading-[1.25] tracking-tight text-white line-clamp-2">
                         {it.title}
                       </p>
 
@@ -675,33 +675,23 @@ export default function InformasiIndex() {
                       <img
                         src={it.image}
                         alt={it.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-32 md:h-36 object-cover group-hover:scale-[1.03] transition-transform duration-300"
                       />
 
                       {/* SILUET GRADIENT */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                       {/* CONTENT */}
                       <div className="absolute bottom-3 left-3 right-3 space-y-1">
-                        {/* LABEL / ITEM */}
-                        {/* <span className="
-                          inline-block
-                          text-[10px]
-                          uppercase
-                          tracking-wide
-                          text-white/80
-                        ">
-                          Berita Pers
-                        </span> */}
 
                         {/* TITLE */}
                         <h3 className="
-                          text-xs md:text-sm
-                          font-medium
+                          text-[12px]
+                          font-light
+                          leading-[1.25]
+                          tracking-tight
                           text-white
-                          leading-snug
                           line-clamp-2
-                          drop-shadow-sm
                         ">
                           {it.title}
                         </h3>
@@ -831,31 +821,40 @@ export default function InformasiIndex() {
     }
 
     // GALERI FOTO: grid jejer + tanggal di bawah
+    // GALERI FOTO: GRID 4 KOLOM
     if (selectedMenu === "Galeri Foto") {
       return (
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3">
+        <div
+          id="galerifoto"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
           {items.map((it, i) => (
             <button
               key={i}
-              onClick={() => openModal(it)}
-              className="snap-center flex-shrink-0 w-64"
+              onClick={() => openModal({ ...it, __index: i })}
+              className="group rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition bg-white text-left"
             >
-              <div className="aspect-[4/3] rounded-xl overflow-hidden border shadow-sm">
+              <div className="aspect-[4/3] overflow-hidden bg-slate-100">
                 <img
                   src={it.image}
                   alt={it.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform"
                 />
               </div>
-              <p className="text-[11px] mt-1 text-slate-600 text-center">
-                {formatDateDMY(it.date)}
-              </p>
+
+              <div className="p-2">
+                {it.date && (
+                  <p className="text-[11px] text-slate-500 text-center">
+                    {formatDateDMY(it.date)}
+                  </p>
+                )}
+              </div>
             </button>
           ))}
         </div>
-
       );
     }
+
 
     // DEFAULT: list
     return (
@@ -1201,8 +1200,6 @@ export default function InformasiIndex() {
         const scrollParent = findScrollParent(target);
 
         if (scrollParent === document.documentElement || scrollParent === document.body) {
-          // jump window instantly (no smooth)
-          // compute absolute top: current scroll + element top relative to viewport - header offset (if any)
           const headerOffset = 0; // ubah kalau navbar fixed punya tinggi (mis. 80)
           const top = window.pageYOffset + target.getBoundingClientRect().top - headerOffset;
           window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: "auto" });
