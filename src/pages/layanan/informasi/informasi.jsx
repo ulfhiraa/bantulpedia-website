@@ -28,6 +28,7 @@ const wifiIcon = new L.Icon({
 });
 
 export default function InformasiIndex() {
+
   const [selectedMenu, setSelectedMenu] = useState("");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -158,15 +159,22 @@ export default function InformasiIndex() {
       it.lokasi || it.lokasi_detail || it.lokasi_full || it.desa || it.alamat || ""
     );
 
-    const summary = safeString(
+    const excerpt = safeString(
+      it.ringkasan ||
       it.summary ||
-        it.ringkasan ||
-        it.keterangan ||
-        it.deskripsi ||
-        it.content ||
-        it.desc ||
-        ""
+      it.keterangan ||
+      it.deskripsi ||
+      ""
     );
+
+    const content = safeString(
+      it.isi ||
+      it.content ||
+      ""
+    );
+
+    // fallback universal (buat list, kartu, dll)
+    const summary = content || excerpt;
 
     let image = safeString(
       it.image ||
@@ -201,6 +209,7 @@ export default function InformasiIndex() {
       it.koordinat_lat ||
       it.lat_wifi ||
       (it.geom && it.geom.lat);
+
     const lng =
       it.lng ||
       it.longitude ||
@@ -213,7 +222,11 @@ export default function InformasiIndex() {
       ...it,
       title,
       date,
-      summary,
+
+      excerpt,   // ✅ khusus ringkasan
+      content,   // ✅ isi lengkap
+      summary,   // ✅ fallback global (AMAN)
+
       lokasi,
       image,
       youtube: youtubeUrl,
@@ -221,6 +234,7 @@ export default function InformasiIndex() {
       lng,
       raw: it,
     };
+
   };
 
   // fetcher
@@ -929,7 +943,7 @@ export default function InformasiIndex() {
       : null;
 
     const isPengumuman = selectedMenu === "Pengumuman";
-    const isBerita = selectedMenu === "Berita";
+    const isTextWithExcerpt = selectedMenu === "Berita" || selectedMenu === "Pengumuman";
     const isWifi = selectedMenu === "Titik Wifi";
     const isGaleriFoto = selectedMenu === "Galeri Foto";
 
@@ -1089,17 +1103,31 @@ export default function InformasiIndex() {
               )}
 
               {/* TEXT SECTION */}
-              {isBerita ? (
-                <div className="space-y-3">
+              {isTextWithExcerpt ? (
+                <div className="space-y-5">
+
+                  {/* META */}
                   <div className="text-xs text-slate-500 flex flex-wrap gap-3">
-                    {item.date && <span>{item.date}</span>}
+                    {item.date && <span>{formatDateDMY(item.date)}</span>}
                     {item.lokasi && <span>{item.lokasi}</span>}
                   </div>
-                  {item.summary && (
-                    <p className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">
-                      {item.summary}
-                    </p>
+
+                  {/* RINGKASAN */}
+                  {item.excerpt && (
+                    <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-md">
+                      <p className="text-sm text-slate-700 leading-relaxed">
+                        {item.excerpt}
+                      </p>
+                    </div>
                   )}
+
+                  {/* ISI */}
+                  {item.content && (
+                    <div className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">
+                      {item.content}
+                    </div>
+                  )}
+
                 </div>
               ) : (
                 <div className="mt-2 space-y-1">
