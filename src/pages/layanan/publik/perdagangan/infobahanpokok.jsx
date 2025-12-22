@@ -273,6 +273,21 @@ export default function InfoBahanPokok() {
           </div>
         </div>
  
+         <div className="p-4 border-b border-slate-100">
+          <div className="max-w-2xl mx-auto">
+            <input
+              type="text"
+              readOnly                
+              value={
+                currentMarket
+                  ? currentMarket.description
+                  : "Pilih pasar terlebih dahulu"
+              }
+              className="w-full max-w-4xl mx-auto text-center bg-white border border-slate-200 rounded-full px-6 py-3 text-sm text-slate-600 shadow-sm"
+            />
+          </div>          
+        </div>
+        
         {/* divider */}
         <hr className="border-t border-slate-200 my-6" />
 
