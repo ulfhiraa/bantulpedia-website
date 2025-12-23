@@ -100,7 +100,7 @@ export default function BeritaDetail() {
               <h1 className="
                 text-white
                 text-3xl md:text-5xl
-                font-semibold
+                font-medium
                 leading-tight
                 tracking-tight
               ">
