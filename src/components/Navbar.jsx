@@ -119,7 +119,7 @@ export default function Navbar() {
           <div className="flex gap-3">
             <Link
               to="/register"
-              className={`px-5 py-2 rounded-full border text-sm transition ${buttonBorder}`}
+              className={`px-5 py-2 rounded-full border text-sm transition hover:bg-white/10 ${buttonBorder}`}
             >
               Daftar
             </Link>
@@ -138,7 +138,7 @@ export default function Navbar() {
                     ? // === SETELAH SCROLL (tetap seperti sekarang) ===
                       "border-emerald-700 text-emerald-700 hover:bg-emerald-700/10"
                     : // === SEBELUM SCROLL (lebih cerah & kelihatan) ===
-                      "border-emerald-700 text-emerald-800 bg-white/10 hover:bg-white/40"
+                      "border-emerald-500 text-emerald-400 hover:bg-white/10"
                 }
               `}
             >
