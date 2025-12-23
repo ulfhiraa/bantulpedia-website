@@ -118,17 +118,33 @@ export default function Navbar() {
         {!hideMenu && (
           <div className="flex gap-3">
             <Link
-              to="/login"
-              className={`px-5 py-2 rounded-full border text-sm transition ${buttonBorder}`}
-            >
-              Masuk
-            </Link>
-            <Link
               to="/register"
               className={`px-5 py-2 rounded-full border text-sm transition ${buttonBorder}`}
             >
               Daftar
             </Link>
+            <Link
+              to="/login"
+              className={`
+                px-5 py-2
+                rounded-full
+                border
+                text-sm font-medium
+                transition-all duration-200
+                active:scale-95
+
+                ${
+                  scrolled
+                    ? // === SETELAH SCROLL (tetap seperti sekarang) ===
+                      "border-emerald-700 text-emerald-700 hover:bg-emerald-700/10"
+                    : // === SEBELUM SCROLL (lebih cerah & kelihatan) ===
+                      "border-emerald-700 text-emerald-800 bg-white/10 hover:bg-white/40"
+                }
+              `}
+            >
+              Masuk
+            </Link>
+
           </div>
         )}
       </div>
