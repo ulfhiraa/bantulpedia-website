@@ -105,7 +105,7 @@ export default function CekTagihan() {
           </div>
 
           <div className="flex-1">
-            <h3 className="text-2xl font-semibold text-emerald-700 text-center">
+            <h3 className="text-xl font-semibold text-emerald-700 text-center">
               Pengecekan Tagihan
             </h3>
             <p className="text-sm text-slate-500 mt-1 text-center">

@@ -127,7 +127,7 @@ export default function HubungiKami() {
         <div className="max-w-4xl mx-auto">
           {/* Card title */}
           <div className="text-center mb-8">
-            <h2 className="text-xl md:text-3xl font-bold text-emerald-700">Hubungi Kami</h2>
+            <h2 className="text-xl md:text-xl font-bold text-emerald-700">Hubungi Kami</h2>
             <p className="text-sm text-slate-500 mt-2">Kami siap membantu Anda dengan setiap pertanyaan atau masukan</p>
           </div>
 
