@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import SemuaLayanan from "./pages/layanan/SemuaLayanan.jsx";
 import AdministrasiIndex from "./pages/layanan/administrasi";
 import InformasiIndex from "./pages/layanan/informasi/informasi";
+import Berita from "./pages/layanan/informasi/berita.jsx";
 import PublikIndex from "./pages/layanan/publik";
 import DukcapilSmart from "./pages/layanan/publik/kependudukan/DukcapilSmart";
 import PendaftaranRSUD from "./pages/layanan/publik/kesehatan/PendaftaranRSUD.jsx";
@@ -24,6 +25,7 @@ import JelajahBantul from "./pages/layanan/publik/Pariwisata/JelajahBantul.jsx";
 import Stunting from "./pages/layanan/publik/kesehatan/stunting.jsx";
 import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
+import BeritaDetail from "./pages/layanan/informasi/berita.jsx";
 
 export default function App() {
   return (
@@ -35,6 +37,7 @@ export default function App() {
       <Route path="/layanan/semua-layanan" element={<SemuaLayanan/>} />
       <Route path="/layanan/administrasi" element={<AdministrasiIndex />} />
       <Route path="/layanan/informasi/*" element={<InformasiIndex />} />
+      <Route path="/layanan/informasi/berita/:id" element={<BeritaDetail />} />
       <Route path="/layanan/publik" element={<PublikIndex />} />
       <Route path="/tentang" element={<Tentang />} />
       <Route path="/layanan/publik/kependudukan/dukcapil-smart" element={<DukcapilSmart />} />

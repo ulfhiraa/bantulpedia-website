@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import heroBg from "../../../assets/pandansimo1.jpg";
+import { useNavigate } from "react-router-dom";
 
 // API
 import { getPengumuman } from "../../../api/layanan/informasi/pengumuman.js";
@@ -33,6 +34,8 @@ export default function InformasiIndex() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   // modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -136,6 +139,13 @@ export default function InformasiIndex() {
   const canonicalize = (raw) => {
     const it = raw || {};
 
+    const id =
+    it.id ??
+    it.ID ??
+    it.berita_id ??
+    it.raw?.id ??
+    null;
+
     const title =
       (it.title && String(it.title).trim() && String(it.title).trim() !== "Untitled"
         ? String(it.title).trim()
@@ -221,6 +231,7 @@ export default function InformasiIndex() {
       (it.geom && it.geom.lng);
 
     return {
+      id, 
       ...it,
       title,
       date,
@@ -560,7 +571,7 @@ export default function InformasiIndex() {
             {/* KIRI: BERITA TERKINI (HERO) */}
             {beritaTerkini && (
               <button
-                onClick={() => openModal(beritaTerkini)}
+                onClick={() => navigate(`/layanan/informasi/berita/${beritaTerkini.id}`)}
                 className="md:col-span-3 relative overflow-hidden rounded-lg group"
               >
                 <img
@@ -601,7 +612,7 @@ export default function InformasiIndex() {
               {beritaTerpopuler.slice(0, 4).map((it, i) => (
                 <button
                   key={i}
-                  onClick={() => openModal(it)}
+                  onClick={() => navigate(`/layanan/informasi/berita/${it.id}`)}
                   className="flex gap-3 items-center text-left group"
                 >
                   <img
@@ -634,7 +645,7 @@ export default function InformasiIndex() {
                 {beritaUtama.map((it, i) => (
                   <button
                     key={i}
-                    onClick={() => openModal(it)}
+                    onClick={() => navigate(`/layanan/informasi/berita/${it.id}`)}
                     className="relative overflow-hidden rounded-lg group text-left"
                   >
                     {/* IMAGE */}
@@ -675,7 +686,7 @@ export default function InformasiIndex() {
                 {beritaPers.map((it, i) => (
                   <button
                     key={i}
-                    onClick={() => openModal(it)}
+                    onClick={() => navigate(`/layanan/informasi/berita/${it.id}`)}
                     className="rounded-lg overflow-hidden border shadow-sm text-left"
                   >
                     <div className="relative overflow-hidden rounded-lg group">
