@@ -39,43 +39,35 @@ export default function AdministrasiIndex() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-screen flex flex-col">
+      {/* HERO BACKGROUND LAYER */}
+      <div
+        className="absolute top-0 left-0 w-full h-[80vh] bg-cover bg-center z-0"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
+        {/* overlay */}
+        <div className="absolute inset-0 bg-black/35" />
+      </div>
+
       {/* NAVBAR */}
       <div className="z-50">
         <Navbar />
       </div>
 
-      {/* ================= HERO ================= */}
-      <header className="relative w-full h-56 md:h-72 lg:h-80 overflow-hidden">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
-
-        {/* Overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,40,30,0.45), rgba(0,25,20,0.6), rgba(0,15,12,0.7))",
-          }}
-        />
-      </header>
-
       {/* ================= MAIN ================= */}
-      <main className="relative z-30 w-full px-4 md:px-6 -mt-16 md:-mt-20 mb-16">
+      <main className="relative z-30 w-full px-4 md:px-6 pt-28 md:pt-32 pb-16 flex-grow">
+        
         <div className="max-w-6xl mx-auto">
           {/* ===== Glass Panel ===== */}
             <div
               className="
                 relative
                 overflow-hidden
-                rounded-[32px]
-                px-8 py-10
+                rounded-[20px]
+                px-20 py-10
 
                 bg-white/14
-                backdrop-blur-md
+                backdrop-blur-xl
                 border border-white/25
 
                 shadow-[0_30px_80px_rgba(0,0,0,0.35)]
@@ -111,10 +103,10 @@ export default function AdministrasiIndex() {
                     src={surbanIcon}
                     className="w-14 h-14 object-contain opacity-90 group-hover:scale-105 transition"
                   />
-                  <h3 className="text-sm font-semibold text-slate-900">
+                  <h3 className="text-sm font-semibold text-slate-900 text-white">
                     SURBAN
                   </h3>
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-slate-600 text-white">
                     Sistem Urusan Bantul
                   </p>
                 </a>
@@ -130,10 +122,10 @@ export default function AdministrasiIndex() {
                     src={presensiIcon}
                     className="w-14 h-14 object-contain opacity-90 group-hover:scale-105 transition"
                   />
-                  <h3 className="text-sm font-semibold text-slate-900">
+                  <h3 className="text-sm font-semibold text-slate-900 text-white">
                     Presensi
                   </h3>
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-slate-600 text-white">
                     Presensi Pegawai
                   </p>
                 </a>
@@ -149,10 +141,10 @@ export default function AdministrasiIndex() {
                     src={ekinerjaIcon}
                     className="w-14 h-14 object-contain opacity-90 group-hover:scale-105 transition"
                   />
-                  <h3 className="text-sm font-semibold text-slate-900">
+                  <h3 className="text-sm font-semibold text-slate-900 text-white">
                     eKinerja
                   </h3>
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-slate-600 text-white">
                     Kinerja ASN
                   </p>
                 </a>
@@ -163,6 +155,9 @@ export default function AdministrasiIndex() {
           </div>
         </div>
       </main>
+
+    {/* Fade before footer */}
+    {/* <div className="h-24 bg-gradient-to-b from-transparent to-slate-100" /> */}
 
       <Footer />
     </div>
