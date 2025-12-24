@@ -26,6 +26,7 @@ import "leaflet/dist/leaflet.css";
 import Tentang from "./pages/Tentang";
 import BeritaDetail from "./pages/layanan/informasi/berita.jsx";
 import EventDetail from "./pages/layanan/informasi/event";
+import MonitoringIzinLantip from "./pages/layanan/publik/PenanamanModal/MonitoringIzin-lantip.jsx";
 
 export default function App() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
       <Route path="/layanan/publik/HubungiKami/hubungi-kami" element={<HubungiKami />} />
       <Route path="/layanan/publik/Pariwisata/jelajah-bantul" element={<JelajahBantul />} />
       <Route path="/layanan/publik/kesehatan/statusgizi" element={<Stunting />} />
+      <Route path="/layanan/publik/penanaman-modal/lantip" element={<MonitoringIzinLantip />} />
     </Routes>
     </div>
   );

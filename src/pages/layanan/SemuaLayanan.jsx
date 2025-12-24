@@ -111,7 +111,7 @@ const categoryData = [
       { title: "SIPP-PN Bantul", icon: infosidangIcon, url: "https://sipp.pn-bantul.go.id/" },
 
       { title: "OSS", icon: ossIcon, url: "https://oss.go.id/id" },
-      { title: "Lantip", icon: lantipIcon, url: "https://jdih.bantulkab.go.id/" },
+      { title: "Lantip", icon: lantipIcon, url: "/layanan/publik/penanaman-modal/lantip" },
 
       { title: "PAJAKDA", icon: pajakdaIcon, url: "https://pajakda.bantulkab.go.id/apps/public/index" },
       { title: "Pengecekan Tagihan", icon: tagihanIcon, route: "/layanan/publik/pajakretri/cek-tagihan" },
@@ -185,7 +185,7 @@ export default function SemuaLayanan() {
         <div className="relative">
           {/* layer background: 2 foto digabung */}
           <div
-            className="absolute inset-0 -z-20 brightness-120"
+            className="absolute inset-0 -z-20 brightness-100"
             style={{
               backgroundImage: `url(${bgAtas}), url(${bgBawah})`,
               backgroundSize: "100% 50%, 100% 50%",      // atas 1/2, bawah 1/2
@@ -195,7 +195,7 @@ export default function SemuaLayanan() {
           />
 
           {/* overlay gelap supaya ikon/tulisan kebaca */}
-          <div className="absolute inset-0 -z-10 bg-black/80" />
+          <div className="absolute inset-0 -z-10 bg-black/50" />
 
           {/* isi konten layanan */}
           <div className="relative max-w-6xl mx-auto px-4 py-10">

@@ -267,15 +267,15 @@ const SERVICES = [
       {
         id: "oss",
         title: "OSS",
-        desc: "Jaringan Dokumentasi dan Informasi Hukum Bantul.",
+        desc: "Sistem Perizinan Berusaha Terintegrasi Secara Elektronik.",
         url: "https://oss.go.id/id",
         icon: "/src/assets/oss.png",
       },
       {
         id: "lantip",
         title: "Lantip",
-        desc: "Jaringan Dokumentasi dan Informasi Hukum Bantul.",
-        url: "https://jdih.bantulkab.go.id/",
+        desc: "Layanan Terpadu Investasi dan Perizinan Kabupaten Bantul.",
+        url: "/layanan/publik/penanaman-modal/lantip",
         icon: "/src/assets/lantip.png",
       },
     ],
@@ -516,10 +516,10 @@ export default function PublikIndex() {
         {/* remove visible border (no black line) -> use border-transparent */}
           <div
             className={`bg-white rounded-xl 
-            shadow-[0_10px_30px_rgba(0,0,0,0.08)]
+            shadow-[0_10px_20px_rgba(0,0,0,0.08)]
             ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}
           >
-          <div className="px-6 py-6 border-b">
+          <div className="px-6 py-6 border-b ">
             <h2 className="text-lg text-center md:text-md font-semibold text-slate-900">Layanan Publik</h2>
             <p className="text-sm text-center text-slate-500 mt-1">
               Pilih kategori untuk melihat sub-layanan dan akses cepat.
@@ -561,8 +561,8 @@ export default function PublikIndex() {
                             {s.sub.map((sub) => {
                               // base classes without border (garis hitam dihilangkan)
                               const baseCardClasses =
-                                "group flex items-center gap-4 p-4 rounded-lg bg-white cursor-pointer \
-                                border border-slate-200 \
+                                "group flex items-center gap-4 p-4 rounded-xl bg-white cursor-pointer \
+                                border border-slate-300 \
                                 transition-all duration-200 ease-out ";
                                 
                               const floatClasses =   "hover:border-slate-400 hover:bg-slate-50/60";
