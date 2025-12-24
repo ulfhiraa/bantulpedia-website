@@ -417,7 +417,7 @@ export default function InformasiIndex() {
           {items.map((it, i) => (
             <button
               key={i}
-              onClick={() => openModal(it)}
+              onClick={() => navigate(`/layanan/informasi/event/${it.id}`)}
               className="group rounded-2xl overflow-hidden border shadow-sm bg-white hover:shadow-md transition text-left"
             >
               <div className="w-full aspect-[3/4] overflow-hidden">
