@@ -120,19 +120,34 @@ export default function InformasiIndex() {
     return [];
   };
 
-  const formatDateDMY = (value) => {
-    if (!value) return "";
+const formatDateDMY = (value) => {
+  if (!value) return "";
 
-    const d = new Date(value);
+  const d = new Date(value);
 
-    // kalau date invalid
-    if (isNaN(d.getTime())) return value;
+  // kalau date invalid, tampilkan apa adanya
+  if (isNaN(d.getTime())) return value;
 
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
+  const bulanID = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+    const day = d.getDate();
+    const month = bulanID[d.getMonth()];
     const year = d.getFullYear();
 
-    return `${day}-${month}-${year}`;
+    return `${day} ${month} ${year}`;
   };
 
   // normalisasi item
