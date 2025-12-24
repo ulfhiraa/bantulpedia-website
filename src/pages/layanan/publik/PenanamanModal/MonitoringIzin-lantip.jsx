@@ -4,12 +4,14 @@ import { ChevronLeft } from "lucide-react";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function MonitoringIzinLantip() {
   const [activeTab, setActiveTab] = useState("monitoring");
   const [resi, setResi] = useState("");
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
+    const navigate = useNavigate();
 
     const SYARAT_IZIN_LIST = [
     "Izin Mendirikan Rumah Sakit",
@@ -128,14 +130,13 @@ export default function MonitoringIzinLantip() {
 
           {/* HEADER */}
           <div className="relative mb-8">
-            {/* BACK */}
             <button
-              onClick={() => window.history.back()}
-              className="absolute left-0 top-1 w-9 h-9 rounded-md border border-slate-200
+            onClick={() => navigate("/layanan/publik")}
+            className="absolute left-0 top-1 w-9 h-9 rounded-md border border-slate-200
                 bg-white text-slate-700 hover:bg-slate-50"
-              aria-label="Kembali"
+            aria-label="Kembali"
             >
-              <ChevronLeft size={18} className="mx-auto" />
+            <ChevronLeft size={18} className="mx-auto" />
             </button>
 
             {/* TITLE */}
