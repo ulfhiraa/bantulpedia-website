@@ -129,18 +129,18 @@ const formatDateDMY = (value) => {
   if (isNaN(d.getTime())) return value;
 
   const bulanID = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
+    "Jun",
+    "Jul",
+    "Agt",
+    "Sept",
+    "Okt",
+    "Nov",
+    "Des",
   ];
 
     const day = d.getDate();
