@@ -5,11 +5,6 @@ import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import heroBg from "../../../../assets/pandansimo1.jpg";
 
-/**
- * NOTE:
- * - Untuk mengganti emoji dengan asset SVG/PNG: ubah `icon` pada ITEMS menjadi <img src={...} />
- */
-
 const ITEMS = [
   { key: "pasar", label: "Tagihan Pasar", icon: "🏪" },
   { key: "rusunawa", label: "Tagihan Rusunawa", icon: "🏠" },
@@ -97,7 +92,7 @@ export default function CekTagihan() {
           <div className="flex items-center">
             <button
               onClick={() => window.history.back()}
-              className="p-2 rounded-full hover:bg-gray-100 transition flex items-center"
+              className="p-2 rounded-full hover:bg-gray-100 transition flex items-center rounded-md border"
               aria-label="Kembali"
             >
               <ArrowLeft size={18} />
@@ -146,13 +141,6 @@ export default function CekTagihan() {
               <div className="mt-8 text-center">
                 <h4 className="text-lg font-medium text-slate-800 mb-6">Melayani Tagihan</h4>
 
-                {/*
-                  Grid:
-                  - mobile: 2 kolom
-                  - small/tablet: 4 kolom
-                  - desktop: 7 kolom (sesuaikan jika perlu)
-                  Setiap tombol dibuat full-width/height dari cell sehingga memenuhi card.
-                */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-6 px-4">
                   {ITEMS.map((it) => {
                     const isActive = selectedOption?.key === it.key;

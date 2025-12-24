@@ -191,7 +191,7 @@ export default function StatusGiziPage() {
         <button
             type="button"
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-full shadow-sm text-sm text-slate-700"
+            className="rounded-md border inline-flex items-center gap-2 border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-full shadow-sm text-sm text-slate-700"
             aria-label="Kembali"
         >
             <ArrowLeft className="w-4 h-4" />

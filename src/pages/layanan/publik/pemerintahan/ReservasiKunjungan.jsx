@@ -133,7 +133,7 @@ export default function ReservasiKunjungan() {
           <div className="flex items-center gap-3 mb-4">
             <button
               onClick={() => window.history.back()}
-              className="p-2 rounded-full hover:bg-gray-100 transition"
+              className="rounded-md border p-2 rounded-full hover:bg-gray-100 transition"
               aria-label="Kembali"
             >
               <ArrowLeft size={20} />

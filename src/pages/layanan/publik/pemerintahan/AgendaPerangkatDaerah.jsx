@@ -111,7 +111,7 @@ export default function AgendaPerangkatDaerah() {
         <div className="mb-6 flex items-center gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 rounded-md hover:bg-slate-100 active:scale-95 transition"
+            className="rounded-md border p-2 rounded-md hover:bg-slate-100 active:scale-95 transition"
             aria-label="Kembali"
           >
             <ArrowLeft size={20} className="text-slate-700" />

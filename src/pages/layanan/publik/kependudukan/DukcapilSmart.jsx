@@ -141,7 +141,7 @@ export default function DukcapilSmart() {
                     {/* Panah kiri */}
                     <button
                       onClick={goBack}
-                      className="absolute top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-slate-100 transition"
+                      className="absolute top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 transition rounded-md border"
                       aria-label="Kembali"
                       title="Kembali"
                     >

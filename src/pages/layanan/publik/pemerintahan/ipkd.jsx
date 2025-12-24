@@ -179,7 +179,7 @@ export default function Ipkd() {
           <div className="flex items-center gap-4 mb-6">
             <button
               onClick={() => window.history.back()}
-              className="p-2 rounded-full hover:bg-gray-100 transition"
+              className="rounded-md border p-2 rounded-full hover:bg-gray-100 transition"
               aria-label="Kembali"
             >
               <ArrowLeft size={20} />

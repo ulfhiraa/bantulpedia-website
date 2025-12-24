@@ -514,7 +514,11 @@ export default function PublikIndex() {
       {/* MAIN */}
       <main className="max-w-6xl mx-auto w-full px-4 md:px-6 py-12">
         {/* remove visible border (no black line) -> use border-transparent */}
-        <div className={`bg-white rounded-xl shadow-2xl ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}>
+          <div
+            className={`bg-white rounded-xl 
+            shadow-[0_10px_30px_rgba(0,0,0,0.08)]
+            ${isAnyOpen ? "overflow-visible" : "overflow-hidden"}`}
+          >
           <div className="px-6 py-6 border-b">
             <h2 className="text-lg text-center md:text-md font-semibold text-slate-900">Layanan Publik</h2>
             <p className="text-sm text-center text-slate-500 mt-1">
@@ -557,9 +561,11 @@ export default function PublikIndex() {
                             {s.sub.map((sub) => {
                               // base classes without border (garis hitam dihilangkan)
                               const baseCardClasses =
-                                "group flex items-center gap-4 p-4 rounded-lg bg-white transition-transform duration-300";
-                              const floatClasses =
-                                "transform -translate-y-3 shadow-lg relative z-10 hover:-translate-y-4 hover:shadow-2xl";
+                                "group flex items-center gap-4 p-4 rounded-lg bg-white cursor-pointer \
+                                border border-slate-200 \
+                                transition-all duration-200 ease-out ";
+                                
+                              const floatClasses =   "hover:border-slate-400 hover:bg-slate-50/60";
 
                               // clickable internal route
                               if (sub.route) {
@@ -572,7 +578,7 @@ export default function PublikIndex() {
                                     onKeyDown={(e) => {
                                       if (e.key === "Enter") handleClick(sub);
                                     }}
-                                    className={`${baseCardClasses} ${floatClasses} cursor-pointer`}
+                                    className={`${baseCardClasses} ${floatClasses} focus:outline-none focus:ring-2 focus:ring-slate-300`}
                                   >
                                     <div className="w-12 h-12 flex items-center justify-center rounded-md overflow-hidden">
                                       <img
