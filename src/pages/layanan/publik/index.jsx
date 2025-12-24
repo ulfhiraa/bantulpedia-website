@@ -222,7 +222,7 @@ const SERVICES = [
       {
         id: "reservasi-ruangan",
         title: "Reservasi Ruangan",
-        desc: "Sistem reservasi ruang rapat (butuh login).",
+        desc: "Sistem reservasi ruang rapat.",
         icon: "/src/assets/reservasi1.png",
       },
     ],
@@ -290,35 +290,35 @@ const SERVICES = [
       {
         id: "pajakda",
         title: "Pajakda",
-        desc: "Layanan pajak daerah online untuk pengecekan, pembayaran, dan validasi tagihan pajak Kabupaten Bantul.",
+        desc: "Portal resmi pajak daerah Kabupaten Bantul.",
         url: "https://pajakda.bantulkab.go.id/apps/public/index",
         icon: "/src/assets/pajakda.png",
       },
       {
         id: "tagihan",
-        title: "Pengecekan Tagihan Pasar",
-        desc: "Pengecekan Tagihan Pasar",
+        title: "Pengecekan Tagihan",
+        desc: "Pengecekan Tagihan Pajak dan Retribusi Kabupaten Bantul.",
         route: "/layanan/publik/pajakretri/cek-tagihan",
         icon: "/src/assets/cektagihan.png",
       },
       {
         id: "sipentol",
         title: "SiPentol",
-        desc: "",
+        desc: "Aplikasi pendaftaran online uji kendaraan Dinas Perhubungan Kabupaten Bantul.",
         route: "/layanan/publik/pajakretri/sipenthol",
         icon: "/src/assets/sipentol.png",
       },
       {
         id: "lapakbantul",
-        title: "Lapak Bantul",
-        desc: "",
+        title: "LAPak Bantul",
+        desc: "Layanan Aplikasi Pajak Bantul. ",
         url: "",
         icon: "/src/assets/lapakbantul.png",
       },
       {
         id: "realisasiretribusi",
         title: "Realisasi Retribusi",
-        desc: "",
+        desc: "Realisasi Pajak dan Retribusi Daerah Kabupaten Bantul.",
         route: "/layanan/publik/pajakretri/realisasi-retribusi",
         icon: "/src/assets/retribusi.png",
       },
@@ -416,7 +416,7 @@ const SERVICES = [
   {
     id: "gsb-bantul",
     title: "GSB Bantul",
-    desc: "GSB Bantul (informasi & layanan).",
+    desc: " Government Service Bus (GSB).",
     sub: [{ id: "gsb", title: "GSB Bantul", desc: "Portal GSB", url: "https://gsb.bantulkab.go.id/", icon: "/src/assets/GSB.png" }]
   },
 
@@ -428,7 +428,7 @@ const SERVICES = [
       {
         id: "hubungi-guest",
         title: "Hubungi Kami",
-        desc: "Form pengaduan (wajib login untuk user penuh).",
+        desc: "Form pengaduan.",
         route: "/layanan/publik/HubungiKami/hubungi-kami",
         icon: "/src/assets/HubKami.png",
       },
@@ -438,8 +438,8 @@ const SERVICES = [
   {
     id: "lapor-bantul",
     title: "Lapor Bantul",
-    desc: "Layanan pelaporan publik.",
-    sub: [{ id: "lapor", title: "Lapor.go.id", desc: "Platform Lapor Nasional", url: "https://www.lapor.go.id/", icon: "/src/assets/LaporBantul1.png" }]
+    desc: "Layanan Aspirasi dan Pengaduan Online Rakyat.",
+    sub: [{ id: "lapor", title: "Lapor.go.id", desc: "Platform Lapor Kabupaten Bantul.", url: "https://www.lapor.go.id/", icon: "/src/assets/LaporBantul1.png" }]
   },
 ];
 
