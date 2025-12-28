@@ -200,8 +200,8 @@ export default function SemuaLayanan() {
           {/* isi konten layanan */}
           <div className="relative max-w-6xl mx-auto px-4 py-10">
             {/* Header */}
-            <div className="relative mb-10 flex items-center justify-center">
-              <button
+            <div className="relative mb-20 flex items-center justify-center">
+              {/* <button
                 onClick={() => navigate(-1)}
                 className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 text-white"
               >
@@ -210,7 +210,7 @@ export default function SemuaLayanan() {
 
               <h1 className="text-3xl font-semibold text-white">
                 Semua Layanan
-              </h1>
+              </h1> */}
             </div>
 
             {/* Category section */}
