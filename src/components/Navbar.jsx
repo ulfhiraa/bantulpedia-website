@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/bantulpedia-iconblack.png";
+import logoWhite from "../assets/Bantulpedia-white.png";
 
 export default function Navbar() {
   const location = useLocation();
@@ -20,7 +21,7 @@ export default function Navbar() {
   const borderActive = scrolled ? "border-black" : "border-white";
   const borderHover = scrolled ? "hover:border-black/40" : "hover:border-white/60";
   const buttonBorder = scrolled ? "border-black text-black" : "border-white text-white";
-
+  
   return (
     <nav
       className={`
@@ -36,7 +37,11 @@ export default function Navbar() {
 
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-3">
-          <img src={logo} alt="Bantulpedia" className="h-8" />
+          <img
+            src={scrolled ? logo : logoWhite}
+            alt="Bantulpedia"
+            className="h-8 transition duration-300"
+          />
         </Link>
 
         {/* MENU */}
