@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 // HERO IMAGE
 import heroBg from "../../../assets/pandansimo1.jpg";
@@ -11,80 +12,106 @@ import presensiIcon from "../../../assets/presensi.png";
 import ekinerjaIcon from "../../../assets/ekinerja.png";
 
 export default function AdministrasiIndex() {
-  return (
-    <div className="relative min-h-screen flex flex-col bg-white">
-      {/* ================= HERO BACKGROUND ================= */}
-      <div
-        className="absolute top-0 left-0 w-full h-[80vh] bg-cover bg-center z-0"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
-        <div className="absolute inset-0 bg-black/35" />
-      </div>
+  const navigate = useNavigate();
 
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
       {/* ================= NAVBAR ================= */}
-      <div className="relative z-20">
+      <div className="z-50">
         <Navbar />
       </div>
 
+      {/* ================= HERO ================= */}
+      <header className="relative w-full h-56 md:h-72 lg:h-80 overflow-hidden">
+        <div className="h-40 md:h-60 relative">
+          {/* Background */}
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${heroBg})` }}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+      </header>
+
       {/* ================= MAIN ================= */}
-      <main className="relative z-30 flex-grow px-4 md:px-6 pt-28 md:pt-32 pb-20">
-        <div className="max-w-6xl mx-auto">
-          {/* ===== PANEL ===== */}
-          <div className="relative rounded-2xl bg-white shadow-sm px-10 py-10">
-            {/* HEADER */}
-            <div className="text-center mb-10">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900">
-                Layanan Administrasi
-              </h2>
-              <p className="text-sm text-gray-600 mt-2">
-                Pilih aplikasi yang ingin diakses. Semua link akan membuka tab baru.
+      <main className="relative z-30 w-full -mt-34 px-4 md:px-8 pb-16">
+        {/* ===== PANEL PUTIH ===== */}
+        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm p-8 md:p-10">
+          
+          {/* ===== HEADER ===== */}
+          <div className="text-center mb-12">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900">
+              Layanan Administrasi
+            </h2>
+            <p className="text-sm text-gray-600 mt-2">
+              Pilih aplikasi yang ingin diakses. Semua link akan membuka tab baru.
+            </p>
+          </div>
+
+          {/* ===== ICON MENU ===== */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
+            
+            {/* SURBAN */}
+            <a
+              href="https://esurat.bantulkab.go.id/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center text-center"
+            >
+              <img
+                src={surbanIcon}
+                alt="SURBAN"
+                className="w-16 h-16 mb-4"
+              />
+              <h3 className="font-semibold text-gray-900">
+                SURBAN
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Sistem Urusan Bantul
               </p>
-            </div>
+            </a>
 
-            {/* SERVICES */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 text-center">
-              {/* SURBAN */}
-              <a
-                href="https://esurat.bantulkab.go.id/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center"
-              >
-                <img src={surbanIcon} className="w-16 h-16 mb-4" />
-                <h3 className="font-semibold text-gray-900">SURBAN</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  Sistem Urusan Bantul
-                </p>
-              </a>
+            {/* PRESENSI */}
+            <a
+              href="https://play.google.com/store/apps/details?id=dmi.presensibantul&hl=id&pli=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center text-center"
+            >
+              <img
+                src={presensiIcon}
+                alt="Presensi"
+                className="w-16 h-16 mb-4"
+              />
+              <h3 className="font-semibold text-gray-900">
+                Presensi
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Presensi Pegawai
+              </p>
+            </a>
 
-              {/* PRESENSI */}
-              <a
-                href="https://play.google.com/store/apps/details?id=dmi.presensibantul&hl=id&pli=1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center"
-              >
-                <img src={presensiIcon} className="w-16 h-16 mb-4" />
-                <h3 className="font-semibold text-gray-900">Presensi</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  Presensi Pegawai
-                </p>
-              </a>
+            {/* EKINERJA */}
+            <a
+              href="https://kinerja.bkn.go.id/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center text-center"
+            >
+              <img
+                src={ekinerjaIcon}
+                alt="eKinerja"
+                className="w-16 h-16 mb-4"
+              />
+              <h3 className="font-semibold text-gray-900">
+                eKinerja
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Kinerja ASN
+              </p>
+            </a>
 
-              {/* EKINERJA */}
-              <a
-                href="https://kinerja.bkn.go.id/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center"
-              >
-                <img src={ekinerjaIcon} className="w-16 h-16 mb-4" />
-                <h3 className="font-semibold text-gray-900">eKinerja</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  Kinerja ASN
-                </p>
-              </a>
-            </div>
           </div>
         </div>
       </main>
