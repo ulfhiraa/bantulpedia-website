@@ -160,15 +160,15 @@ export default function SemuaLayanan() {
     return (
       <Wrapper
         {...props}
-        className="group flex flex-col items-center gap-2 p-3 sm:p-4 rounded-xl
+        className="group flex flex-col items-center gap-2 p-4 rounded-xl
         bg-white/35 backdrop-blur-xl border border-white/40 shadow-lg
-        hover:bg-white/45 hover:scale-[1.05] transition text-center text-white w-full"
+        hover:bg-white/45 hover:scale-[1.05] transition text-center text-white w-full max-w-[170px]"
       >
-        <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-          <img src={item.icon} alt={item.title} className="w-full h-full object-contain" />
+        <div className="w-16 h-16 flex items-center justify-center">
+          <img src={item.icon} alt={item.title} className="w-18 h-13 object-contain" />
         </div>
 
-        <p className="text-xs sm:text-sm font-medium leading-tight group-hover:text-sky-200">
+        <p className="text-sm font-medium group-hover:text-sky-200">
           {item.title}
         </p>
       </Wrapper>
@@ -198,9 +198,9 @@ export default function SemuaLayanan() {
           <div className="absolute inset-0 -z-10 bg-black/50" />
 
           {/* isi konten layanan */}
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+          <div className="relative max-w-6xl mx-auto px-4 py-10">
             {/* Header */}
-            <div className="relative mb-10 sm:mb-20 flex items-center justify-center">
+            <div className="relative mb-20 flex items-center justify-center">
               {/* <button
                 onClick={() => navigate(-1)}
                 className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 text-white"
@@ -214,40 +214,40 @@ export default function SemuaLayanan() {
             </div>
 
             {/* Category section */}
-            <div className="space-y-8 sm:space-y-12">
+            <div className="space-y-12">
               {categoryData.map((cat) => {
                 const total = cat.items.length;
 
                 return (
                   <section key={cat.id}>
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-center text-white drop-shadow-md">
+                    <h2 className="text-2xl font-semibold mb-6 text-center text-white drop-shadow-md">
                       {cat.title}
                     </h2>
 
                     {cat.id === "informasi-publik" && (
-                      <div className="flex flex-col items-center gap-6 sm:gap-8">
-                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 sm:gap-6 md:gap-7">
+                      <div className="flex flex-col items-center gap-8">
+                        <div className="grid grid-cols-5 gap-7">
                           {cat.items.slice(0, 5).map(renderItem)}
                         </div>
-                        <div className="grid grid-cols-2 xs:grid-cols-3 gap-4 sm:gap-6 md:gap-10">
+                        <div className="grid grid-cols-3 gap-10">
                           {cat.items.slice(5).map(renderItem)}
                         </div>
                       </div>
                     )}
 
                     {cat.id === "layanan-publik" && (
-                      <div className="flex flex-col items-center gap-6 sm:gap-10">
-                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 sm:gap-6 md:gap-7">
+                      <div className="flex flex-col items-center gap-10">
+                        <div className="grid grid-cols-6 gap-7">
                           {cat.items.slice(0, total - 3).map(renderItem)}
                         </div>
-                        <div className="grid grid-cols-2 xs:grid-cols-3 gap-4 sm:gap-6 md:gap-10">
+                        <div className="grid grid-cols-3 gap-10">
                           {cat.items.slice(total - 3).map(renderItem)}
                         </div>
                       </div>
                     )}
 
                     {cat.id === "administrasi-pemerintahan" && (
-                      <div className="grid grid-cols-2 xs:grid-cols-3 gap-4 sm:gap-6 md:gap-10 mx-auto w-full max-w-md md:w-max">
+                      <div className="grid grid-cols-3 gap-10 mx-auto w-max">
                         {cat.items.map(renderItem)}
                       </div>
                     )}
