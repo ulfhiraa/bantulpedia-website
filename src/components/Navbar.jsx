@@ -10,24 +10,33 @@ export default function Navbar() {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
-  // Deteksi scroll dengan fallback lintas peramban
+  // DETEKSI SCROLL PAKSA (Bisa deteksi scroll di mana pun pembungkusnya)
   React.useEffect(() => {
-    const onScroll = () => {
-      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-      setScrolled(scrollPosition > 16);
+    const checkScroll = (e) => {
+      const target = e?.target;
+      let top = 0;
+
+      // Cek scroll dari elemen div pembungkus ATAU window browser
+      if (target && target !== document && target !== window && target.scrollTop !== undefined) {
+        top = target.scrollTop;
+      } else {
+        top = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      }
+
+      setScrolled(top > 16);
     };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    checkScroll();
+
+    // Mode 'true' (capture phase) wajib ada agar bisa menangkap scroll di elemen manapun
+    window.addEventListener("scroll", checkScroll, true);
+    return () => window.removeEventListener("scroll", checkScroll, true);
   }, [location.pathname]);
 
-  // Tutup menu mobile setiap kali pindah halaman
   React.useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  // Kunci scroll body saat menu mobile terbuka
   React.useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -37,7 +46,7 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
-  // Class dinamis untuk perubahan warna berdasarkan status scroll
+  // Variabel Warna
   const textColor = scrolled ? "text-black" : "text-white";
   const borderActive = scrolled ? "border-black" : "border-white";
   const borderHover = scrolled ? "hover:border-black/40" : "hover:border-white/60";
