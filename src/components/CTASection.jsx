@@ -36,7 +36,7 @@ export default function CTASection() {
       </div>
 
       {/* content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div
           className={`grid grid-cols-1 lg:grid-cols-12 gap-6 items-center transition-all duration-700 ease-out
             ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
