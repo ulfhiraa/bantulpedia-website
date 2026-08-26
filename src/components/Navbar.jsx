@@ -12,9 +12,13 @@ export default function Navbar() {
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll(); // cek posisi scroll langsung saat komponen mount/navigasi,
+                // supaya warna navbar langsung akurat tanpa harus nunggu
+                // user scroll manual dulu (fix untuk kasus back-navigation
+                // atau reload di posisi scroll yang sudah bukan 0)
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
 
   // Tutup menu mobile setiap kali pindah halaman
   React.useEffect(() => {

@@ -70,21 +70,36 @@ export default function CategorySection() {
     },
   ];
 
-  // ANIMASI SCROLL
+  // ANIMASI MUNCUL SAAT SECTION TERLIHAT (pakai IntersectionObserver, lebih reliable
+  // dibanding scroll listener yang bisa gagal kalau halaman belum sempat di-scroll
+  // atau layout belum siap saat first paint di production build)
   useEffect(() => {
-    function onScroll() {
-      if (!sectionRef.current) return;
-
-      const top = sectionRef.current.getBoundingClientRect().top;
-      if (top < window.innerHeight - 120) {
-        setVisible(true);
-      }
+    const node = sectionRef.current;
+    if (!node) {
+      setVisible(true);
+      return;
     }
 
-    window.addEventListener("scroll", onScroll);
-    onScroll(); // cek awal load
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-    return () => window.removeEventListener("scroll", onScroll);
+    observer.observe(node);
+
+    // Fallback: kalau dalam 300ms observer belum trigger (misal section sudah
+    // terlihat sejak awal load), paksa tampil supaya tidak nyangkut invisible.
+    const fallback = setTimeout(() => setVisible(true), 300);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallback);
+    };
   }, []);
 
   return (
