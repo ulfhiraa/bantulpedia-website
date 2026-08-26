@@ -10,6 +10,12 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 
+import laporBantulImg from "../assets/LaporBantul.png";
+import beritaImg from "../assets/Berita.png";
+import eventImg from "../assets/logoBantulEvents.png";
+import wisataImg from "../assets/logoBantulWisata.png";
+import cctvImg from "../assets/cctv.png";
+
 /* ================= IN VIEW ================= */
 function useInView(ref, options = { threshold: 0.2 }) {
   const [inView, setInView] = useState(false);
@@ -37,7 +43,7 @@ export default function FeatureSection() {
       icon: faBullhorn,
       excerpt:
         "Laporkan masalah publik seperti jalan rusak, drainase, dan fasilitas umum lainnya.",
-      image: "/src/assets/LaporBantul.png",
+      image: laporBantulImg,
       linkText: "Laporkan sekarang →",
       link: "https://www.lapor.go.id/",
     },
@@ -45,7 +51,7 @@ export default function FeatureSection() {
       title: "Berita",
       icon: faNewspaper,
       excerpt: "Berita terbaru dan resmi dari Pemerintah Kabupaten Bantul.",
-      image: "/src/assets/Berita.png",
+      image: beritaImg,
       linkText: "Baca berita →",
       link: "/layanan/informasi#berita",
     },
@@ -53,7 +59,7 @@ export default function FeatureSection() {
       title: "Event",
       icon: faCalendarDays,
       excerpt: "Agenda kegiatan, acara daerah, dan event resmi di Bantul.",
-      image: "/src/assets/LogoBantulEvents.png",
+      image: eventImg,
       linkText: "Lihat event →",
       link: "/layanan/informasi#event",
     },
@@ -61,7 +67,7 @@ export default function FeatureSection() {
       title: "Wisata",
       icon: faUmbrellaBeach,
       excerpt: "Rekomendasi destinasi wisata, budaya, dan kuliner Bantul.",
-      image: "/src/assets/LogoBantulWisata.png",
+      image: wisataImg,
       linkText: "Jelajahi wisata →",
       link: "/layanan/publik/Pariwisata/jelajah-bantul",
     },
@@ -69,7 +75,7 @@ export default function FeatureSection() {
       title: "CCTV",
       icon: faVideo,
       excerpt: "Pantau CCTV publik untuk melihat kondisi lalu lintas dan wilayah.",
-      image: "/src/assets/cctv.png",
+      image: cctvImg,
       linkText: "Lihat CCTV →",
       link: "/layanan/informasi#cctv",
     },
