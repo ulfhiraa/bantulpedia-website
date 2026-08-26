@@ -1,10 +1,19 @@
-/* src /index.css */
+/* src/index.css */
 
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-html, body, #root { height: 100%; }
-html, body { overflow-x: hidden; width: 100%; }
+/* Ganti height: 100% dengan min-height agar window scroll bekerja */
+html, body { 
+  min-height: 100%; 
+  overflow-x: hidden; 
+  width: 100%; 
+}
+
+#root { 
+  min-height: 100vh; 
+}
+
 body { font-family: Poppins; }
 * { -webkit-tap-highlight-color: transparent; }
 

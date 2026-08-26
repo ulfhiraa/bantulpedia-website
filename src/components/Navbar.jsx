@@ -10,17 +10,24 @@ export default function Navbar() {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
+  // Deteksi scroll dengan fallback lintas peramban
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => {
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      setScrolled(scrollPosition > 16);
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [location.pathname]);
 
+  // Tutup menu mobile setiap kali pindah halaman
   React.useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
 
+  // Kunci scroll body saat menu mobile terbuka
   React.useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -30,25 +37,25 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
-  // Variabel gaya berdasarkan status scroll
+  // Class dinamis untuk perubahan warna berdasarkan status scroll
   const textColor = scrolled ? "text-black" : "text-white";
   const borderActive = scrolled ? "border-black" : "border-white";
   const borderHover = scrolled ? "hover:border-black/40" : "hover:border-white/60";
-  const buttonBorder = scrolled ? "border-black text-black hover:bg-black/5" : "border-white text-white hover:bg-white/10";
 
   return (
     <nav
       className={`
         fixed top-0 left-0 w-full z-[60]
         transition-all duration-300
-        ${scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-sm"
-          : "bg-white/20 backdrop-blur-md"
+        ${
+          scrolled
+            ? "bg-white/90 backdrop-blur-md shadow-sm"
+            : "bg-white/20 backdrop-blur-md"
         }
       `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
-
+        
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <img
@@ -135,7 +142,11 @@ export default function Navbar() {
           <div className="hidden md:flex gap-3">
             <Link
               to="/register"
-              className={`px-5 py-2 rounded-full border text-sm transition ${buttonBorder}`}
+              className={`px-5 py-2 rounded-full border text-sm transition ${
+                scrolled
+                  ? "border-black text-black hover:bg-black/5"
+                  : "border-white text-white hover:bg-white/10"
+              }`}
             >
               Daftar
             </Link>
